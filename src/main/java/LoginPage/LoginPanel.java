@@ -35,6 +35,6 @@ public class LoginPanel extends JPanel {
         add(usernameField);
         add(loginButton);
 
-        loginButton.addActionListener(e -> MainFrame.showMenu());
+        loginButton.addActionListener(_ -> MainFrame.showMenu());
     }
 }
