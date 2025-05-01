@@ -7,8 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame extends JFrame {
-    CardLayout cardLayout;
-    JPanel mainPanel;
+    public static CardLayout cardLayout;
+    public static JPanel mainPanel;
+    public static LoginPanel loginPanel;
+    public static MenuPanel menuPanel;
 
     public MainFrame(){
 
@@ -31,28 +33,28 @@ public class MainFrame extends JFrame {
         mainPanel = new JPanel(cardLayout);
 
         //Add Pages
-        LoginPanel loginPanel = new LoginPanel();
+        loginPanel = new LoginPanel();
         mainPanel.add(loginPanel, "Login");
 
-        MenuPanel menuPanel = new MenuPanel();
+        menuPanel = new MenuPanel();
         mainPanel.add(menuPanel, "Menu");
 
         //Show Frame
-        cardLayout.show(mainPanel, "Login");
+        showLogin();
 
         //Add Main Frame to Main Panel
         add(mainPanel);
     }
 
-    public void showLogin(){
-        mainPanel.removeAll();
+    public static void showLogin(){
+        mainPanel.remove(loginPanel);
         LoginPanel loginPanel = new LoginPanel();
         mainPanel.add(loginPanel, "Login");
         cardLayout.show(mainPanel, "Login");
     }
 
-    public void showMenu(){
-        mainPanel.removeAll();
+    public static void showMenu(){
+        mainPanel.remove(menuPanel);
         MenuPanel menuPanel = new MenuPanel();
         mainPanel.add(menuPanel, "Menu");
         cardLayout.show(mainPanel, "Menu");
