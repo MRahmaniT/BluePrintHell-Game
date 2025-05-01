@@ -2,6 +2,7 @@ package Main;
 
 import LoginPage.LoginPanel;
 import MenuPage.MenuPanel;
+import GamePage.GamePanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,6 +12,7 @@ public class MainFrame extends JFrame {
     public static JPanel mainPanel;
     public static LoginPanel loginPanel;
     public static MenuPanel menuPanel;
+    public static GamePanel gamePanel;
 
     public MainFrame(){
 
@@ -39,6 +41,9 @@ public class MainFrame extends JFrame {
         menuPanel = new MenuPanel();
         mainPanel.add(menuPanel, "Menu");
 
+        gamePanel = new GamePanel();
+        mainPanel.add(gamePanel, "Game");
+
         //Show Frame
         showLogin();
 
@@ -58,5 +63,12 @@ public class MainFrame extends JFrame {
         MenuPanel menuPanel = new MenuPanel();
         mainPanel.add(menuPanel, "Menu");
         cardLayout.show(mainPanel, "Menu");
+    }
+
+    public static void startGame(){
+        mainPanel.remove(gamePanel);
+        gamePanel = new GamePanel();
+        mainPanel.add(gamePanel, "Game");
+        cardLayout.show(mainPanel, "Game");
     }
 }

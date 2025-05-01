@@ -1,5 +1,7 @@
 package MenuPage;
 
+import Main.MainFrame;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -51,6 +53,6 @@ public class MenuPanel extends JPanel {
         add(settingsButton);
         add(exitButton);
 
-        startButton.addActionListener(_ -> System.exit(0));
+        startButton.addActionListener(_ -> MainFrame.startGame());
     }
 }
