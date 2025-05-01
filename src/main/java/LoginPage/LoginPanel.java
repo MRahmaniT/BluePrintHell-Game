@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LoginPanel extends JPanel {
-    MainFrame mainFrame;
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     int screenSizeX = screenSize.width;
@@ -36,6 +35,6 @@ public class LoginPanel extends JPanel {
         add(usernameField);
         add(loginButton);
 
-        loginButton.addActionListener(e -> mainFrame.showMenu());
+        loginButton.addActionListener(e -> MainFrame.showMenu());
     }
 }
