@@ -14,6 +14,10 @@ public class MainFrame extends JFrame {
     public static MenuPanel menuPanel;
     public static GamePanel gamePanel;
 
+    public static final String LOGIN = "Login";
+    public static final String MENU = "Menu";
+    public static final String GAME = "Game";
+
     public MainFrame(){
 
         //Base Frame
@@ -36,13 +40,13 @@ public class MainFrame extends JFrame {
 
         //Add Pages
         loginPanel = new LoginPanel();
-        mainPanel.add(loginPanel, "Login");
+        mainPanel.add(loginPanel, LOGIN);
 
         menuPanel = new MenuPanel();
-        mainPanel.add(menuPanel, "Menu");
+        mainPanel.add(menuPanel, MENU);
 
         gamePanel = new GamePanel();
-        mainPanel.add(gamePanel, "Game");
+        mainPanel.add(gamePanel, GAME);
 
         //Show Frame
         showLogin();
@@ -54,21 +58,18 @@ public class MainFrame extends JFrame {
     public static void showLogin(){
         mainPanel.remove(loginPanel);
         LoginPanel loginPanel = new LoginPanel();
-        mainPanel.add(loginPanel, "Login");
-        cardLayout.show(mainPanel, "Login");
+        mainPanel.add(loginPanel, LOGIN);
+        cardLayout.show(mainPanel, LOGIN);
     }
 
     public static void showMenu(){
-        mainPanel.remove(menuPanel);
-        MenuPanel menuPanel = new MenuPanel();
-        mainPanel.add(menuPanel, "Menu");
-        cardLayout.show(mainPanel, "Menu");
+        cardLayout.show(mainPanel, MENU);
     }
 
     public static void startGame(){
         mainPanel.remove(gamePanel);
         gamePanel = new GamePanel();
-        mainPanel.add(gamePanel, "Game");
-        cardLayout.show(mainPanel, "Game");
+        mainPanel.add(gamePanel, GAME);
+        cardLayout.show(mainPanel, GAME);
     }
 }
