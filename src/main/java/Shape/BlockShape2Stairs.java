@@ -10,12 +10,17 @@ public class BlockShape2Stairs implements GameShape {
 
     public BlockShape2Stairs(float x, float y,
                              float width, float height,
-                             int shapeModel) {
+                             int shapeModel, Color color) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.shapeModel = shapeModel;
+        this.color = color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     @Override
@@ -24,17 +29,20 @@ public class BlockShape2Stairs implements GameShape {
         g.setColor(Color.lightGray);
         g.fillRect((int)x, (int)y, (int)width, (int)height);
 
-        //Draw top
-        g.setColor(Color.darkGray);
-        g.fillRect((int)x, (int)(y + 0.8*height), (int)width, (int)(0.2*height));
-
         //Draw mid
         g.setColor(Color.gray);
-        g.fillRect((int)(x + 0.25*width), (int)y, (int)(0.5*width), (int)(0.8*height));
+        g.fillRect((int)(x + 0.25*width), (int)(y+0.2*height),
+                   (int)(0.5*width), (int)(0.8*height));
+
+        //Draw top
+        g.setColor(Color.darkGray);
+        g.fillRect((int)x, (int)y, (int)width, (int)(0.2*height));
 
         //Draw light
-        g.setColor(Color.cyan);
-        g.fillOval((int)(x + 0.1*width), (int)(y + 0.95*height), (int)(0.4*width), (int)(0.1*height));
+        g.setColor(color);
+        g.fillRoundRect((int)(x + 0.05*width), (int)(y + 0.05*height),
+                        (int)(0.4*width), (int)(0.1*height),
+                        (int)(0.1*width), (int)(0.2*height));
     }
 
     @Override
