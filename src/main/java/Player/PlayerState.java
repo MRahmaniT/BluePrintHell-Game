@@ -1,6 +1,6 @@
 package Player;
 
-public class GameState {
+public class PlayerState {
     private static Player currentPlayer;
 
     public static void setPlayer(Player player) {
