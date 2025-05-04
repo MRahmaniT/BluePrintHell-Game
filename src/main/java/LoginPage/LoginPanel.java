@@ -1,7 +1,7 @@
 package LoginPage;
 
 import Main.MainFrame;
-import Player.GameState;
+import Player.PlayerState;
 import Player.Player;
 import Player.PlayerStorage;
 
@@ -17,7 +17,6 @@ public class LoginPanel extends JPanel {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private final int screenSizeX = screenSize.width;
     private final int screenSizeY = screenSize.height;
-    private final int fontSize = screenSizeX / 100;
     int buttonsWidth = screenSizeX / 8;
     int buttonsHeight = screenSizeY / 20;
     int buttonSpace = screenSizeY / 180;
@@ -39,7 +38,8 @@ public class LoginPanel extends JPanel {
         error.setBounds(screenSizeX / 2 - buttonsWidth , screenSizeY / 2 - 2*(buttonsHeight + buttonSpace), 2*buttonsWidth, buttonsHeight);
         error.setHorizontalAlignment(SwingConstants.CENTER);
         error.setForeground(Color.RED);
-        error.setFont(new Font("Arial", Font.BOLD, (int)(1.2*fontSize)));
+        int fontSize = screenSizeX / 100;
+        error.setFont(new Font("Arial", Font.BOLD, (int)(1.2* fontSize)));
         add(error);
 
         //Add Username Label
@@ -64,13 +64,43 @@ public class LoginPanel extends JPanel {
         add(usernameField);
 
         //Add Password Textfield
-        JTextField passwordField = new JTextField(10);
+        JPasswordField passwordField = new JPasswordField(10);
         passwordField.setBounds(screenSizeX / 2, screenSizeY / 2, buttonsWidth, buttonsHeight);
         add(passwordField);
 
-        //Add Button
-        JButton loginButton = new JButton("Login");
-        loginButton.setBounds((screenSizeX - 2*buttonsWidth) / 2, screenSizeY / 2 + buttonsHeight + buttonSpace, 2*buttonsWidth, buttonsHeight);
+        //Add Register Button
+        JButton registerButton = new JButton("Register");
+        registerButton.setBounds(screenSizeX / 2 - buttonsWidth, screenSizeY / 2 + buttonsHeight + buttonSpace, (int)(0.99*buttonsWidth), buttonsHeight);
+        registerButton.setFont(new Font("Arial", Font.BOLD, fontSize));
+        registerButton.setBackground(Color.DARK_GRAY);
+        registerButton.setForeground(Color.WHITE);
+        registerButton.setFocusPainted(false);
+        add(registerButton);
+
+        registerButton.addActionListener(_ -> {
+            String usernameText = usernameField.getText().trim();
+            String passwordText = new String(passwordField.getPassword()).trim();
+
+            if (usernameText.isEmpty() || passwordText.isEmpty()) {
+                error.setText("Enter both username and password.");
+                return;
+            }
+
+            Player existing = PlayerStorage.findPlayer(usernameText);
+            if (existing != null) {
+                error.setText("Please log in.");
+                return;
+            } else {
+                Player newPlayer = new Player(usernameText, passwordText);
+                PlayerStorage.saveNewPlayer(newPlayer);
+                PlayerState.setPlayer(newPlayer);
+            }
+            MainFrame.showMenu();
+        });
+
+        //Add Login Button
+        JButton loginButton = new JButton("Log in");
+        loginButton.setBounds(screenSizeX / 2 , screenSizeY / 2 + buttonsHeight + buttonSpace, (int)(0.99*buttonsWidth), buttonsHeight);
         loginButton.setFont(new Font("Arial", Font.BOLD, fontSize));
         loginButton.setBackground(Color.DARK_GRAY);
         loginButton.setForeground(Color.WHITE);
@@ -79,7 +109,7 @@ public class LoginPanel extends JPanel {
 
         loginButton.addActionListener(_ -> {
             String usernameText = usernameField.getText().trim();
-            String passwordText = passwordField.getText().trim();
+            String passwordText = new String(passwordField.getPassword()).trim();
 
             if (usernameText.isEmpty() || passwordText.isEmpty()) {
                 error.setText("Enter both username and password.");
@@ -89,15 +119,14 @@ public class LoginPanel extends JPanel {
             Player existing = PlayerStorage.findPlayer(usernameText);
             if (existing != null) {
                 if (Objects.equals(existing.getPassword(), passwordText)){
-                    GameState.setPlayer(existing);
+                    PlayerState.setPlayer(existing);
                 } else {
                     error.setText("Wrong username or password!");
                     return;
                 }
             } else {
-                Player newPlayer = new Player(usernameText, passwordText);
-                PlayerStorage.saveNewPlayer(newPlayer);
-                GameState.setPlayer(newPlayer);
+                error.setText("Please register.");
+                return;
             }
             MainFrame.showMenu();
         });

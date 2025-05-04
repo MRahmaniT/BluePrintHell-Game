@@ -1,7 +1,9 @@
 package GamePage;
 
+import Player.PlayerState;
 import Shape.GameShape;
 import Shape.RectangleShape;
+import Shape.BlockShape2Stairs;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -16,6 +18,9 @@ public class GamePanel extends JPanel {
 
     RectangleShape rectangleShape;
     private final List<GameShape> shapes = new ArrayList<>();
+
+    BlockShape2Stairs blockShape2Stairs;
+    private final List<GameShape> blockShapes = new ArrayList<>();
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     int screenSizeX = screenSize.width;
@@ -50,44 +55,9 @@ public class GamePanel extends JPanel {
         rectangleShape = new RectangleShape(-(screenSizeX-(0.2f*screenSizeX))/2,-((screenSizeY-(0.05f*screenSizeY))/2-0.15f*screenSizeY),0.2f*screenSizeX,0.05f*screenSizeY,Color.DARK_GRAY);
         shapes.add(rectangleShape);
         //shape 5
-        rectangleShape = new RectangleShape(0,0,0.2f*screenSizeX,0.05f*screenSizeY,Color.DARK_GRAY);
-        shapes.add(rectangleShape);
+        blockShape2Stairs = new BlockShape2Stairs(0,0,0.2f*screenSizeX,0.05f*screenSizeY,1);
+        blockShapes .add(blockShape2Stairs);
 
-        //Add Label
-        JLabel welcomeLabel = new JLabel("Welcome Mohammad!");
-        welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        welcomeLabel.setForeground(Color.WHITE);
-        welcomeLabel.setBounds(screenSizeX / 2 - buttonsWidth/2, screenSizeY / 2 - 4*(buttonsHeight+buttonSpace), buttonsWidth, buttonsHeight);
-        welcomeLabel.setFont(new Font("Arial", Font.BOLD, fontSize));
-
-        //Add Button Start
-        JButton startButton = new JButton("Start");
-        startButton.setBounds(screenSizeX / 2 - buttonsWidth/2, screenSizeY / 2 - 3*(buttonsHeight+buttonSpace), buttonsWidth, buttonsHeight);
-        startButton.setFont(new Font("Arial", Font.BOLD, fontSize));
-
-        //Add Button Levels
-        JButton levelsButton = new JButton("Levels");
-        levelsButton.setBounds(screenSizeX / 2 - buttonsWidth/2, screenSizeY / 2 - 2*(buttonsHeight+buttonSpace), buttonsWidth, buttonsHeight);
-        levelsButton.setFont(new Font("Arial", Font.BOLD, fontSize));
-
-        //Add Button Settings
-        JButton settingsButton = new JButton("Settings");
-        settingsButton.setBounds(screenSizeX / 2 - buttonsWidth/2, screenSizeY / 2 - (buttonsHeight+buttonSpace), buttonsWidth, buttonsHeight);
-        settingsButton.setFont(new Font("Arial", Font.BOLD, fontSize));
-
-        //Add Button Exit
-        JButton exitButton = new JButton("Exit");
-        exitButton.setBounds(screenSizeX / 2 - buttonsWidth/2, screenSizeY / 2, buttonsWidth, buttonsHeight);
-        exitButton.setFont(new Font("Arial", Font.BOLD, fontSize));
-
-        //Add All
-        add(welcomeLabel);
-        add(startButton);
-        add(levelsButton);
-        add(settingsButton);
-        add(exitButton);
-
-        startButton.addActionListener(_ -> System.exit(0));
     }
     @Override
     protected void paintComponent(Graphics g) {
@@ -98,6 +68,9 @@ public class GamePanel extends JPanel {
         g2d.translate(cx, cy);
         g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
         for(GameShape gameShape : shapes){
+            gameShape.draw(g2d);
+        }
+        for(GameShape gameShape : blockShapes){
             gameShape.draw(g2d);
         }
         g2d.dispose();

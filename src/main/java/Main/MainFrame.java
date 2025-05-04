@@ -49,7 +49,7 @@ public class MainFrame extends JFrame {
         mainPanel.add(gamePanel, GAME);
 
         //Show Frame
-        showLogin();
+        showMenu();
 
         //Add Main Frame to Main Panel
         add(mainPanel);
@@ -63,6 +63,9 @@ public class MainFrame extends JFrame {
     }
 
     public static void showMenu(){
+        mainPanel.remove(menuPanel);
+        MenuPanel menuPanel = new MenuPanel();
+        mainPanel.add(menuPanel, MENU);
         cardLayout.show(mainPanel, MENU);
     }
 
