@@ -55,8 +55,10 @@ public class GamePanel extends JPanel {
         rectangleShape = new RectangleShape(-(screenSizeX-(0.2f*screenSizeX))/2,-((screenSizeY-(0.05f*screenSizeY))/2-0.15f*screenSizeY),0.2f*screenSizeX,0.05f*screenSizeY,Color.DARK_GRAY);
         shapes.add(rectangleShape);
         //shape 5
-        blockShape2Stairs = new BlockShape2Stairs(0,0,0.2f*screenSizeX,0.05f*screenSizeY,1);
-        blockShapes .add(blockShape2Stairs);
+        blockShape2Stairs = new BlockShape2Stairs(0,0,200,200,1, Color.cyan);
+        blockShapes.add(blockShape2Stairs);
+        blockShape2Stairs.setColor(Color.RED);
+        blockShapes.add(blockShape2Stairs);
 
     }
     @Override
