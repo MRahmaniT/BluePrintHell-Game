@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class BlockShape2Stairs implements GameShape {
     private float x, y, width, height;
     private ArrayList<Integer> shapeModel = new ArrayList<>(); //1 for square, 2 for triangle
+    Path2D.Float port1, port2, port3, port4;
     private Color color;
 
     public BlockShape2Stairs(float x, float y,
@@ -53,45 +54,79 @@ public class BlockShape2Stairs implements GameShape {
         //Draw ports
         if (shapeModel.get(0) == 1){
             g.setColor(Color.GREEN);
-            g.fillRect((int)(x - 0.08*width), (int)(y+0.4*height-0.08*width),
-                    (int)(0.16*width), (int)(0.16*width));
+            port1 = new Path2D.Float();
+            port1.moveTo((int)(x - 0.08*width), (int)(y+0.4*height-0.08*width));
+            port1.lineTo((int)(x + 0.08*width), (int)(y+0.4*height-0.08*width));
+            port1.lineTo((int)(x + 0.08*width), (int)(y+0.4*height+0.08*width));
+            port1.lineTo((int)(x - 0.08*width), (int)(y+0.4*height+0.08*width));
+            g.fill(port1);
         } else if (shapeModel.get(0) == 2){
             g.setColor(Color.YELLOW);
-            g.fillOval((int)(x - 0.08*width), (int)(y+0.4*height-0.08*width),
-                    (int)(0.16*width), (int)(0.16*width));
+            port1 = new Path2D.Float();
+            port1.moveTo((int)(x - 0.08*width), (int)(y+0.4*height-0.08*width));
+            port1.lineTo((int)(x + 0.08*width), (int)(y+0.4*height));
+            port1.lineTo((int)(x - 0.08*width), (int)(y+0.4*height+0.08*width));
+            g.fill(port1);
         }
         if (shapeModel.get(1) == 1){
             g.setColor(Color.GREEN);
-            g.fillRect((int)(x - 0.08*width), (int)(y+0.8*height-0.08*width),
-                    (int)(0.16*width), (int)(0.16*width));
+            port2 = new Path2D.Float();
+            port2.moveTo((int)(x - 0.08*width), (int)(y+0.8*height-0.08*width));
+            port2.lineTo((int)(x + 0.08*width), (int)(y+0.8*height-0.08*width));
+            port2.lineTo((int)(x + 0.08*width), (int)(y+0.8*height+0.08*width));
+            port2.lineTo((int)(x - 0.08*width), (int)(y+0.8*height+0.08*width));
+            g.fill(port2);
         } else if (shapeModel.get(1) == 2){
             g.setColor(Color.YELLOW);
-            g.fillOval((int)(x - 0.08*width), (int)(y+0.8*height-0.08*width),
-                    (int)(0.16*width), (int)(0.16*width));
+            port2 = new Path2D.Float();
+            port2.moveTo((int)(x - 0.08*width), (int)(y+0.8*height-0.08*width));
+            port2.lineTo((int)(x + 0.08*width), (int)(y+0.8*height));
+            port2.lineTo((int)(x - 0.08*width), (int)(y+0.8*height+0.08*width));
+            g.fill(port2);
         }
         if (shapeModel.get(2) == 1){
             g.setColor(Color.GREEN);
-            g.fillRect((int)(x + 0.92*width), (int)(y+0.4*height-0.08*width),
-                    (int)(0.16*width), (int)(0.16*width));
+            port3 = new Path2D.Float();
+            port3.moveTo((int)(x - 0.08*width + width), (int)(y+0.4*height-0.08*width));
+            port3.lineTo((int)(x + 0.08*width + width), (int)(y+0.4*height-0.08*width));
+            port3.lineTo((int)(x + 0.08*width + width), (int)(y+0.4*height+0.08*width));
+            port3.lineTo((int)(x - 0.08*width + width), (int)(y+0.4*height+0.08*width));
+            g.fill(port3);
         } else if (shapeModel.get(2) == 2){
             g.setColor(Color.YELLOW);
-            g.fillOval((int)(x + 0.92*width), (int)(y+0.4*height-0.08*width),
-                    (int)(0.16*width), (int)(0.16*width));
+            port3 = new Path2D.Float();
+            port3.moveTo((int)(x - 0.08*width + width), (int)(y+0.4*height-0.08*width));
+            port3.lineTo((int)(x + 0.08*width + width), (int)(y+0.4*height));
+            port3.lineTo((int)(x - 0.08*width + width), (int)(y+0.4*height+0.08*width));
+            g.fill(port3);
         }
         if (shapeModel.get(3) == 1){
             g.setColor(Color.GREEN);
-            g.fillRect((int)(x + 0.92*width), (int)(y+0.8*height-0.08*width),
-                    (int)(0.16*width), (int)(0.16*width));
+            port4 = new Path2D.Float();
+            port4.moveTo((int)(x - 0.08*width + width), (int)(y+0.8*height-0.08*width));
+            port4.lineTo((int)(x + 0.08*width + width), (int)(y+0.8*height-0.08*width));
+            port4.lineTo((int)(x + 0.08*width + width), (int)(y+0.8*height+0.08*width));
+            port4.lineTo((int)(x - 0.08*width + width), (int)(y+0.8*height+0.08*width));
+            g.fill(port4);
         } else if (shapeModel.get(3) == 2){
             g.setColor(Color.YELLOW);
-            g.fillOval((int)(x + 0.92*width), (int)(y+0.8*height-0.08*width),
-                    (int)(0.16*width), (int)(0.16*width));
+            port4 = new Path2D.Float();
+            port4.moveTo((int)(x - 0.08*width + width), (int)(y+0.8*height-0.08*width));
+            port4.lineTo((int)(x + 0.08*width + width), (int)(y+0.8*height));
+            port4.lineTo((int)(x - 0.08*width + width), (int)(y+0.8*height+0.08*width));
+            g.fill(port4);
         }
     }
 
 
     @Override
-    public Path2D.Float getPath() {
+    public Path2D.Float getPath(int portNumber) {
+        switch (portNumber){
+            case 1 : return port1;
+            case 2 : return port2;
+            case 3 : return port3;
+            case 4 : return port4;
+        }
         return null;
     }
 

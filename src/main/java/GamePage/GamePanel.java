@@ -1,6 +1,5 @@
 package GamePage;
 
-import Player.PlayerState;
 import Shape.GameShape;
 import Shape.RectangleShape;
 import Shape.BlockShape2Stairs;
@@ -8,6 +7,10 @@ import Shape.BlockShape2Stairs;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,7 +59,7 @@ public class GamePanel extends JPanel {
         shapes.add(rectangleShape);
         //shape 5
         ArrayList<Integer> forDrawBlocks = new ArrayList<>();
-        forDrawBlocks.add(1);
+        forDrawBlocks.add(2);
         forDrawBlocks.add(0);
         forDrawBlocks.add(2);
         forDrawBlocks.add(1);
@@ -65,6 +68,22 @@ public class GamePanel extends JPanel {
         blockShape2Stairs.setColor(Color.cyan);
         blockShapes.add(blockShape2Stairs);
 
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                Point p = e.getPoint();
+                int mouseX = p.x - screenSizeX / 2;
+                int mouseY = p.y - screenSizeY / 2;
+                Path2D.Float port1 = blockShape2Stairs.getPath(1);
+                if (port1.contains(mouseX,mouseY)){
+                    System.out.println("Port clicked at: ");
+                    Rectangle2D bounds = port1.getBounds2D();
+                    double centerX = bounds.getCenterX();
+                    double centerY = bounds.getCenterY();
+                    System.out.println(centerX+","+centerY);
+                }
+            }
+        });
     }
     @Override
     protected void paintComponent(Graphics g) {
@@ -80,6 +99,10 @@ public class GamePanel extends JPanel {
         for(GameShape gameShape : blockShapes){
             gameShape.draw(g2d);
         }
+        Path2D.Float alo = blockShape2Stairs.getPath(1);
+        g2d.setColor(Color.RED);
+        g2d.fill(alo);
         g2d.dispose();
     }
+
 }
