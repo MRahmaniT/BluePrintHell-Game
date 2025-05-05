@@ -46,4 +46,9 @@ public class RectangleShape implements GameShape {
 
         return rectangle;
     }
+
+    @Override
+    public int getShapeModel(int i) {
+        return 0;
+    }
 }

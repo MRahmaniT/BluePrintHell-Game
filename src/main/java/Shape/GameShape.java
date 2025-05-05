@@ -10,4 +10,6 @@ public interface GameShape {
     void draw(Graphics2D g2d);
 
     Path2D.Float getPath(int shapeNumber);
+
+    int getShapeModel(int i);
 }

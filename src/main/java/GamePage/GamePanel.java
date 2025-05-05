@@ -40,6 +40,7 @@ public class GamePanel extends JPanel {
     private BlockShape2Stairs blockShape2Stairs;
     private final List<GameShape> blockShapes = new ArrayList<>();
     private GameShape firstBlockShape2Stairs;
+    private int firstShapeModel;
 
     //For Ports
     private double centerX1;
@@ -64,7 +65,7 @@ public class GamePanel extends JPanel {
             e.printStackTrace();
         }
         BuildBackground.buildBackground(screenSizeX,screenSizeY, rectangleShape, shapes);
-        BuildStage1.buildStage1(screenSizeX, screenSizeY, blockShape2Stairs, blockShapes);
+        BuildStage1.buildStage1(screenSizeX, blockShapes);
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -81,6 +82,7 @@ public class GamePanel extends JPanel {
                             centerX1 = bounds.getCenterX();
                             centerY1 = bounds.getCenterY();
                             firstBlockShape2Stairs = gameShape;
+                            firstShapeModel = gameShape.getShapeModel(i);
                         }
                     }
                 }
@@ -96,7 +98,9 @@ public class GamePanel extends JPanel {
                 for (GameShape gameShape : blockShapes){
                     for (int i = 1; i < 5; i++){
                         Path2D.Float port = gameShape.getPath(i);
-                        if (port != null && port.contains(mouseX,mouseY) && firstBlockShape2Stairs != gameShape){
+                        if (port != null && port.contains(mouseX,mouseY) &&
+                            firstBlockShape2Stairs != gameShape &&
+                            firstShapeModel == gameShape.getShapeModel(i)){
                             if (centerX1 != centerX2 || centerY1 != centerY2){
                                 Rectangle2D bounds = port.getBounds2D();
                                 centerX2 = bounds.getCenterX();
