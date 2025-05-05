@@ -24,12 +24,12 @@ public class RectangleShape implements GameShape {
     public void draw(Graphics2D g2d) {
 
         g2d.setColor(color);
-        g2d.fill(getPath());
+        g2d.fill(getPath(1));
 
     }
 
     @Override
-    public Path2D.Float getPath() {
+    public Path2D.Float getPath(int i) {
         Path2D.Float rectangle = new Path2D.Float();
 
         float x1 = x - width/2;
