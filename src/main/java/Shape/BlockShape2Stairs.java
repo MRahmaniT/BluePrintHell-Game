@@ -2,7 +2,6 @@ package Shape;
 
 import java.awt.*;
 import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class BlockShape2Stairs implements GameShape {
@@ -10,6 +9,7 @@ public class BlockShape2Stairs implements GameShape {
     private ArrayList<Integer> shapeModel = new ArrayList<>(); //1 for square, 2 for triangle
     Path2D.Float port1, port2, port3, port4;
     private Color color;
+    private boolean isConnected;
 
     public BlockShape2Stairs(float x, float y,
                              float width, float height,
@@ -20,6 +20,7 @@ public class BlockShape2Stairs implements GameShape {
         this.height = height;
         this.shapeModel = shapeModel;
         this.color = color;
+        this.isConnected = false;
     }
 
     public void setColor(Color color) {
@@ -138,5 +139,15 @@ public class BlockShape2Stairs implements GameShape {
     @Override
     public int getShapeModel(int i) {
         return shapeModel.get(i-1);
+    }
+
+    @Override
+    public void setConnection(boolean b) {
+        isConnected = b;
+    }
+
+    @Override
+    public boolean getConnection() {
+        return isConnected;
     }
 }

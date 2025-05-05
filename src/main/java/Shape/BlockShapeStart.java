@@ -9,6 +9,7 @@ public class BlockShapeStart implements GameShape {
     private ArrayList<Integer> shapeModel = new ArrayList<>(); //1 for square, 2 for triangle
     Path2D.Float port1, port2, port3, port4;
     private Color color;
+    private boolean isConnected;
 
     public BlockShapeStart(float x, float y,
                            float width, float height,
@@ -19,6 +20,7 @@ public class BlockShapeStart implements GameShape {
         this.height = height;
         this.shapeModel = shapeModel;
         this.color = color;
+        this.isConnected = false;
     }
 
     public void setColor(Color color) {
@@ -47,21 +49,21 @@ public class BlockShapeStart implements GameShape {
                         (int)(0.1*width), (int)(0.09*height));
 
         //Draw ports
-        if (shapeModel.getFirst() == 1){
+        if (shapeModel.get(3) == 1){
             g.setColor(Color.GREEN);
-            port1 = new Path2D.Float();
-            port1.moveTo((int)(x + 0.92*width), (int)(y+2*height/3-0.08*width));
-            port1.lineTo((int)(x + 1.08*width), (int)(y+2*height/3-0.08*width));
-            port1.lineTo((int)(x + 1.08*width), (int)(y+2*height/3+0.08*width));
-            port1.lineTo((int)(x + 0.92*width), (int)(y+2*height/3+0.08*width));
-            g.fill(port1);
-        } else if (shapeModel.getFirst() == 2){
+            port4 = new Path2D.Float();
+            port4.moveTo((int)(x + 0.92*width), (int)(y+2*height/3-0.08*width));
+            port4.lineTo((int)(x + 1.08*width), (int)(y+2*height/3-0.08*width));
+            port4.lineTo((int)(x + 1.08*width), (int)(y+2*height/3+0.08*width));
+            port4.lineTo((int)(x + 0.92*width), (int)(y+2*height/3+0.08*width));
+            g.fill(port4);
+        } else if (shapeModel.get(3) == 2){
             g.setColor(Color.YELLOW);
-            port1 = new Path2D.Float();
-            port1.moveTo((int)(x + 0.92*width), (int)(y+2*height/3-0.08*width));
-            port1.lineTo((int)(x + 1.08*width), (int)(y+2*height/3));
-            port1.lineTo((int)(x + 0.92*width), (int)(y+2*height/3+0.08*width));
-            g.fill(port1);
+            port4 = new Path2D.Float();
+            port4.moveTo((int)(x + 0.92*width), (int)(y+2*height/3-0.08*width));
+            port4.lineTo((int)(x + 1.08*width), (int)(y+2*height/3));
+            port4.lineTo((int)(x + 0.92*width), (int)(y+2*height/3+0.08*width));
+            g.fill(port4);
         }
 
     }
@@ -86,5 +88,15 @@ public class BlockShapeStart implements GameShape {
     @Override
     public int getShapeModel(int i) {
         return shapeModel.get(i-1);
+    }
+
+    @Override
+    public void setConnection(boolean b) {
+        isConnected = b;
+    }
+
+    @Override
+    public boolean getConnection() {
+        return isConnected;
     }
 }

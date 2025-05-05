@@ -47,6 +47,7 @@ public class GamePanel extends JPanel {
     private double centerY1;
     private double centerX2;
     private double centerY2;
+    private boolean isEntrancePort;
 
     //For Lines
     private LineShape lineShape;
@@ -60,7 +61,7 @@ public class GamePanel extends JPanel {
 
         //Add Background
         try {
-            backgroundImage = ImageIO.read(new File("background2.jpg")); // put your real image path
+            backgroundImage = ImageIO.read(new File("background2.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,6 +84,9 @@ public class GamePanel extends JPanel {
                             centerY1 = bounds.getCenterY();
                             firstBlockShape2Stairs = gameShape;
                             firstShapeModel = gameShape.getShapeModel(i);
+                            if (i <= 2) {
+                                isEntrancePort = true;
+                            }
                         }
                     }
                 }
@@ -100,8 +104,9 @@ public class GamePanel extends JPanel {
                         Path2D.Float port = gameShape.getPath(i);
                         if (port != null && port.contains(mouseX,mouseY) &&
                             firstBlockShape2Stairs != gameShape &&
-                            firstShapeModel == gameShape.getShapeModel(i)){
-                            if (centerX1 != centerX2 || centerY1 != centerY2){
+                            firstShapeModel == gameShape.getShapeModel(i) &&
+                            !gameShape.getConnection()){
+                            if (isEntrancePort ^ (i <= 2)){
                                 Rectangle2D bounds = port.getBounds2D();
                                 centerX2 = bounds.getCenterX();
                                 centerY2 = bounds.getCenterY();
@@ -109,6 +114,8 @@ public class GamePanel extends JPanel {
                                         (float) centerX2, (float) centerY2,
                                         Color.cyan);
                                 lineShapes.add(lineShape);
+                                firstBlockShape2Stairs.setConnection(true);
+                                gameShape.setConnection(true);
                             }
                         }
                     }

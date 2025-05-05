@@ -12,4 +12,8 @@ public interface GameShape {
     Path2D.Float getPath(int shapeNumber);
 
     int getShapeModel(int i);
+
+    void setConnection(boolean b);
+
+    boolean getConnection();
 }

@@ -51,4 +51,12 @@ public class RectangleShape implements GameShape {
     public int getShapeModel(int i) {
         return 0;
     }
+
+    @Override
+    public void setConnection(boolean b) {}
+
+    @Override
+    public boolean getConnection() {
+        return false;
+    }
 }
