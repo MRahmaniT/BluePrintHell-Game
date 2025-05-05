@@ -14,6 +14,9 @@ public class BuildStage1 {
 
         //Block Start
         ArrayList<Integer> forDrawBlockStart = new ArrayList<>();
+        forDrawBlockStart.add(0);
+        forDrawBlockStart.add(0);
+        forDrawBlockStart.add(0);
         forDrawBlockStart.add(1);
         BlockShapeStart blockStart = new BlockShapeStart(-300, -100, 0.1f * screenSizeX, 0.6f * 0.1f * screenSizeX, Color.RED, forDrawBlockStart);
         blockShapes.add(blockStart);

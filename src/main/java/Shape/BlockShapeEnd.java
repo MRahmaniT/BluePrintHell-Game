@@ -9,6 +9,7 @@ public class BlockShapeEnd implements GameShape {
     private ArrayList<Integer> shapeModel = new ArrayList<>(); //1 for square, 2 for triangle
     Path2D.Float port1, port2, port3, port4;
     private Color color;
+    private boolean isConnected;
 
     public BlockShapeEnd(float x, float y,
                          float width, float height,
@@ -19,6 +20,7 @@ public class BlockShapeEnd implements GameShape {
         this.height = height;
         this.shapeModel = shapeModel;
         this.color = color;
+        this.isConnected = false;
     }
 
     public void setColor(Color color) {
@@ -86,5 +88,15 @@ public class BlockShapeEnd implements GameShape {
     @Override
     public int getShapeModel(int i) {
         return shapeModel.get(i-1);
+    }
+
+    @Override
+    public void setConnection(boolean b) {
+        isConnected = b;
+    }
+
+    @Override
+    public boolean getConnection() {
+        return isConnected;
     }
 }
