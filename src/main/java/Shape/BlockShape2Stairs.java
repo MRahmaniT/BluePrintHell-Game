@@ -49,7 +49,7 @@ public class BlockShape2Stairs implements GameShape {
         g.setColor(color);
         g.fillRoundRect((int)(x + 0.05*width), (int)(y + 0.05*height),
                         (int)(0.4*width), (int)(0.1*height),
-                        (int)(0.1*width), (int)(0.2*height));
+                        (int)(0.1*width), (int)(0.09*height));
 
         //Draw ports
         if (shapeModel.get(0) == 1){
@@ -133,5 +133,10 @@ public class BlockShape2Stairs implements GameShape {
     @Override
     public void update() {
         // Blocks are static for now — no update needed
+    }
+
+    @Override
+    public int getShapeModel(int i) {
+        return shapeModel.get(i-1);
     }
 }

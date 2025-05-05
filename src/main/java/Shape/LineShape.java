@@ -33,4 +33,9 @@ public class LineShape implements GameShape {
     public Path2D.Float getPath(int i) {
         return null;
     }
+
+    @Override
+    public int getShapeModel(int i) {
+        return 0;
+    }
 }
