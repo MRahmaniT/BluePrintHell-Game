@@ -39,7 +39,7 @@ public class GamePanel extends JPanel {
     //For Blocks
     private BlockShape2Stairs blockShape2Stairs;
     private final List<GameShape> blockShapes = new ArrayList<>();
-    private GameShape firstBlockShape2Stairs;
+    private int firstBlockShape2Stairs;
     private int firstShapeModel;
 
     //For Ports
@@ -82,8 +82,7 @@ public class GamePanel extends JPanel {
                             Rectangle2D bounds = port.getBounds2D();
                             centerX1 = bounds.getCenterX();
                             centerY1 = bounds.getCenterY();
-                            firstBlockShape2Stairs = gameShape;
-                            firstShapeModel = gameShape.getShapeModel(i);
+                            firstShapeModel = blockShapes.get(firstBlockShape2Stairs).getShapeModel(i);
                             if (i <= 2) {
                                 isEntrancePort = true;
                             }
@@ -103,9 +102,10 @@ public class GamePanel extends JPanel {
                     for (int i = 1; i < 5; i++){
                         Path2D.Float port = gameShape.getPath(i);
                         if (port != null && port.contains(mouseX,mouseY) &&
-                            firstBlockShape2Stairs != gameShape &&
+                            blockShapes.get(firstBlockShape2Stairs) != gameShape &&
                             firstShapeModel == gameShape.getShapeModel(i) &&
-                            !gameShape.getConnection()){
+                            !gameShape.getConnection() &&
+                            !blockShapes.get(firstBlockShape2Stairs).getConnection()){
                             if (isEntrancePort ^ (i <= 2)){
                                 Rectangle2D bounds = port.getBounds2D();
                                 centerX2 = bounds.getCenterX();
@@ -114,7 +114,7 @@ public class GamePanel extends JPanel {
                                         (float) centerX2, (float) centerY2,
                                         Color.cyan);
                                 lineShapes.add(lineShape);
-                                firstBlockShape2Stairs.setConnection(true);
+                                blockShapes.get(firstBlockShape2Stairs).setConnection(true);
                                 gameShape.setConnection(true);
                             }
                         }
