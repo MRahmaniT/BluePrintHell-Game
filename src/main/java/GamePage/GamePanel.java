@@ -5,12 +5,14 @@ import GameEnvironment.BuildStage1;
 import Shape.GameShape;
 import Shape.RectangleShape;
 import Shape.BlockShape2Stairs;
+import Shape.LineShape;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
@@ -31,12 +33,26 @@ public class GamePanel extends JPanel {
 
     //For Background
     private Image backgroundImage;
-    RectangleShape rectangleShape;
+    private RectangleShape rectangleShape;
     private final List<GameShape> shapes = new ArrayList<>();
 
     //For Blocks
-    BlockShape2Stairs blockShape2Stairs;
+    private BlockShape2Stairs blockShape2Stairs;
     private final List<GameShape> blockShapes = new ArrayList<>();
+    private GameShape firstBlockShape2Stairs;
+
+    //For Ports
+    private double centerX1;
+    private double centerY1;
+    private double centerX2;
+    private double centerY2;
+
+    //For Lines
+    private LineShape lineShape;
+    private final List<GameShape> lineShapes = new ArrayList<>();
+    private int mousePointX;
+    private int mousePointY;
+    private boolean dragging = false;
 
     public GamePanel(){
         setLayout(null);
@@ -47,7 +63,6 @@ public class GamePanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         BuildBackground.buildBackground(screenSizeX,screenSizeY, rectangleShape, shapes);
         BuildStage1.buildStage1(screenSizeX, screenSizeY, blockShape2Stairs, blockShapes);
 
@@ -61,15 +76,53 @@ public class GamePanel extends JPanel {
                     for (int i = 1; i < 5; i++){
                         Path2D.Float port = gameShape.getPath(i);
                         if (port != null && port.contains(mouseX,mouseY)){
-                            System.out.println("Port clicked at: Port" + i);
+                            dragging = true;
                             Rectangle2D bounds = port.getBounds2D();
-                            double centerX = bounds.getCenterX();
-                            double centerY = bounds.getCenterY();
+                            centerX1 = bounds.getCenterX();
+                            centerY1 = bounds.getCenterY();
+                            firstBlockShape2Stairs = gameShape;
                         }
                     }
                 }
 
 
+            }
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                dragging = false;
+                Point p = e.getPoint();
+                int mouseX = p.x - screenSizeX / 2;
+                int mouseY = p.y - screenSizeY / 2;
+                for (GameShape gameShape : blockShapes){
+                    for (int i = 1; i < 5; i++){
+                        Path2D.Float port = gameShape.getPath(i);
+                        if (port != null && port.contains(mouseX,mouseY) && firstBlockShape2Stairs != gameShape){
+                            if (centerX1 != centerX2 || centerY1 != centerY2){
+                                Rectangle2D bounds = port.getBounds2D();
+                                centerX2 = bounds.getCenterX();
+                                centerY2 = bounds.getCenterY();
+                                lineShape = new LineShape((float) centerX1, (float) centerY1,
+                                        (float) centerX2, (float) centerY2,
+                                        Color.cyan);
+                                lineShapes.add(lineShape);
+                            }
+                        }
+                    }
+                }
+                repaint();
+            }
+        });
+        addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                mousePointX = e.getX() - getWidth() / 2;
+                mousePointY = e.getY() - getHeight() / 2;
+                repaint();
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                mouseMoved(e);
             }
         });
     }
@@ -86,6 +139,14 @@ public class GamePanel extends JPanel {
         }
         for(GameShape gameShape : blockShapes){
             gameShape.draw(g2d);
+        }
+        for(GameShape gameShape : lineShapes){
+            gameShape.draw(g2d);
+        }
+        if (dragging){
+            g2d.setColor(Color.CYAN);
+            g2d.setStroke(new BasicStroke(4f));
+            g2d.drawLine((int) centerX1, (int) centerY1, mousePointX, mousePointY);
         }
         g2d.dispose();
     }
