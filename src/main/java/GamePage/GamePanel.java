@@ -60,13 +60,11 @@ public class GamePanel extends JPanel {
                 for (GameShape gameShape : blockShapes){
                     for (int i = 1; i < 5; i++){
                         Path2D.Float port = gameShape.getPath(i);
-                        if (port.contains(mouseX,mouseY)){
-                            System.out.println("Port clicked at: ");
+                        if (port != null && port.contains(mouseX,mouseY)){
+                            System.out.println("Port clicked at: Port" + i);
                             Rectangle2D bounds = port.getBounds2D();
                             double centerX = bounds.getCenterX();
                             double centerY = bounds.getCenterY();
-                            System.out.println(centerX+","+centerY);
-                            System.out.println(i);
                         }
                     }
                 }
