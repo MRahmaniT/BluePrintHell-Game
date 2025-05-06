@@ -99,11 +99,12 @@ public class GamePanel extends JPanel {
 
         //Timing
         gameTimer = new Timer(100, e -> {
-            if (leftPressed){
+            if (leftPressed && !rightPressed){
                 timeCounter = timeCounter - 0.1;
-            } else if (rightPressed){
+            } else if (rightPressed && !leftPressed){
                 timeCounter = timeCounter + 0.1;
             }
+            timeLabel.setText("Time: " + timeCounter);
         });
         leftPressed = false;
         rightPressed = false;
@@ -112,27 +113,31 @@ public class GamePanel extends JPanel {
         addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-                switch (e.getKeyChar()){
-                    case 'a':
-                        System.out.println("a");
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                switch (e.getKeyCode()){
+                    case KeyEvent.VK_LEFT:
+                        leftPressed = true;
                         break;
-                    case 'd':
-                        System.out.println("b");
-                        break;
-                    case KeyEvent.VK_SPACE:
-                        System.out.println("c");
+                    case KeyEvent.VK_RIGHT:
+                        rightPressed = true;
                         break;
                 }
             }
 
             @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
-
-            @Override
             public void keyReleased(KeyEvent e) {
-
+                switch (e.getKeyCode()){
+                    case KeyEvent.VK_LEFT:
+                        leftPressed = false;
+                        break;
+                    case KeyEvent.VK_RIGHT:
+                        rightPressed = false;
+                        break;
+                }
             }
         });
 
