@@ -74,5 +74,6 @@ public class MainFrame extends JFrame {
         gamePanel = new GamePanel();
         mainPanel.add(gamePanel, GAME);
         cardLayout.show(mainPanel, GAME);
+        SwingUtilities.invokeLater(() -> gamePanel.requestFocusInWindow());
     }
 }
