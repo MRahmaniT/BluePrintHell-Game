@@ -104,7 +104,7 @@ public class GamePanel extends JPanel {
             } else if (rightPressed && !leftPressed){
                 timeCounter = timeCounter + 0.1;
             }
-            timeLabel.setText("Time: " + timeCounter);
+            timeLabel.setText("Time : " + timeCounter);
         });
         leftPressed = false;
         rightPressed = false;
