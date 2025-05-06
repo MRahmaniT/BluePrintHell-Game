@@ -3,6 +3,7 @@ package GameEnvironment;
 import Shape.GameShape;
 import Shape.RectangleShape;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
@@ -22,5 +23,6 @@ public class BuildBackground {
         //shape 4
         rectangleShape = new RectangleShape(-(screenSizeX-(0.2f*screenSizeX))/2,-((screenSizeY-(0.05f*screenSizeY))/2-0.15f*screenSizeY),0.2f*screenSizeX,0.05f*screenSizeY,Color.DARK_GRAY);
         shapes.add(rectangleShape);
+
     }
 }

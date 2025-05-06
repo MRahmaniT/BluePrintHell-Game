@@ -2,6 +2,8 @@ package GamePage;
 
 import GameEnvironment.BuildBackground;
 import GameEnvironment.BuildStage1;
+import Main.MainFrame;
+import Player.PlayerState;
 import Shape.GameShape;
 import Shape.RectangleShape;
 import Shape.BlockShape2Stairs;
@@ -10,9 +12,7 @@ import Shape.LineShape;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.awt.event.*;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.io.File;
@@ -27,8 +27,8 @@ public class GamePanel extends JPanel {
     int screenSizeX = screenSize.width;
     int screenSizeY = screenSize.height;
     int fontSize = screenSizeX / 80;
-    int buttonsWidth = 300;
-    int buttonsHeight = 35;
+    int buttonsWidth = screenSizeX / 10;
+    int buttonsHeight = screenSizeY / 20;
     int buttonSpace = 10;
 
     //For Background
@@ -56,6 +56,12 @@ public class GamePanel extends JPanel {
     private int mousePointY;
     private boolean dragging = false;
 
+    //For Timing
+    private Timer gameTimer;
+    private double timeCounter = 0;
+    private boolean leftPressed;
+    private boolean rightPressed;
+
     public GamePanel(){
         setLayout(null);
 
@@ -68,6 +74,69 @@ public class GamePanel extends JPanel {
         BuildBackground.buildBackground(screenSizeX,screenSizeY, rectangleShape, shapes);
         BuildStage1.buildStage1(screenSizeX, blockShapes);
 
+        //Add Shop Button
+        JButton shopButton = new JButton("Shop");
+        shopButton.setBounds(screenSizeX - buttonsWidth - buttonSpace,
+                             screenSizeY - buttonsHeight - buttonSpace,
+                                buttonsWidth, buttonsHeight);
+        shopButton.setFont(new Font("Arial", Font.BOLD, fontSize));
+        shopButton.addActionListener(_ -> {
+            System.exit(0);
+        });
+        shopButton.setFocusable(false);
+        add(shopButton);
+
+        //Add Time Counter
+        JLabel timeLabel = new JLabel("Time: " + timeCounter);
+        timeLabel.setBounds((int) (0.025*screenSizeX),
+                            (int) (0.025*screenSizeY),
+                            (int) (0.1f*screenSizeX),
+                            (int) (0.1f*screenSizeY));
+        timeLabel.setFont(new Font("Arial", Font.BOLD, (int) (1.5*fontSize)));
+        timeLabel.setForeground(Color.WHITE);
+        timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        add(timeLabel);
+
+        //Timing
+        gameTimer = new Timer(100, e -> {
+            if (leftPressed){
+                timeCounter = timeCounter - 0.1;
+            } else if (rightPressed){
+                timeCounter = timeCounter + 0.1;
+            }
+        });
+        leftPressed = false;
+        rightPressed = false;
+        gameTimer.start();
+
+        addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                switch (e.getKeyChar()){
+                    case 'a':
+                        System.out.println("a");
+                        break;
+                    case 'd':
+                        System.out.println("b");
+                        break;
+                    case KeyEvent.VK_SPACE:
+                        System.out.println("c");
+                        break;
+                }
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+        });
+
+        //Wiring
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -136,7 +205,10 @@ public class GamePanel extends JPanel {
                 mouseMoved(e);
             }
         });
+        setFocusable(true);
     }
+
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
