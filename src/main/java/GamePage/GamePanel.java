@@ -173,7 +173,7 @@ public class GamePanel extends JPanel {
                             blockShapes.get(firstBlockShape2Stairs) != gameShape &&
                             firstShapeModel == gameShape.getShapeModel(i) &&
                             !gameShape.getConnection(i) &&
-                            !blockShapes.get(firstBlockShape2Stairs).getConnection(i)){
+                            !blockShapes.get(firstBlockShape2Stairs).getConnection(firstPortNumber)){
                             if (isEntrancePort ^ (i <= 2)){
                                 Rectangle2D bounds = port.getBounds2D();
                                 centerX2 = bounds.getCenterX();
@@ -191,7 +191,8 @@ public class GamePanel extends JPanel {
                             System.out.println(blockShapes.get(firstBlockShape2Stairs) != gameShape);
                             System.out.println(firstShapeModel == gameShape.getShapeModel(i));
                             System.out.println(!gameShape.getConnection(i));
-                            System.out.println(!blockShapes.get(firstBlockShape2Stairs).getConnection(i));
+                            System.out.println(!blockShapes.get(firstBlockShape2Stairs).getConnection(firstPortNumber));
+                            System.out.println(i);
                         }
                     }
                 }
