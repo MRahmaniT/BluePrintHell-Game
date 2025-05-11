@@ -55,4 +55,7 @@
 }, {
   "username" : "asd",
   "password" : "asd"
+}, {
+  "username" : "'",
+  "password" : "'"
 } ]

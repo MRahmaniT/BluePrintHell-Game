@@ -2,11 +2,7 @@ package GamePage;
 
 import GameEnvironment.BuildBackground;
 import GameEnvironment.BuildStage1;
-import Main.MainFrame;
-import Player.PlayerState;
 import Shape.GameShape;
-import Shape.RectangleShape;
-import Shape.BlockShape2Stairs;
 import Shape.LineShape;
 
 import javax.imageio.ImageIO;
@@ -33,14 +29,13 @@ public class GamePanel extends JPanel {
 
     //For Background
     private Image backgroundImage;
-    private RectangleShape rectangleShape;
     private final List<GameShape> shapes = new ArrayList<>();
 
     //For Blocks
-    private BlockShape2Stairs blockShape2Stairs;
     private final List<GameShape> blockShapes = new ArrayList<>();
     private int firstBlockShape2Stairs;
     private int firstShapeModel;
+    private int firstPortNumber;
 
     //For Ports
     private double centerX1;
@@ -56,8 +51,6 @@ public class GamePanel extends JPanel {
     private int mousePointY;
     private boolean dragging = false;
 
-    //For Timing
-    private Timer gameTimer;
     private double timeCounter = 0;
     private boolean leftPressed;
     private boolean rightPressed;
@@ -71,7 +64,7 @@ public class GamePanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        BuildBackground.buildBackground(screenSizeX,screenSizeY, rectangleShape, shapes);
+        BuildBackground.buildBackground(screenSizeX, screenSizeY, shapes);
         BuildStage1.buildStage1(screenSizeX, blockShapes);
 
         //Add Shop Button
@@ -80,9 +73,7 @@ public class GamePanel extends JPanel {
                              screenSizeY - buttonsHeight - buttonSpace,
                                 buttonsWidth, buttonsHeight);
         shopButton.setFont(new Font("Arial", Font.BOLD, fontSize));
-        shopButton.addActionListener(_ -> {
-            System.exit(0);
-        });
+        shopButton.addActionListener(_ -> System.exit(0));
         shopButton.setFocusable(false);
         add(shopButton);
 
@@ -98,10 +89,11 @@ public class GamePanel extends JPanel {
         add(timeLabel);
 
         //Timing
-        gameTimer = new Timer(100, e -> {
-            if (leftPressed && !rightPressed){
+        //For Timing
+        Timer gameTimer = new Timer(100, _ -> {
+            if (leftPressed && !rightPressed) {
                 timeCounter = timeCounter - 0.1;
-            } else if (rightPressed && !leftPressed){
+            } else if (rightPressed && !leftPressed) {
                 timeCounter = timeCounter + 0.1;
             }
             timeLabel.setText("Time : " + timeCounter);
@@ -156,7 +148,9 @@ public class GamePanel extends JPanel {
                             Rectangle2D bounds = port.getBounds2D();
                             centerX1 = bounds.getCenterX();
                             centerY1 = bounds.getCenterY();
+                            firstBlockShape2Stairs = blockShapes.indexOf(gameShape);
                             firstShapeModel = blockShapes.get(firstBlockShape2Stairs).getShapeModel(i);
+                            firstPortNumber = i;
                             if (i <= 2) {
                                 isEntrancePort = true;
                             }
@@ -178,8 +172,8 @@ public class GamePanel extends JPanel {
                         if (port != null && port.contains(mouseX,mouseY) &&
                             blockShapes.get(firstBlockShape2Stairs) != gameShape &&
                             firstShapeModel == gameShape.getShapeModel(i) &&
-                            !gameShape.getConnection() &&
-                            !blockShapes.get(firstBlockShape2Stairs).getConnection()){
+                            !gameShape.getConnection(i) &&
+                            !blockShapes.get(firstBlockShape2Stairs).getConnection(i)){
                             if (isEntrancePort ^ (i <= 2)){
                                 Rectangle2D bounds = port.getBounds2D();
                                 centerX2 = bounds.getCenterX();
@@ -188,9 +182,16 @@ public class GamePanel extends JPanel {
                                         (float) centerX2, (float) centerY2,
                                         Color.cyan);
                                 lineShapes.add(lineShape);
-                                blockShapes.get(firstBlockShape2Stairs).setConnection(true);
-                                gameShape.setConnection(true);
+                                blockShapes.get(firstBlockShape2Stairs).setConnection(
+                                        firstPortNumber,true);
+                                gameShape.setConnection(i,true);
                             }
+                        } else if (port != null && port.contains(mouseX,mouseY)){
+                            System.out.println("*****");
+                            System.out.println(blockShapes.get(firstBlockShape2Stairs) != gameShape);
+                            System.out.println(firstShapeModel == gameShape.getShapeModel(i));
+                            System.out.println(!gameShape.getConnection(i));
+                            System.out.println(!blockShapes.get(firstBlockShape2Stairs).getConnection(i));
                         }
                     }
                 }

@@ -13,7 +13,7 @@ public interface GameShape {
 
     int getShapeModel(int i);
 
-    void setConnection(boolean b);
+    void setConnection(int i, boolean b);
 
-    boolean getConnection();
+    boolean getConnection(int i);
 }

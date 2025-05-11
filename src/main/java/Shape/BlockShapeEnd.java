@@ -91,12 +91,12 @@ public class BlockShapeEnd implements GameShape {
     }
 
     @Override
-    public void setConnection(boolean b) {
+    public void setConnection(int i, boolean b) {
         isConnected = b;
     }
 
     @Override
-    public boolean getConnection() {
+    public boolean getConnection(int i) {
         return isConnected;
     }
 }

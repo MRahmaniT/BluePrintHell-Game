@@ -8,9 +8,11 @@ import java.awt.*;
 import java.util.List;
 
 public class BuildBackground {
-    public static void buildBackground(int screenSizeX,int screenSizeY,
-                                       RectangleShape rectangleShape, List<GameShape> shapes){
+
+    public static void buildBackground(int screenSizeX,int screenSizeY, List<GameShape> shapes){
         //Add Parameters
+        RectangleShape rectangleShape;
+
         //shape 1
         rectangleShape = new RectangleShape(0,-(screenSizeY-(0.15f*screenSizeY))/2,screenSizeX,0.15f*screenSizeY, Color.LIGHT_GRAY);
         shapes.add(rectangleShape);

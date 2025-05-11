@@ -5,22 +5,23 @@ import java.awt.geom.Path2D;
 import java.util.ArrayList;
 
 public class BlockShape2Stairs implements GameShape {
-    private float x, y, width, height;
-    private ArrayList<Integer> shapeModel = new ArrayList<>(); //1 for square, 2 for triangle
+    private final float x, y, width, height;
+    private final ArrayList<Integer> shapeModel; //1 for square, 2 for triangle
+    private final ArrayList<Boolean> portConnection;
     Path2D.Float port1, port2, port3, port4;
     private Color color;
-    private boolean isConnected;
 
     public BlockShape2Stairs(float x, float y,
                              float width, float height,
-                             Color color, ArrayList<Integer> shapeModel) {
+                             Color color, ArrayList<Integer> shapeModel,
+                             ArrayList<Boolean> portConnection) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.shapeModel = shapeModel;
         this.color = color;
-        this.isConnected = false;
+        this.portConnection = portConnection;
     }
 
     public void setColor(Color color) {
@@ -142,12 +143,12 @@ public class BlockShape2Stairs implements GameShape {
     }
 
     @Override
-    public void setConnection(boolean b) {
-        isConnected = b;
+    public void setConnection(int i, boolean b) {
+        portConnection.set(i-1,b);
     }
 
     @Override
-    public boolean getConnection() {
-        return isConnected;
+    public boolean getConnection(int i) {
+        return portConnection.get(i-1);
     }
 }

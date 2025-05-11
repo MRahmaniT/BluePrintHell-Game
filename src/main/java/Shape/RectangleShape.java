@@ -53,10 +53,10 @@ public class RectangleShape implements GameShape {
     }
 
     @Override
-    public void setConnection(boolean b) {}
+    public void setConnection(int i, boolean b) {}
 
     @Override
-    public boolean getConnection() {
+    public boolean getConnection(int i) {
         return false;
     }
 }
