@@ -15,7 +15,9 @@ import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GamePanel extends JPanel {
 
@@ -48,6 +50,7 @@ public class GamePanel extends JPanel {
     //For Lines
     private LineShape lineShape;
     private final List<GameShape> lineShapes = new ArrayList<>();
+    private final Map<Integer, Integer> lineIndex = new HashMap<Integer,Integer>();
     private int mousePointX;
     private int mousePointY;
     private boolean dragging = false;
@@ -170,6 +173,18 @@ public class GamePanel extends JPanel {
                     for (int i = 1; i < 5; i++){
                         Path2D.Float port = gameShape.getPath(i);
                         if (port != null && port.contains(mouseX,mouseY) &&
+                                blockShapes.get(firstBlockShape2Stairs) == gameShape &&
+                                gameShape.getConnection(i)){
+                            int toRemove = lineIndex.get((blockShapes.indexOf(gameShape)) * 4 + i);
+                            lineShapes.remove(toRemove);
+                            lineIndex.remove((blockShapes.indexOf(gameShape)) * 4 + i);
+                            lineIndex.remove(firstBlockShape2Stairs * 4 + firstPortNumber);
+                            blockShapes.get(firstBlockShape2Stairs).setConnection(
+                                    firstPortNumber,false);
+                            gameShape.setConnection(i,false);
+
+                        }
+                        if (port != null && port.contains(mouseX,mouseY) &&
                             blockShapes.get(firstBlockShape2Stairs) != gameShape &&
                             firstShapeModel == gameShape.getShapeModel(i) &&
                             !gameShape.getConnection(i) &&
@@ -182,6 +197,8 @@ public class GamePanel extends JPanel {
                                         (float) centerX2, (float) centerY2,
                                         Color.cyan);
                                 lineShapes.add(lineShape);
+                                lineIndex.put((blockShapes.indexOf(gameShape)) * 4 + i, lineShapes.size() - 1);
+                                lineIndex.put(firstBlockShape2Stairs * 4 + firstPortNumber, lineShapes.size() - 1);
                                 blockShapes.get(firstBlockShape2Stairs).setConnection(
                                         firstPortNumber,true);
                                 gameShape.setConnection(i,true);
