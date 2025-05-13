@@ -20,7 +20,23 @@ public class PortManager {
     private final Map<Point, LineShape> lineByStartPoint = new HashMap<>();
     private final Map<Point, Point> startPointByEndPoint = new HashMap<>();
 
-    public void handleMousePress(ArrayList<GameShape> blockShapes, int mouseX, int mouseY) {
+    public Map.Entry<GameShape, Integer> findPort(List<GameShape> blockShapes, Point point) {
+        for (GameShape block : blockShapes) {
+            for (int i = 1; i <= 4; i++) {
+                Path2D.Float port = block.getPath(i);
+                if (port != null) {
+                    Rectangle2D bounds = port.getBounds2D();
+                    Point portPoint = new Point((int) bounds.getCenterX(), (int) bounds.getCenterY());
+                    if (portPoint.equals(point)){
+                           return Map.entry(block, i);
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public void handleMousePress(List<GameShape> blockShapes, int mouseX, int mouseY) {
         for (GameShape block : blockShapes) {
             for (int i = 1; i <= 4; i++) {
                 Path2D.Float port = block.getPath(i);
@@ -61,12 +77,17 @@ public class PortManager {
                         if (lineToRemove == null) {
                             Point newPointToRemove = startPointByEndPoint.get(pointToRemove);
                             lineToRemove = lineByStartPoint.get(newPointToRemove);
-
                             if (lineToRemove == null){
                                 return;
                             } else {
                                 lines.remove(lineToRemove);
                                 lineByStartPoint.remove(newPointToRemove);
+                                startPointByEndPoint.remove(pointToRemove);
+
+                                Map.Entry<GameShape, Integer> result = findPort(blockShapes, newPointToRemove);
+                                if(result.getKey() != null && result.getValue() != null){
+                                    result.getKey().setConnection(result.getValue(), false);
+                                }
                             }
                         } else {
                             lines.remove(lineToRemove);
@@ -74,6 +95,7 @@ public class PortManager {
                         }
 
                         sourceBlock.setConnection(sourcePort, false);
+
                         return;
                     }
 
