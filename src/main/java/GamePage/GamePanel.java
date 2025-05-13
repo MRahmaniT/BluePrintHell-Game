@@ -126,7 +126,7 @@ public class GamePanel extends JPanel {
             }
 
             @Override
-            public void keyReleased(KeyEvent e) {
+            public void keyReleased(KeyEvent e) {   
                 switch (e.getKeyCode()){
                     case KeyEvent.VK_LEFT:
                         leftPressed = false;
