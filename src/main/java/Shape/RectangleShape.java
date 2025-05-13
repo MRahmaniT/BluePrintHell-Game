@@ -6,7 +6,7 @@ import java.awt.geom.Path2D;
 public class RectangleShape implements GameShape {
 
     private final float x, y, width, height;
-    private final Color color;
+    private Color color;
 
     public RectangleShape(float x, float y, float width, float height, Color color) {
         this.x = x;
@@ -45,6 +45,11 @@ public class RectangleShape implements GameShape {
         rectangle.closePath();
 
         return rectangle;
+    }
+
+    @Override
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     @Override

@@ -88,6 +88,16 @@ public class GamePanel extends JPanel {
         timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(timeLabel);
 
+        //Lights
+        for (GameShape gameShape : blockShapes){
+            boolean checkPortsForLight = true;
+            for (int i = 1; i < 5; i++){
+                checkPortsForLight = blockShapes.get(firstBlockShape2Stairs).getConnection(i);
+            }
+            if (checkPortsForLight){
+                gameShape.s
+            }
+        }
         //Timing
         //For Timing
         Timer gameTimer = new Timer(100, _ -> {
@@ -186,13 +196,6 @@ public class GamePanel extends JPanel {
                                         firstPortNumber,true);
                                 gameShape.setConnection(i,true);
                             }
-                        } else if (port != null && port.contains(mouseX,mouseY)){
-                            System.out.println("*****");
-                            System.out.println(blockShapes.get(firstBlockShape2Stairs) != gameShape);
-                            System.out.println(firstShapeModel == gameShape.getShapeModel(i));
-                            System.out.println(!gameShape.getConnection(i));
-                            System.out.println(!blockShapes.get(firstBlockShape2Stairs).getConnection(firstPortNumber));
-                            System.out.println(i);
                         }
                     }
                 }

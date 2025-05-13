@@ -23,10 +23,6 @@ public class BlockShapeEnd implements GameShape {
         this.isConnected = false;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
     @Override
     public void draw(Graphics2D g) {
         //Draw base
@@ -78,6 +74,11 @@ public class BlockShapeEnd implements GameShape {
             case 4 : return port4;
         }
         return null;
+    }
+
+    @Override
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     @Override

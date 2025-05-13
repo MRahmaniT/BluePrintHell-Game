@@ -29,7 +29,7 @@ public class BuildStage1 {
         forDrawBlock1.add(1);
         forPortBlock1.add(false);
         forDrawBlock1.add(0);
-        forPortBlock1.add(false);
+        forPortBlock1.add(true);
         forDrawBlock1.add(2);
         forPortBlock1.add(false);
         forDrawBlock1.add(1);
@@ -48,7 +48,7 @@ public class BuildStage1 {
         forDrawBlock2.add(1);
         forPortBlock2.add(false);
         forDrawBlock2.add(0);
-        forPortBlock2.add(false);
+        forPortBlock2.add(true);
         forDrawBlock2.add(1);
         forPortBlock2.add(false);
         BlockShape2Stairs block2 = new BlockShape2Stairs(+100,+100,

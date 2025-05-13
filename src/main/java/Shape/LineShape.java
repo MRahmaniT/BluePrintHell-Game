@@ -6,7 +6,7 @@ import java.awt.geom.Path2D;
 public class LineShape implements GameShape {
 
     private final float x1, y1, x2, y2;
-    private final Color color;
+    private Color color;
 
     public LineShape(float x1, float y1, float x2, float y2, Color color) {
         this.x1 = x1;
@@ -32,6 +32,11 @@ public class LineShape implements GameShape {
     @Override
     public Path2D.Float getPath(int i) {
         return null;
+    }
+
+    @Override
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     @Override

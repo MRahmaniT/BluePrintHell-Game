@@ -11,6 +11,8 @@ public interface GameShape {
 
     Path2D.Float getPath(int shapeNumber);
 
+    void setColor(Color color);
+
     int getShapeModel(int i);
 
     void setConnection(int i, boolean b);

@@ -24,10 +24,6 @@ public class BlockShape2Stairs implements GameShape {
         this.portConnection = portConnection;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
     @Override
     public void draw(Graphics2D g) {
         //Draw base
@@ -130,6 +126,11 @@ public class BlockShape2Stairs implements GameShape {
             case 4 : return port4;
         }
         return null;
+    }
+
+    @Override
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     @Override
