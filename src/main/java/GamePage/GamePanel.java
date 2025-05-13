@@ -2,6 +2,7 @@ package GamePage;
 
 import GameEnvironment.BuildBackground;
 import GameEnvironment.BuildStage1;
+import GameEnvironment.ChangeBlocksLight;
 import Shape.GameShape;
 import Shape.LineShape;
 
@@ -88,18 +89,7 @@ public class GamePanel extends JPanel {
         timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(timeLabel);
 
-        //Lights
-        for (GameShape gameShape : blockShapes){
-            boolean checkPortsForLight = true;
-            for (int i = 1; i < 5; i++){
-                checkPortsForLight = blockShapes.get(firstBlockShape2Stairs).getConnection(i);
-            }
-            if (checkPortsForLight){
-                gameShape.s
-            }
-        }
         //Timing
-        //For Timing
         Timer gameTimer = new Timer(100, _ -> {
             if (leftPressed && !rightPressed) {
                 timeCounter = timeCounter - 0.1;
@@ -227,9 +217,14 @@ public class GamePanel extends JPanel {
         int cy = getHeight() / 2;
         g2d.translate(cx, cy);
         g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+
+        //Shapes
         for(GameShape gameShape : shapes){
             gameShape.draw(g2d);
         }
+
+        //Block Shapes
+        ChangeBlocksLight.changeBlocksLight(blockShapes);
         for(GameShape gameShape : blockShapes){
             gameShape.draw(g2d);
         }

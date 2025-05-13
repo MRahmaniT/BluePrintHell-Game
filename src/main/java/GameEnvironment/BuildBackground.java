@@ -3,7 +3,6 @@ package GameEnvironment;
 import Shape.GameShape;
 import Shape.RectangleShape;
 
-import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
