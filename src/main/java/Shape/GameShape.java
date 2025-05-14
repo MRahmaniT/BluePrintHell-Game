@@ -5,11 +5,11 @@ import java.awt.geom.Path2D;
 
 public interface GameShape {
 
-    void update();
+    void setPosition(Point point);
+
+    Point getPosition();
 
     void draw(Graphics2D g2d);
-
-    Path2D.Float getPath(int shapeNumber);
 
     void setColor(Color color);
 
@@ -18,4 +18,8 @@ public interface GameShape {
     void setConnection(int i, boolean b);
 
     boolean getConnection(int i);
+
+    Path2D.Float getPortPath(int shapeNumber);
+
+    Path2D.Float getTopPath();
 }

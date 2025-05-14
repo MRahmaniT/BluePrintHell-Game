@@ -17,19 +17,24 @@ public class RectangleShape implements GameShape {
     }
 
     @Override
-    public void update() {
+    public void setPosition(Point point) {
+    }
+
+    @Override
+    public Point getPosition() {
+        return null;
     }
 
     @Override
     public void draw(Graphics2D g2d) {
 
         g2d.setColor(color);
-        g2d.fill(getPath(1));
+        g2d.fill(getPortPath(1));
 
     }
 
     @Override
-    public Path2D.Float getPath(int i) {
+    public Path2D.Float getPortPath(int i) {
         Path2D.Float rectangle = new Path2D.Float();
 
         float x1 = x - width/2;
@@ -45,6 +50,11 @@ public class RectangleShape implements GameShape {
         rectangle.closePath();
 
         return rectangle;
+    }
+
+    @Override
+    public Path2D.Float getTopPath() {
+        return null;
     }
 
     @Override

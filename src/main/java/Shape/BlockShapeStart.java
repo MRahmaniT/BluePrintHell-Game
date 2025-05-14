@@ -2,10 +2,14 @@ package Shape;
 
 import java.awt.*;
 import java.awt.geom.Path2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 public class BlockShapeStart implements GameShape {
-    private final float x, y, width, height;
+    private float x;
+    private float y;
+    private final float width;
+    private final float height;
     private final ArrayList<Integer> shapeModel; //1 for square, 2 for triangle
     private final ArrayList<Boolean> portConnection;
     Path2D.Float port1, port2, port3, port4;
@@ -67,7 +71,7 @@ public class BlockShapeStart implements GameShape {
 
 
     @Override
-    public Path2D.Float getPath(int portNumber) {
+    public Path2D.Float getPortPath(int portNumber) {
         return switch (portNumber) {
             case 1 -> port1;
             case 2 -> port2;
@@ -78,13 +82,27 @@ public class BlockShapeStart implements GameShape {
     }
 
     @Override
+    public Path2D.Float getTopPath() {
+        Path2D.Float path = new Path2D.Float();
+        Rectangle2D.Float rect = new Rectangle2D.Float((int)x, (int)y, (int)width, (int)(0.2*height));
+        path.append(rect, false);
+        return path;
+    }
+
+    @Override
     public void setColor(Color color) {
         this.color = color;
     }
 
     @Override
-    public void update() {
-        // Blocks are static for now — no update needed
+    public void setPosition(Point point) {
+        this.x = point.x;
+        this.y = point.y;
+    }
+
+    @Override
+    public Point getPosition() {
+        return new Point((int) x, (int) y);
     }
 
     @Override

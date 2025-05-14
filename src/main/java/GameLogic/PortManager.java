@@ -24,7 +24,7 @@ public class PortManager {
     public Map.Entry<GameShape, Integer> findPort(List<GameShape> blockShapes, Point point) {
         for (GameShape block : blockShapes) {
             for (int i = 1; i <= 4; i++) {
-                Path2D.Float port = block.getPath(i);
+                Path2D.Float port = block.getPortPath(i);
                 if (port != null) {
                     Rectangle2D bounds = port.getBounds2D();
                     Point portPoint = new Point((int) bounds.getCenterX(), (int) bounds.getCenterY());
@@ -40,7 +40,7 @@ public class PortManager {
     public void handleMousePress(List<GameShape> blockShapes, int mouseX, int mouseY) {
         for (GameShape block : blockShapes) {
             for (int i = 1; i <= 4; i++) {
-                Path2D.Float port = block.getPath(i);
+                Path2D.Float port = block.getPortPath(i);
                 if (port != null && port.contains(mouseX, mouseY)) {
                     dragging = true;
                     Rectangle2D bounds = port.getBounds2D();
@@ -60,7 +60,7 @@ public class PortManager {
 
         for (GameShape targetBlock : blockShapes) {
             for (int i = 1; i <= 4; i++) {
-                Path2D.Float port = targetBlock.getPath(i);
+                Path2D.Float port = targetBlock.getPortPath(i);
                 if (port != null && port.contains(mouseX, mouseY)) {
 
                     boolean sameBlock = sourceBlock == targetBlock;

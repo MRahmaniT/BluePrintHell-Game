@@ -3,10 +3,7 @@ package GamePage;
 import GameEnvironment.BuildBackground;
 import GameEnvironment.BuildLevel1;
 
-import GameLogic.GameEngine;
-import GameLogic.ChangeBlocksLight;
-import GameLogic.PortManager;
-import GameLogic.TimeController;
+import GameLogic.*;
 
 import Shape.GameShape;
 
@@ -36,6 +33,7 @@ public class GamePanel extends JPanel {
 
     //For Blocks
     private final List<GameShape> blockShapes = new ArrayList<>();
+    private final BlockManager blockManager = new BlockManager();
 
     //For Ports
     private final PortManager portManager = new PortManager();
@@ -118,17 +116,13 @@ public class GamePanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                Point p = e.getPoint();
-                int mouseX = p.x - screenSizeX / 2;
-                int mouseY = p.y - screenSizeY / 2;
-                portManager.handleMousePress(blockShapes, mouseX, mouseY);
+                portManager.handleMousePress(blockShapes, mousePointX, mousePointY);
+                blockManager.handleMousePress(blockShapes, mousePointX, mousePointY);
             }
             @Override
             public void mouseReleased(MouseEvent e) {
-                Point p = e.getPoint();
-                int mouseX = p.x - screenSizeX / 2;
-                int mouseY = p.y - screenSizeY / 2;
-                portManager.handleMouseRelease(blockShapes, mouseX, mouseY);
+                portManager.handleMouseRelease(blockShapes, mousePointX, mousePointY);
+                blockManager.handleMouseRelease(mousePointX, mousePointY);
                 repaint();
             }
         });
@@ -173,6 +167,9 @@ public class GamePanel extends JPanel {
         }
         if (portManager.isDragging()) {
             portManager.drawDrag(g2d, new Point(mousePointX, mousePointY));
+        }
+        if (blockManager.isDragging()) {
+            blockManager.drawDrag(mousePointX, mousePointY);
         }
         g2d.dispose();
     }

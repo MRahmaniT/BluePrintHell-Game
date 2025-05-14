@@ -17,7 +17,12 @@ public class LineShape implements GameShape {
     }
 
     @Override
-    public void update() {
+    public void setPosition(Point point) {
+    }
+
+    @Override
+    public Point getPosition() {
+        return null;
     }
 
     @Override
@@ -30,7 +35,12 @@ public class LineShape implements GameShape {
     }
 
     @Override
-    public Path2D.Float getPath(int i) {
+    public Path2D.Float getPortPath(int i) {
+        return null;
+    }
+
+    @Override
+    public Path2D.Float getTopPath() {
         return null;
     }
 
