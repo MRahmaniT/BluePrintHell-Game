@@ -1,10 +1,13 @@
 package GamePage;
 
 import GameEnvironment.BuildBackground;
-import GameEnvironment.BuildStage1;
+import GameEnvironment.BuildLevel1;
+
+import GameLogic.GameEngine;
 import GameLogic.ChangeBlocksLight;
 import GameLogic.PortManager;
 import GameLogic.TimeController;
+
 import Shape.GameShape;
 
 import javax.imageio.ImageIO;
@@ -46,6 +49,9 @@ public class GamePanel extends JPanel {
     private boolean leftPressed;
     private boolean rightPressed;
 
+    //For Engine
+    private final GameEngine gameEngine = new GameEngine(timeController);
+
     public GamePanel(){
         setLayout(null);
 
@@ -56,7 +62,7 @@ public class GamePanel extends JPanel {
             e.printStackTrace();
         }
         BuildBackground.buildBackground(screenSizeX, screenSizeY, shapes);
-        BuildStage1.buildStage1(screenSizeX, blockShapes);
+        BuildLevel1.buildStage1(screenSizeX, blockShapes);
 
         //Add Shop Button
         JButton shopButton = new JButton("Shop");
@@ -81,8 +87,8 @@ public class GamePanel extends JPanel {
 
         //Timing
         Timer gameTimer = new Timer(100, _ -> {
-            timeController.update(leftPressed, rightPressed);
-            timeLabel.setText(timeController.getFormattedTime());
+            gameEngine.update();
+            timeLabel.setText(gameEngine.getFormattedTime());
         });
 
         leftPressed = false;
@@ -97,27 +103,20 @@ public class GamePanel extends JPanel {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                switch (e.getKeyCode()){
-                    case KeyEvent.VK_LEFT:
-                        leftPressed = true;
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        rightPressed = true;
-                        break;
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_LEFT -> gameEngine.setLeftPressed(true);
+                    case KeyEvent.VK_RIGHT -> gameEngine.setRightPressed(true);
                 }
             }
 
             @Override
-            public void keyReleased(KeyEvent e) {   
-                switch (e.getKeyCode()){
-                    case KeyEvent.VK_LEFT:
-                        leftPressed = false;
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        rightPressed = false;
-                        break;
+            public void keyReleased(KeyEvent e) {
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_LEFT -> gameEngine.setLeftPressed(false);
+                    case KeyEvent.VK_RIGHT -> gameEngine.setRightPressed(false);
                 }
             }
+
         });
 
         //Wiring

@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuildStage1 {
+public class BuildLevel1 {
     public static void buildStage1(int screenSizeX, List<GameShape> blockShapes){
 
         //Block Start
