@@ -46,8 +46,6 @@ public class GamePanel extends JPanel {
 
     //For Timer
     private final TimeController timeController = new TimeController();
-    private boolean leftPressed;
-    private boolean rightPressed;
 
     //For Engine
     private final GameEngine gameEngine = new GameEngine(timeController);
@@ -90,9 +88,6 @@ public class GamePanel extends JPanel {
             gameEngine.update();
             timeLabel.setText(gameEngine.getFormattedTime());
         });
-
-        leftPressed = false;
-        rightPressed = false;
         gameTimer.start();
 
         addKeyListener(new KeyListener() {

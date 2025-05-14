@@ -19,6 +19,7 @@ public class PortManager {
     private final ArrayList<LineShape> lines = new ArrayList<>();
     private final Map<Point, LineShape> lineByStartPoint = new HashMap<>();
     private final Map<Point, Point> startPointByEndPoint = new HashMap<>();
+    private final Map<Point, Point> endPointByStartPoint = new HashMap<>();
 
     public Map.Entry<GameShape, Integer> findPort(List<GameShape> blockShapes, Point point) {
         for (GameShape block : blockShapes) {
@@ -68,34 +69,38 @@ public class PortManager {
                     boolean sameModel = sourceBlock.getShapeModel(sourcePort) == targetBlock.getShapeModel(i);
                     boolean targetIsEntrance = i <= 2;
 
-                    if (sameBlock && targetBlock.getConnection(i)) {
+                    if (sameBlock && sourceBlock.getConnection(i)) {
 
                         Rectangle2D bounds = port.getBounds2D();
                         Point pointToRemove = new Point((int) bounds.getCenterX(), (int) bounds.getCenterY());
+                        Point startOfLine = null;
+                        Point endOfLine = null;
 
-                        LineShape lineToRemove = lineByStartPoint.get(pointToRemove);
-                        if (lineToRemove == null) {
-                            Point newPointToRemove = startPointByEndPoint.get(pointToRemove);
-                            lineToRemove = lineByStartPoint.get(newPointToRemove);
-                            if (lineToRemove == null){
-                                return;
-                            } else {
-                                lines.remove(lineToRemove);
-                                lineByStartPoint.remove(newPointToRemove);
-                                startPointByEndPoint.remove(pointToRemove);
+                        if(endPointByStartPoint.get(pointToRemove) != null &&
+                                startPointByEndPoint.get(pointToRemove) == null){
 
-                                Map.Entry<GameShape, Integer> result = findPort(blockShapes, newPointToRemove);
-                                if(result.getKey() != null && result.getValue() != null){
-                                    result.getKey().setConnection(result.getValue(), false);
-                                }
-                            }
-                        } else {
+                            startOfLine = pointToRemove;
+                            endOfLine = endPointByStartPoint.get(pointToRemove);
+
+                        } else if(startPointByEndPoint.get(pointToRemove) != null &&
+                                endPointByStartPoint.get(pointToRemove) == null){
+
+                            endOfLine = pointToRemove;
+                            startOfLine = startPointByEndPoint.get(pointToRemove);
+
+                        }
+                        if (startOfLine != null){
+                            LineShape lineToRemove = lineByStartPoint.get(startOfLine);
                             lines.remove(lineToRemove);
                             lineByStartPoint.remove(pointToRemove);
+                            startPointByEndPoint.remove(endOfLine);
+                            endPointByStartPoint.remove(startOfLine);
+
+                            Map.Entry<GameShape, Integer> endResult = findPort(blockShapes, endOfLine);
+                            Map.Entry<GameShape, Integer> startResult = findPort(blockShapes, startOfLine);
+                            endResult.getKey().setConnection(endResult.getValue(), false);
+                            startResult.getKey().setConnection(startResult.getValue(), false);
                         }
-
-                        sourceBlock.setConnection(sourcePort, false);
-
                         return;
                     }
 
@@ -107,10 +112,10 @@ public class PortManager {
                         lines.add(line);
                         lineByStartPoint.put(startPoint, line);
                         startPointByEndPoint.put(endPoint, startPoint);
+                        endPointByStartPoint.put(startPoint, endPoint);
 
                         sourceBlock.setConnection(sourcePort, true);
                         targetBlock.setConnection(i, true);
-                        return;
                     }
                 }
             }

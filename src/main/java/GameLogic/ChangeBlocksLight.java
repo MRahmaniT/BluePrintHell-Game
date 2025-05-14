@@ -8,15 +8,14 @@ import java.util.List;
 public class ChangeBlocksLight {
     public static void changeBlocksLight (List<GameShape> blockShapes) {
         for (GameShape gameShape : blockShapes) {
-            boolean checkPortsForLight;
-            for (int i = 1; i < 5; i++) {
-                checkPortsForLight = gameShape.getConnection(i);
-                if (!checkPortsForLight) {
-                    gameShape.setColor(Color.RED);
-                    return;
+            boolean allConnected = true;
+            for (int i = 1; i <= 4; i++) {
+                if (!gameShape.getConnection(i)) {
+                    allConnected = false;
+                    break;
                 }
             }
-            gameShape.setColor(Color.cyan);
+            gameShape.setColor(allConnected ? Color.CYAN : Color.RED);
         }
     }
 }
