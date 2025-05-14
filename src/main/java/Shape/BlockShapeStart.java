@@ -5,22 +5,23 @@ import java.awt.geom.Path2D;
 import java.util.ArrayList;
 
 public class BlockShapeStart implements GameShape {
-    private float x, y, width, height;
-    private ArrayList<Integer> shapeModel = new ArrayList<>(); //1 for square, 2 for triangle
+    private final float x, y, width, height;
+    private final ArrayList<Integer> shapeModel; //1 for square, 2 for triangle
+    private final ArrayList<Boolean> portConnection;
     Path2D.Float port1, port2, port3, port4;
     private Color color;
-    private boolean isConnected;
 
     public BlockShapeStart(float x, float y,
                            float width, float height,
-                           Color color, ArrayList<Integer> shapeModel) {
+                           Color color, ArrayList<Integer> shapeModel,
+                           ArrayList<Boolean> portConnection) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.shapeModel = shapeModel;
+        this.portConnection = portConnection;
         this.color = color;
-        this.isConnected = false;
     }
 
     @Override
@@ -67,13 +68,13 @@ public class BlockShapeStart implements GameShape {
 
     @Override
     public Path2D.Float getPath(int portNumber) {
-        switch (portNumber){
-            case 1 : return port1;
-            case 2 : return port2;
-            case 3 : return port3;
-            case 4 : return port4;
-        }
-        return null;
+        return switch (portNumber) {
+            case 1 -> port1;
+            case 2 -> port2;
+            case 3 -> port3;
+            case 4 -> port4;
+            default -> null;
+        };
     }
 
     @Override
@@ -93,11 +94,11 @@ public class BlockShapeStart implements GameShape {
 
     @Override
     public void setConnection(int i, boolean b) {
-        isConnected = b;
+        portConnection.set(i-1,b);
     }
 
     @Override
     public boolean getConnection(int i) {
-        return isConnected;
+        return portConnection.get(i-1);
     }
 }

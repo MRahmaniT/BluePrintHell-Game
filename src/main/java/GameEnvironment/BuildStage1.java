@@ -14,13 +14,18 @@ public class BuildStage1 {
 
         //Block Start
         ArrayList<Integer> forDrawBlockStart = new ArrayList<>();
+        ArrayList<Boolean> forPortBlockStart = new ArrayList<>();
         forDrawBlockStart.add(0);
+        forPortBlockStart.add(true);
         forDrawBlockStart.add(0);
+        forPortBlockStart.add(true);
         forDrawBlockStart.add(0);
+        forPortBlockStart.add(true);
         forDrawBlockStart.add(1);
+        forPortBlockStart.add(false);
         BlockShapeStart blockStart = new BlockShapeStart(-300, -100,
                 0.1f * screenSizeX, 0.6f * 0.1f * screenSizeX, Color.RED,
-                forDrawBlockStart);
+                forDrawBlockStart, forPortBlockStart);
         blockShapes.add(blockStart);
 
         //Block 1
@@ -58,10 +63,18 @@ public class BuildStage1 {
 
         //Block End
         ArrayList<Integer> forDrawBlockEnd = new ArrayList<>();
+        ArrayList<Boolean> forPortBlockEnd = new ArrayList<>();
         forDrawBlockEnd.add(1);
+        forPortBlockEnd.add(false);
+        forDrawBlockEnd.add(0);
+        forPortBlockEnd.add(true);
+        forDrawBlockEnd.add(0);
+        forPortBlockEnd.add(true);
+        forDrawBlockEnd.add(0);
+        forPortBlockEnd.add(true);
         BlockShapeEnd blockEnd = new BlockShapeEnd(+300, +100,
                 0.1f * screenSizeX, 0.6f * 0.1f * screenSizeX, Color.RED,
-                forDrawBlockEnd);
+                forDrawBlockEnd, forPortBlockEnd);
         blockShapes.add(blockEnd);
     }
 }

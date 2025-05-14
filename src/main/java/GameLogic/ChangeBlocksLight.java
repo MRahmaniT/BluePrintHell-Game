@@ -1,4 +1,4 @@
-package GameEnvironment;
+package GameLogic;
 
 import Shape.GameShape;
 

@@ -2,23 +2,19 @@ package GamePage;
 
 import GameEnvironment.BuildBackground;
 import GameEnvironment.BuildStage1;
-import GameEnvironment.ChangeBlocksLight;
+import GameLogic.ChangeBlocksLight;
 import GameLogic.PortManager;
+import GameLogic.TimeController;
 import Shape.GameShape;
-import Shape.LineShape;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class GamePanel extends JPanel {
 
@@ -37,27 +33,16 @@ public class GamePanel extends JPanel {
 
     //For Blocks
     private final List<GameShape> blockShapes = new ArrayList<>();
-    private int firstBlockShape2Stairs;
-    private int firstShapeModel;
-    private int firstPortNumber;
 
     //For Ports
     private final PortManager portManager = new PortManager();
-    private double centerX1;
-    private double centerY1;
-    private double centerX2;
-    private double centerY2;
-    private boolean isEntrancePort;
 
     //For Lines
-    private LineShape lineShape;
-    private final List<GameShape> lineShapes = new ArrayList<>();
-    private final Map<Integer, Integer> lineIndex = new HashMap<Integer,Integer>();
     private int mousePointX;
     private int mousePointY;
-    private boolean dragging = false;
 
-    private double timeCounter = 0;
+    //For Timer
+    private final TimeController timeController = new TimeController();
     private boolean leftPressed;
     private boolean rightPressed;
 
@@ -84,7 +69,7 @@ public class GamePanel extends JPanel {
         add(shopButton);
 
         //Add Time Counter
-        JLabel timeLabel = new JLabel("Time: " + timeCounter);
+        JLabel timeLabel = new JLabel(timeController.getFormattedTime());
         timeLabel.setBounds((int) (0.025*screenSizeX),
                             (int) (0.025*screenSizeY),
                             (int) (0.1f*screenSizeX),
@@ -96,13 +81,10 @@ public class GamePanel extends JPanel {
 
         //Timing
         Timer gameTimer = new Timer(100, _ -> {
-            if (leftPressed && !rightPressed) {
-                timeCounter = timeCounter - 0.1;
-            } else if (rightPressed && !leftPressed) {
-                timeCounter = timeCounter + 0.1;
-            }
-            timeLabel.setText("Time : " + timeCounter);
+            timeController.update(leftPressed, rightPressed);
+            timeLabel.setText(timeController.getFormattedTime());
         });
+
         leftPressed = false;
         rightPressed = false;
         gameTimer.start();

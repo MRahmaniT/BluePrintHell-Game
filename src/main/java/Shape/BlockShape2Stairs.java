@@ -119,13 +119,13 @@ public class BlockShape2Stairs implements GameShape {
 
     @Override
     public Path2D.Float getPath(int portNumber) {
-        switch (portNumber){
-            case 1 : return port1;
-            case 2 : return port2;
-            case 3 : return port3;
-            case 4 : return port4;
-        }
-        return null;
+        return switch (portNumber) {
+            case 1 -> port1;
+            case 2 -> port2;
+            case 3 -> port3;
+            case 4 -> port4;
+            default -> null;
+        };
     }
 
     @Override
