@@ -162,15 +162,19 @@ public class GamePanel extends JPanel {
         for(GameShape gameShape : blockShapes){
             gameShape.draw(g2d);
         }
-        for (GameShape line : portManager.getLines()) {
-            line.draw(g2d);
+
+        //For Lines
+        for (Connection c : portManager.getConnections()) {
+            c.line.draw(g2d);
         }
+
         if (portManager.isDragging()) {
             portManager.drawDrag(g2d, new Point(mousePointX, mousePointY));
         }
         if (blockManager.isDragging()) {
             blockManager.drawDrag(mousePointX, mousePointY);
         }
+
         g2d.dispose();
     }
 
