@@ -1,6 +1,6 @@
 package GameLogic;
 
-import Shape.GameShape;
+import GameShapes.GameShape;
 
 import java.awt.*;
 import java.util.List;

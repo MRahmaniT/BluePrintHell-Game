@@ -1,4 +1,4 @@
-package Shape;
+package GameShapes;
 
 import java.awt.*;
 import java.awt.geom.Path2D;

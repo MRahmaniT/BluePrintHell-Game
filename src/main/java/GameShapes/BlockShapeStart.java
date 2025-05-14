@@ -1,22 +1,24 @@
-package Shape;
+package GameShapes;
 
 import java.awt.*;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-public class BlockShapeEnd implements GameShape {
-    private float x, y;
-    private final float width, height;
+public class BlockShapeStart implements GameShape {
+    private float x;
+    private float y;
+    private final float width;
+    private final float height;
     private final ArrayList<Integer> shapeModel; //1 for square, 2 for triangle
     private final ArrayList<Boolean> portConnection;
     Path2D.Float port1, port2, port3, port4;
     private Color color;
 
-    public BlockShapeEnd(float x, float y,
-                         float width, float height,
-                         Color color, ArrayList<Integer> shapeModel,
-                         ArrayList<Boolean> portConnection) {
+    public BlockShapeStart(float x, float y,
+                           float width, float height,
+                           Color color, ArrayList<Integer> shapeModel,
+                           ArrayList<Boolean> portConnection) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -48,21 +50,21 @@ public class BlockShapeEnd implements GameShape {
                         (int)(0.1*width), (int)(0.09*height));
 
         //Draw ports
-        if (shapeModel.getFirst() == 1){
+        if (shapeModel.get(3) == 1){
             g.setColor(Color.GREEN);
-            port1 = new Path2D.Float();
-            port1.moveTo((int)(x - 0.08*width), (int)(y+2*height/3-0.08*width));
-            port1.lineTo((int)(x + 0.08*width), (int)(y+2*height/3-0.08*width));
-            port1.lineTo((int)(x + 0.08*width), (int)(y+2*height/3+0.08*width));
-            port1.lineTo((int)(x - 0.08*width), (int)(y+2*height/3+0.08*width));
-            g.fill(port1);
-        } else if (shapeModel.getFirst() == 2){
+            port4 = new Path2D.Float();
+            port4.moveTo((int)(x + 0.92*width), (int)(y+2*height/3-0.08*width));
+            port4.lineTo((int)(x + 1.08*width), (int)(y+2*height/3-0.08*width));
+            port4.lineTo((int)(x + 1.08*width), (int)(y+2*height/3+0.08*width));
+            port4.lineTo((int)(x + 0.92*width), (int)(y+2*height/3+0.08*width));
+            g.fill(port4);
+        } else if (shapeModel.get(3) == 2){
             g.setColor(Color.YELLOW);
-            port1 = new Path2D.Float();
-            port1.moveTo((int)(x - 0.08*width), (int)(y+2*height/3-0.08*width));
-            port1.lineTo((int)(x + 0.08*width), (int)(y+2*height/3));
-            port1.lineTo((int)(x - 0.08*width), (int)(y+2*height/3+0.08*width));
-            g.fill(port1);
+            port4 = new Path2D.Float();
+            port4.moveTo((int)(x + 0.92*width), (int)(y+2*height/3-0.08*width));
+            port4.lineTo((int)(x + 1.08*width), (int)(y+2*height/3));
+            port4.lineTo((int)(x + 0.92*width), (int)(y+2*height/3+0.08*width));
+            g.fill(port4);
         }
 
     }

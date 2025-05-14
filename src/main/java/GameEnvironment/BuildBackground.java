@@ -1,7 +1,7 @@
 package GameEnvironment;
 
-import Shape.GameShape;
-import Shape.RectangleShape;
+import GameShapes.GameShape;
+import GameShapes.RectangleShape;
 
 import java.awt.*;
 import java.util.List;

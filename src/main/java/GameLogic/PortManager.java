@@ -1,8 +1,8 @@
 package GameLogic;
 
 import Main.MainFrame;
-import Shape.GameShape;
-import Shape.LineShape;
+import GameShapes.GameShape;
+import GameShapes.LineShape;
 
 import java.awt.*;
 import java.awt.geom.Path2D;

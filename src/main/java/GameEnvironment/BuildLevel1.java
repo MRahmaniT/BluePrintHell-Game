@@ -1,9 +1,9 @@
 package GameEnvironment;
 
-import Shape.GameShape;
-import Shape.BlockShape2Stairs;
-import Shape.BlockShapeStart;
-import Shape.BlockShapeEnd;
+import GameShapes.GameShape;
+import GameShapes.BlockShape2Stairs;
+import GameShapes.BlockShapeStart;
+import GameShapes.BlockShapeEnd;
 
 import java.awt.*;
 import java.util.ArrayList;

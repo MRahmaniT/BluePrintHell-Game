@@ -1,7 +1,7 @@
 package GameLogic;
 
-import Shape.GameShape;
-import Shape.LineShape;
+import GameShapes.GameShape;
+import GameShapes.LineShape;
 
 public class Connection {
     public GameShape blockA;

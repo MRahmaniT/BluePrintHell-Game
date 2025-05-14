@@ -5,7 +5,7 @@ import GameEnvironment.BuildLevel1;
 
 import GameLogic.*;
 
-import Shape.GameShape;
+import GameShapes.GameShape;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
