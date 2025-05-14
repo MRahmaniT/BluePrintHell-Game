@@ -28,7 +28,7 @@ public class LoginPanel extends JPanel {
 
         //Add Background
         try {
-            backgroundImage = ImageIO.read(new File("background2.jpg")); // put your real image path
+            backgroundImage = ImageIO.read(new File("Resources/background2.jpg")); // put your real image path
         } catch (IOException e) {
             e.printStackTrace();
         }

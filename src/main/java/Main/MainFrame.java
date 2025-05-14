@@ -3,20 +3,27 @@ package Main;
 import LoginPage.LoginPanel;
 import MenuPage.MenuPanel;
 import GamePage.GamePanel;
+import SettingsPage.AudioManager;
+import SettingsPage.SettingsPanel;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MainFrame extends JFrame {
+    public static AudioManager audioManager = new AudioManager();
+
     public static CardLayout cardLayout;
     public static JPanel mainPanel;
     public static LoginPanel loginPanel;
     public static MenuPanel menuPanel;
     public static GamePanel gamePanel;
+    public static SettingsPanel settingsPanel;
+
 
     public static final String LOGIN = "Login";
     public static final String MENU = "Menu";
     public static final String GAME = "Game";
+    public static final String SETTINGS = "Settings";
 
     public MainFrame(){
 
@@ -34,6 +41,8 @@ public class MainFrame extends JFrame {
             setExtendedState(JFrame.MAXIMIZED_BOTH);
         }
 
+        //Music
+        audioManager.playMusic("Resources/music.wav");
         //Card Layout
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
@@ -47,6 +56,9 @@ public class MainFrame extends JFrame {
 
         gamePanel = new GamePanel();
         mainPanel.add(gamePanel, GAME);
+
+        settingsPanel = new SettingsPanel(audioManager);
+        mainPanel.add(settingsPanel, SETTINGS);
 
         //Show Frame
         showMenu();
@@ -75,5 +87,9 @@ public class MainFrame extends JFrame {
         mainPanel.add(gamePanel, GAME);
         cardLayout.show(mainPanel, GAME);
         SwingUtilities.invokeLater(() -> gamePanel.requestFocusInWindow());
+    }
+
+    public static void showSettings() {
+        cardLayout.show(mainPanel, SETTINGS);
     }
 }

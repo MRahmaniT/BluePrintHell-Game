@@ -1,5 +1,6 @@
 package GameLogic;
 
+import Main.MainFrame;
 import Shape.GameShape;
 import Shape.LineShape;
 
@@ -65,6 +66,7 @@ public class PortManager {
 
                     if (!sameBlock && !alreadyConnected && sameModel && (sourceIsEntrance ^ targetIsEntrance)) {
 
+                        MainFrame.audioManager.playSoundEffect("Resources/connection.wav");
                         LineShape line = new LineShape(sourceBlock, sourcePort, targetBlock, i, Color.CYAN);
                         Connection connection = new Connection(sourceBlock, sourcePort, targetBlock, i, line);
                         connections.add(connection);
@@ -82,6 +84,26 @@ public class PortManager {
         g2d.setColor(Color.CYAN);
         g2d.setStroke(new BasicStroke(4f));
         g2d.drawLine(startPoint.x, startPoint.y, mousePoint.x, mousePoint.y);
+    }
+
+    public double getUsedWireLength() {
+        double total = 0;
+        for (Connection c : connections) {
+            Path2D.Float pathA = c.blockA.getPortPath(c.portA);
+            Path2D.Float pathB = c.blockB.getPortPath(c.portB);
+            if (pathA != null && pathB != null) {
+                Rectangle2D boundsA = pathA.getBounds2D();
+                Rectangle2D boundsB = pathB.getBounds2D();
+                double dx = boundsA.getCenterX() - boundsB.getCenterX();
+                double dy = boundsA.getCenterY() - boundsB.getCenterY();
+                total += Math.sqrt(dx * dx + dy * dy);
+            }
+        }
+        return total;
+    }
+
+    public double getRemainingWireLength(double MAX_WIRE_LENGTH) {
+        return MAX_WIRE_LENGTH - getUsedWireLength();
     }
 
     public List<Connection> getConnections() {

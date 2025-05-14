@@ -24,7 +24,7 @@ public class MenuPanel extends JPanel {
 
         //Add Background
         try {
-            backgroundImage = ImageIO.read(new File("background2.jpg")); // put your real image path
+            backgroundImage = ImageIO.read(new File("Resources/background2.jpg")); // put your real image path
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -82,6 +82,16 @@ public class MenuPanel extends JPanel {
             }
             MainFrame.startGame();
         });
+        levelsButton.addActionListener(_ -> {
+            MainFrame.showSettings();
+        });
+        settingsButton.addActionListener(_ -> {
+            MainFrame.showSettings();
+        });
+        exitButton.addActionListener(_ -> {
+            System.exit(0);
+        });
+
     }
     @Override
     protected void paintComponent(Graphics g) {

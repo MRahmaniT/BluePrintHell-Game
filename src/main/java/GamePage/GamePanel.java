@@ -53,12 +53,15 @@ public class GamePanel extends JPanel {
 
         //Add Background
         try {
-            backgroundImage = ImageIO.read(new File("background2.jpg"));
+            backgroundImage = ImageIO.read(new File("Resources/background2.jpg"));
         } catch (IOException e) {
             e.printStackTrace();
         }
         BuildBackground.buildBackground(screenSizeX, screenSizeY, shapes);
+
+        //Build Level 1
         BuildLevel1.buildStage1(screenSizeX, blockShapes);
+        final double MAX_WIRE_LENGTH = 2000;
 
         //Add Shop Button
         JButton shopButton = new JButton("Shop");
@@ -81,10 +84,23 @@ public class GamePanel extends JPanel {
         timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(timeLabel);
 
+        //HUD
+        JLabel wireLabel = new JLabel();
+        wireLabel.setBounds(0,
+                (int) (0.15 * screenSizeY),
+                (int) (0.2f * screenSizeX),
+                (int) (0.05f * screenSizeY));
+        wireLabel.setFont(new Font("Arial", Font.BOLD, fontSize));
+        wireLabel.setForeground(Color.WHITE);
+        wireLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        add(wireLabel);
+
         //Timing
         Timer gameTimer = new Timer(100, _ -> {
             gameEngine.update();
             timeLabel.setText(gameEngine.getFormattedTime());
+            double remaining = portManager.getRemainingWireLength(MAX_WIRE_LENGTH);
+            wireLabel.setText("Remaining Wire Length: " + (int) remaining + " px");
         });
         gameTimer.start();
 
