@@ -58,6 +58,8 @@ public class PortManager {
                             if (connection.contains(sourceBlock, sourcePort)) {
                                 connection.blockA.setConnection(connection.portA, false);
                                 connection.blockB.setConnection(connection.portB, false);
+                                connection.blockA.setPacket(connection.portA, false);
+                                connection.blockB.setPacket(connection.portB, false);
                                 connections.remove(connection);
                                 break;
                             }

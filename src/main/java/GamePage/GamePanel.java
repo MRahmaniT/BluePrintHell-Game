@@ -128,6 +128,8 @@ public class GamePanel extends JPanel {
                     }
                     if (allArrived){
                         spawnPacket.SpawnPacket(p.getEndBlock(), portManager, packetsToAdd);
+                        p.getEndBlock().setPacket(1,false);
+                        p.getEndBlock().setPacket(2,false);
                     }
                 }
             }
