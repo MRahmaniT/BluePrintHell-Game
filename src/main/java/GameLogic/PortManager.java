@@ -9,6 +9,7 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 import java.util.List;
+import java.awt.geom.Point2D;
 
 public class PortManager {
     private boolean dragging = false;
@@ -79,6 +80,14 @@ public class PortManager {
         }
     }
 
+    public Point2D.Float getPortCenter(GameShape block, int portNumber) {
+        Path2D.Float portPath = block.getPortPath(portNumber);
+        if (portPath == null) return null;
+
+        Rectangle2D bounds = portPath.getBounds2D();
+        return new Point2D.Float((float) bounds.getCenterX(), (float) bounds.getCenterY());
+    }
+
     public void drawDrag(Graphics2D g2d, Point mousePoint) {
         if (!dragging || startPoint == null || mousePoint == null) return;
         g2d.setColor(Color.CYAN);
@@ -109,7 +118,6 @@ public class PortManager {
     public List<Connection> getConnections() {
         return connections;
     }
-
 
     public boolean isDragging() {
         return dragging;

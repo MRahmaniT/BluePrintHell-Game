@@ -74,4 +74,14 @@ public class RectangleShape implements GameShape {
     public boolean getConnection(int i) {
         return false;
     }
+
+    @Override
+    public void setPacket(int i, boolean b) {
+
+    }
+
+    @Override
+    public boolean getPacket(int i) {
+        return false;
+    }
 }

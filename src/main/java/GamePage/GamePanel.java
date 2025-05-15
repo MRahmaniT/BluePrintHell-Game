@@ -1,5 +1,8 @@
 package GamePage;
 
+import GameEntities.Packet;
+
+import GameEntities.SpawnPacket;
 import GameEnvironment.BuildBackground;
 import GameEnvironment.BuildLevel1;
 
@@ -11,6 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,6 +51,11 @@ public class GamePanel extends JPanel {
 
     //For Engine
     private final GameEngine gameEngine = new GameEngine(timeController);
+
+    //For Packet
+    private final SpawnPacket spawnPacket = new SpawnPacket();
+    private final List<Packet> packets = new ArrayList<>();
+    private Packet packet;
 
     public GamePanel(){
         setLayout(null);
@@ -96,18 +105,48 @@ public class GamePanel extends JPanel {
         add(wireLabel);
 
         //Timing
-        Timer gameTimer = new Timer(100, _ -> {
+        Timer gameTimer = new Timer(10, _ -> {
             gameEngine.update();
             timeLabel.setText(gameEngine.getFormattedTime());
             double remaining = portManager.getRemainingWireLength(MAX_WIRE_LENGTH);
             wireLabel.setText("Remaining Wire Length: " + (int) remaining + " px");
+
+            List<Packet> packetsToAdd = new ArrayList<>();
+            List<Packet> packetsToRemove = new ArrayList<>();
+            for (Packet p : packets) {
+                p.update(new Point2D.Float(0,0));
+                if (p.isArrived()) {
+                    packetsToRemove.add(p);
+                    p.getEndBlock().setPacket(p.getEndPort(),true);
+                    boolean allArrived = true;
+                    for (int i = 1; i <= 2; i++){
+                        if (p.getEndBlock().getPortPath(i) != null){
+                            if (!p.getEndBlock().getPacket(i)){
+                                allArrived = false;
+                            }
+                        }
+                    }
+                    if (allArrived){
+                        spawnPacket.SpawnPacket(p.getEndBlock(), portManager, packetsToAdd);
+                    }
+                }
+            }
+            packets.removeAll(packetsToRemove);
+            packets.addAll(packetsToAdd);
+            packetsToRemove.clear();
+            packetsToAdd.clear();
+            repaint();
         });
         gameTimer.start();
 
         addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-
+                switch (e.getKeyChar()) {
+                    case 'p' -> {
+                        spawnPacket.SpawnPacket(blockShapes.getFirst(),portManager,packets);
+                    }
+                }
             }
 
             @Override
@@ -191,7 +230,13 @@ public class GamePanel extends JPanel {
             blockManager.drawDrag(mousePointX, mousePointY);
         }
 
+        //Packet
+        for (Packet p : packets) {
+            p.draw(g2d);
+        }
+
         g2d.dispose();
     }
+
 
 }

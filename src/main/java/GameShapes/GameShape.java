@@ -19,6 +19,10 @@ public interface GameShape {
 
     boolean getConnection(int i);
 
+    void setPacket(int i, boolean b);
+
+    boolean getPacket(int i);
+
     Path2D.Float getPortPath(int shapeNumber);
 
     Path2D.Float getTopPath();

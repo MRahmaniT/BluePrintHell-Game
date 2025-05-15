@@ -10,19 +10,22 @@ public class BlockShapeEnd implements GameShape {
     private final float width, height;
     private final ArrayList<Integer> shapeModel; //1 for square, 2 for triangle
     private final ArrayList<Boolean> portConnection;
+    private final ArrayList<Boolean> portPacket;
     Path2D.Float port1, port2, port3, port4;
     private Color color;
 
     public BlockShapeEnd(float x, float y,
                          float width, float height,
                          Color color, ArrayList<Integer> shapeModel,
-                         ArrayList<Boolean> portConnection) {
+                         ArrayList<Boolean> portConnection,
+                         ArrayList<Boolean> portPacket) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.shapeModel = shapeModel;
         this.portConnection = portConnection;
+        this.portPacket = portPacket;
         this.color = color;
     }
 
@@ -116,5 +119,15 @@ public class BlockShapeEnd implements GameShape {
     @Override
     public boolean getConnection(int i) {
         return portConnection.get(i-1);
+    }
+
+    @Override
+    public void setPacket(int i, boolean b) {
+        portPacket.set(i-1,b);
+    }
+
+    @Override
+    public boolean getPacket(int i) {
+        return portPacket.get(i-1);
     }
 }
