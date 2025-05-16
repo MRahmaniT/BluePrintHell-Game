@@ -19,9 +19,13 @@ public interface GameShape {
 
     boolean getConnection(int i);
 
-    void setPacket(int i, boolean b);
+    void setSquarePacketCount(int i);
 
-    boolean getPacket(int i);
+    int getSquarePacketCount();
+
+    void setTrianglePacketCount(int i);
+
+    int getTrianglePacketCount();
 
     Path2D.Float getPortPath(int shapeNumber);
 

@@ -52,7 +52,7 @@ public class BuildLevel1 {
 
         BlockShape2Stairs block1 = new BlockShape2Stairs(-100, -100,
                 0.1f * screenSizeX, 0.1f * screenSizeX, Color.RED,
-                forDrawBlock1, forPortBlock1, forPortPacketBlock1);
+                forDrawBlock1, forPortBlock1);
         blockShapes.add(block1);
 
         //Block 2
@@ -73,7 +73,7 @@ public class BuildLevel1 {
         forPortPacketBlock2.add(false);
         BlockShape2Stairs block2 = new BlockShape2Stairs(+100,+100,
                 0.1f*screenSizeX,0.1f*screenSizeX, Color.RED,
-                forDrawBlock2, forPortBlock2, forPortPacketBlock2);
+                forDrawBlock2, forPortBlock2);
         blockShapes.add(block2);
 
         //Block End

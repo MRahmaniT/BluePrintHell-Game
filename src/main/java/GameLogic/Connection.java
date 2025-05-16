@@ -9,6 +9,7 @@ public class Connection {
     public GameShape blockB;
     public int portB;
     public LineShape line;
+    public boolean packetOnLine;
 
     public Connection(GameShape a, int pa, GameShape b, int pb, LineShape l) {
         this.blockA = a;
@@ -16,6 +17,7 @@ public class Connection {
         this.blockB = b;
         this.portB = pb;
         this.line = l;
+        this.packetOnLine = false;
     }
 
     public boolean contains(GameShape block, int port) {

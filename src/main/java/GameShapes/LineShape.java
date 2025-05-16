@@ -47,12 +47,22 @@ public class LineShape implements GameShape {
     @Override public boolean getConnection(int i) { return false; }
 
     @Override
-    public void setPacket(int i, boolean b) {
+    public void setSquarePacketCount(int i) {
 
     }
 
     @Override
-    public boolean getPacket(int i) {
-        return false;
+    public int getSquarePacketCount() {
+        return 0;
+    }
+
+    @Override
+    public void setTrianglePacketCount(int i) {
+
+    }
+
+    @Override
+    public int getTrianglePacketCount() {
+        return 0;
     }
 }

@@ -2,7 +2,7 @@ package GamePage;
 
 import GameEntities.Packet;
 
-import GameEntities.SpawnPacket;
+import GameEntities.SpawnPackets;
 import GameEnvironment.BuildBackground;
 import GameEnvironment.BuildLevel1;
 
@@ -53,7 +53,7 @@ public class GamePanel extends JPanel {
     private final GameEngine gameEngine = new GameEngine(timeController);
 
     //For Packet
-    private final SpawnPacket spawnPacket = new SpawnPacket();
+    private final SpawnPackets spawnPacket = new SpawnPackets();
     private final List<Packet> packets = new ArrayList<>();
     private Packet packet;
 
@@ -117,20 +117,22 @@ public class GamePanel extends JPanel {
                 p.update(new Point2D.Float(0,0));
                 if (p.isArrived()) {
                     packetsToRemove.add(p);
-                    p.getEndBlock().setPacket(p.getEndPort(),true);
-                    boolean allArrived = true;
-                    for (int i = 1; i <= 2; i++){
-                        if (p.getEndBlock().getPortPath(i) != null){
-                            if (!p.getEndBlock().getPacket(i)){
-                                allArrived = false;
-                            }
-                        }
+                    int shapeModel = p.getShapeModel();
+                    if (shapeModel == 1){
+                        p.getEndBlock().setSquarePacketCount(p.getEndBlock().getSquarePacketCount()+1);
+                        p.getConnection().packetOnLine = false;
+                    }else {
+                        p.getEndBlock().setTrianglePacketCount(p.getEndBlock().getTrianglePacketCount()+1);
+                        p.getConnection().packetOnLine = false;
                     }
-                    if (allArrived){
-                        spawnPacket.SpawnPacket(p.getEndBlock(), portManager, packetsToAdd);
-                        p.getEndBlock().setPacket(1,false);
-                        p.getEndBlock().setPacket(2,false);
-                    }
+                }
+            }
+            for (GameShape blockShape : blockShapes){
+                if (blockShape.getSquarePacketCount() > 0){
+                    spawnPacket.SpawnPacket(blockShape, portManager, packetsToAdd, 1);
+                }
+                if (blockShape.getTrianglePacketCount() > 0){
+                    spawnPacket.SpawnPacket(blockShape, portManager, packetsToAdd, 2);
                 }
             }
             packets.removeAll(packetsToRemove);
@@ -146,7 +148,7 @@ public class GamePanel extends JPanel {
             public void keyTyped(KeyEvent e) {
                 switch (e.getKeyChar()) {
                     case 'p' -> {
-                        spawnPacket.SpawnPacket(blockShapes.getFirst(),portManager,packets);
+                        spawnPacket.SpawnPacket(blockShapes.getFirst(),portManager,packets,1);
                     }
                 }
             }

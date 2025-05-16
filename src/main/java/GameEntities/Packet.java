@@ -1,5 +1,6 @@
 package GameEntities;
 
+import GameLogic.Connection;
 import GameLogic.PortManager;
 import GameShapes.GameShape;
 
@@ -11,6 +12,7 @@ public class Packet {
     private final PortManager portManager;
     private final GameShape startBlock;
     private final GameShape endBlock;
+    private final Connection connection;
     private Point2D.Float startPosition, endPosition, currentPosition, direction, destinationDistance;
     private final int shapeModel; //1 for square, 2 for triangle
     private final int startPort;
@@ -24,7 +26,8 @@ public class Packet {
     public static final float NOISE_THRESHOLD = 100f;
     public static final float MAX_DISTANCE_FROM_WIRE = 20f;
 
-    public Packet(PortManager portManager, GameShape startBlock, int startPort, GameShape endBlock, int endPort, int shapeModel) {
+    public Packet(PortManager portManager, Connection connection, GameShape startBlock, int startPort, GameShape endBlock, int endPort, int shapeModel) {
+        this.connection = connection;
         this.startBlock = startBlock;
         this.endBlock = endBlock;
         this.startPort = startPort;
@@ -113,6 +116,12 @@ public class Packet {
                 this.startPosition.distance(other.startPosition) < 12;
     }
 
+    private Point2D.Float normalize(Point2D.Float vector) {
+        float len = (float) Math.sqrt(vector.x * vector.x + vector.y * vector.y);
+        return len == 0 ? new Point2D.Float(0, 0) : new Point2D.Float(vector.x / len, vector.y / len);
+    }
+
+    //Setters and Getters
     public boolean isLost() {
         return lost;
     }
@@ -129,14 +138,17 @@ public class Packet {
         return noise;
     }
 
-    private Point2D.Float normalize(Point2D.Float vector) {
-        float len = (float) Math.sqrt(vector.x * vector.x + vector.y * vector.y);
-        return len == 0 ? new Point2D.Float(0, 0) : new Point2D.Float(vector.x / len, vector.y / len);
-    }
     public GameShape getEndBlock(){
         return this.endBlock;
     }
+
     public int getEndPort(){
         return this.endPort;
     }
+
+    public int getShapeModel() {
+        return shapeModel;
+    }
+
+    public Connection getConnection(){return this.connection;}
 }
