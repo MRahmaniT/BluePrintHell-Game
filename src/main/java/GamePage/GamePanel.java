@@ -10,6 +10,8 @@ import GameLogic.*;
 
 import GameShapes.GameShape;
 
+import Player.PlayerState;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -56,6 +58,9 @@ public class GamePanel extends JPanel {
     private final SpawnPackets spawnPacket = new SpawnPackets();
     private final List<Packet> packets = new ArrayList<>();
     private Packet packet;
+
+    //For Impact
+    private final List<Impact> impacts = new ArrayList<>();
 
     public GamePanel(){
         setLayout(null);
@@ -104,14 +109,26 @@ public class GamePanel extends JPanel {
         wireLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(wireLabel);
 
+        JLabel goldLabel = new JLabel();
+        goldLabel.setBounds(0,
+                (int) (0.3 * screenSizeY),
+                (int) (0.2f * screenSizeX),
+                (int) (0.05f * screenSizeY));
+        goldLabel.setFont(new Font("Arial", Font.BOLD, fontSize));
+        goldLabel.setForeground(Color.WHITE);
+        goldLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        add(goldLabel);
+
         //Timing
         Timer gameTimer = new Timer(10, _ -> {
             gameEngine.update();
             timeLabel.setText(gameEngine.getFormattedTime());
             double remaining = portManager.getRemainingWireLength(MAX_WIRE_LENGTH);
             wireLabel.setText("Remaining Wire Length: " + (int) remaining + " px");
+            goldLabel.setText("Your Gold: " + PlayerState.getPlayer().getGoldCount());
 
-            packetManager.manageSpawn(blockShapes, portManager, packets, spawnPacket);
+            packetManager.manageMovement(blockShapes, portManager, packets, spawnPacket, impacts);
+            packetManager.manageImpact(impacts,  packets);
 
             repaint();
         });

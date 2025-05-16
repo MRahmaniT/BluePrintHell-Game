@@ -15,6 +15,8 @@ public class Packet {
     private final Connection connection;
     private Point2D.Float startPosition, endPosition, currentPosition, direction, destinationDistance;
     private final int shapeModel; //1 for square, 2 for triangle
+    private Path2D triangle;
+    private Path2D rectangle;
     private final int startPort;
     private final int endPort;
     private float speed;
@@ -46,14 +48,20 @@ public class Packet {
         double angle = Math.atan2(direction.y, direction.x);
 
         Graphics2D g2d = (Graphics2D) g.create();
-        g2d.setColor(Color.GREEN);
         g2d.translate(currentPosition.x, currentPosition.y);
         g2d.rotate(angle);
 
         if (shapeModel == 1) {
-            g2d.fillRect(-size / 2, -size / 2, size, size);
+            rectangle = new Path2D.Float();
+            rectangle.moveTo((double) -size / 2, (double) -size / 2);
+            rectangle.lineTo((double) +size / 2, (double) -size / 2);
+            rectangle.lineTo((double) +size / 2, (double) +size / 2);
+            rectangle.lineTo((double) -size / 2, (double) +size / 2);
+            rectangle.closePath();
+            g2d.setColor(Color.GREEN);
+            g2d.fill(rectangle);
         } else if (shapeModel == 2) {
-            Path2D triangle = new Path2D.Float();
+            triangle = new Path2D.Float();
             triangle.moveTo((double) -size / 2, (double) -size / 2);
             triangle.lineTo((double) +size / 2, 0);
             triangle.lineTo((double) -size / 2, (double) +size / 2);
@@ -83,6 +91,7 @@ public class Packet {
 
         //Check off-wire
         double distance = startPosition.distance(nearestWirePoint);
+
         if (distance > MAX_DISTANCE_FROM_WIRE) {
             markLost();
         }
@@ -101,12 +110,15 @@ public class Packet {
         }
     }
 
-    public void applyImpact(Point2D.Float forceVector, float distanceFromImpact) {
-        float attenuation = 1.0f - Math.min(1.0f, distanceFromImpact / 100f);
-        direction.x += forceVector.x * attenuation;
-        direction.y += forceVector.y * attenuation;
-        direction = normalize(direction);
+    public void applyImpact(Point pointOfImpact) {
+        double distanceFromImpact = currentPosition.distance(pointOfImpact);
+        float attenuation = (float) (1.0f - Math.min(1.0f, distanceFromImpact / 100f));
 
+        Point2D.Float forceVector = new Point2D.Float(currentPosition.x - pointOfImpact.x, currentPosition.y - pointOfImpact.y);
+
+        direction.x += forceVector.x * attenuation * 10f;
+        direction.y += forceVector.y * attenuation * 10f;
+        direction = normalize(direction);
         // Add noise
         noise += 10f * attenuation;
     }
@@ -151,4 +163,13 @@ public class Packet {
     }
 
     public Connection getConnection(){return this.connection;}
+
+    public Path2D getPath(){
+        if (shapeModel == 1){
+            return rectangle;
+        }
+        else {
+            return triangle;
+        }
+    }
 }
