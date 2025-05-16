@@ -14,7 +14,6 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,6 +52,7 @@ public class GamePanel extends JPanel {
     private final GameEngine gameEngine = new GameEngine(timeController);
 
     //For Packet
+    private final PacketManager packetManager = new PacketManager();
     private final SpawnPackets spawnPacket = new SpawnPackets();
     private final List<Packet> packets = new ArrayList<>();
     private Packet packet;
@@ -111,34 +111,8 @@ public class GamePanel extends JPanel {
             double remaining = portManager.getRemainingWireLength(MAX_WIRE_LENGTH);
             wireLabel.setText("Remaining Wire Length: " + (int) remaining + " px");
 
-            List<Packet> packetsToAdd = new ArrayList<>();
-            List<Packet> packetsToRemove = new ArrayList<>();
-            for (Packet p : packets) {
-                p.update(new Point2D.Float(0,0));
-                if (p.isArrived()) {
-                    packetsToRemove.add(p);
-                    int shapeModel = p.getShapeModel();
-                    if (shapeModel == 1){
-                        p.getEndBlock().setSquarePacketCount(p.getEndBlock().getSquarePacketCount()+1);
-                        p.getConnection().packetOnLine = false;
-                    }else {
-                        p.getEndBlock().setTrianglePacketCount(p.getEndBlock().getTrianglePacketCount()+1);
-                        p.getConnection().packetOnLine = false;
-                    }
-                }
-            }
-            for (GameShape blockShape : blockShapes){
-                if (blockShape.getSquarePacketCount() > 0){
-                    spawnPacket.SpawnPacket(blockShape, portManager, packetsToAdd, 1);
-                }
-                if (blockShape.getTrianglePacketCount() > 0){
-                    spawnPacket.SpawnPacket(blockShape, portManager, packetsToAdd, 2);
-                }
-            }
-            packets.removeAll(packetsToRemove);
-            packets.addAll(packetsToAdd);
-            packetsToRemove.clear();
-            packetsToAdd.clear();
+            packetManager.manageSpawn(blockShapes, portManager, packets, spawnPacket);
+
             repaint();
         });
         gameTimer.start();
