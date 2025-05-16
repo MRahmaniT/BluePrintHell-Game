@@ -50,19 +50,23 @@ public class PacketManager {
 
     public void findImpact(List<Impact> impacts, List<Packet> packets, Packet packet1){
         for (Packet packet2 : packets) {
-            if (packet2 == packet1 || packet1.getPath() == null || packet2.getPath() == null)return;
+            if (packet2 == packet1 || packet1.getPath() == null || packet2.getPath() == null){
+                return;
+            }
             Area area1 = new Area(packet1.getPath());
             Area area2 = new Area(packet2.getPath());
             area1.intersect(area2);
-            Rectangle2D boundsArea1 = area1.getBounds2D();
-            Point point = new Point((int) boundsArea1.getX(), (int) boundsArea1.getY());
+
             boolean firstImpact = true;
             for (Impact i : impacts){
                 if((i.contains(packet1, packet2))){
                     firstImpact = false;
                 }
             }
-            if (area1.isEmpty() && firstImpact){
+            if (!area1.isEmpty() && firstImpact){
+                System.out.println(area1);
+                Rectangle2D boundsArea1 = area1.getBounds2D();
+                Point point = new Point((int) boundsArea1.getX(), (int) boundsArea1.getY());
                 Impact impact = new Impact(packet1, packet2, point);
                 impacts.add(impact);
             }
