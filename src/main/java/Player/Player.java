@@ -2,7 +2,9 @@ package Player;
 
 public class Player {
     private String username;
-    private String password; // optional
+    private String password;
+    private int goldCount, levelNumber;
+    private boolean isLogin;
 
     public Player() {
         //For Jackson
@@ -10,6 +12,8 @@ public class Player {
     public Player(String username, String password) {
         this.username = username;
         this.password = password;
+        this.goldCount = 0;
+        this.isLogin = false;
     }
 
     //Getters
@@ -21,6 +25,12 @@ public class Player {
         return password;
     }
 
+    public int getGoldCount(){return goldCount;}
+
+    public int getLevelNumber(){return levelNumber;}
+
+    public boolean isLogin(){return isLogin;}
+
     //Setters
     public void setUsername(String username) {
         this.username = username;
@@ -28,6 +38,18 @@ public class Player {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setGoldCount(int goldCount) {
+        this.goldCount = goldCount;
+    }
+
+    public void setLevelNumber(int levelNumber) {
+        this.levelNumber = levelNumber;
+    }
+
+    public void setLogin(boolean login) {
+        isLogin = login;
     }
 
     @Override

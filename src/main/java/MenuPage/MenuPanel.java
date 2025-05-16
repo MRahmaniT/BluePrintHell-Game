@@ -2,6 +2,7 @@ package MenuPage;
 
 import Main.MainFrame;
 import Player.PlayerState;
+import Player.PlayerStorage;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -31,6 +32,7 @@ public class MenuPanel extends JPanel {
 
         //Add Label
         JLabel welcomeLabel = new JLabel();
+        PlayerState.setPlayer(PlayerStorage.whoIsLogin());
         if (PlayerState.isPlayerLoggedIn()) {
             welcomeLabel.setText("Welcome " + PlayerState.getPlayer().getUsername() + "!");
         } else {

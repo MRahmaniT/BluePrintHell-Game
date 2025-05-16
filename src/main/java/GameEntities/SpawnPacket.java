@@ -22,14 +22,17 @@ public class SpawnPacket {
     public void SpawnPacket(GameShape startBlock, PortManager portManager, List<Packet> packets) {
         for (int portNumber = 3; portNumber<=4; portNumber++){
             if (startBlock.getConnection(portNumber)) {
-                for (Connection conn : portManager.getConnections()) {
-                    boolean isStartPort = (conn.blockA == startBlock && conn.portA == portNumber);
-                    boolean isEndPort = (conn.blockB == startBlock && conn.portB == portNumber);
+                for (Connection connection : portManager.getConnections()) {
+                    boolean isStartPort = (connection.blockA == startBlock && connection.portA == portNumber);
+                    boolean isEndPort = (connection.blockB == startBlock && connection.portB == portNumber);
+                    int shapeModel;
                     if (isStartPort) {
-                        Packet packet = new Packet(portManager, conn.blockA, conn.portA, conn.blockB, conn.portB);
+                        shapeModel = connection.blockA.getShapeModel(connection.portA);
+                        Packet packet = new Packet(portManager, connection.blockA, connection.portA, connection.blockB, connection.portB, shapeModel);
                         packets.add(packet);
                     } else if (isEndPort){
-                        Packet packet = new Packet(portManager, conn.blockB, conn.portB, conn.blockA, conn.portA);
+                        shapeModel = connection.blockB.getShapeModel(connection.portB);
+                        Packet packet = new Packet(portManager, connection.blockB, connection.portB, connection.blockA, connection.portA, shapeModel);
                         packets.add(packet);
                     }
                 }

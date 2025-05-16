@@ -57,4 +57,24 @@ public class PlayerStorage {
         }
         return null;
     }
+
+    public static Player whoIsLogin() {
+        for (Player p : loadAllPlayers()) {
+            if (p.isLogin()) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public static void setLogin(Player player) {
+        List<Player> all = loadAllPlayers();
+        for (Player p : all) {
+            if (p.getUsername().equals(player.getUsername())) {
+                p.setLogin(true);
+                break;
+            }
+        }
+        saveAllPlayers(all);
+    }
 }

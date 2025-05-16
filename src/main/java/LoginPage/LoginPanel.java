@@ -92,6 +92,7 @@ public class LoginPanel extends JPanel {
                 return;
             } else {
                 Player newPlayer = new Player(usernameText, passwordText);
+                PlayerStorage.setLogin(newPlayer);
                 PlayerStorage.saveNewPlayer(newPlayer);
                 PlayerState.setPlayer(newPlayer);
             }
@@ -119,6 +120,7 @@ public class LoginPanel extends JPanel {
             Player existing = PlayerStorage.findPlayer(usernameText);
             if (existing != null) {
                 if (Objects.equals(existing.getPassword(), passwordText)){
+                    PlayerStorage.setLogin(existing);
                     PlayerState.setPlayer(existing);
                 } else {
                     error.setText("Wrong username or password!");

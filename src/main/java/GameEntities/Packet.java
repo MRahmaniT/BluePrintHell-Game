@@ -4,15 +4,17 @@ import GameLogic.PortManager;
 import GameShapes.GameShape;
 
 import java.awt.*;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 
 public class Packet {
     private final PortManager portManager;
     private final GameShape startBlock;
     private final GameShape endBlock;
+    private Point2D.Float startPosition, endPosition, currentPosition, direction, destinationDistance;
+    private final int shapeModel; //1 for square, 2 for triangle
     private final int startPort;
     private final int endPort;
-    private Point2D.Float startPosition, endPosition, currentPosition, direction, destinationDistance; // normalized vector
     private float speed;
     private float movementPercentage;
     private float noise;
@@ -22,22 +24,44 @@ public class Packet {
     public static final float NOISE_THRESHOLD = 100f;
     public static final float MAX_DISTANCE_FROM_WIRE = 20f;
 
-    public Packet(PortManager portManager, GameShape startBlock, int startPort, GameShape endBlock, int endPort) {
+    public Packet(PortManager portManager, GameShape startBlock, int startPort, GameShape endBlock, int endPort, int shapeModel) {
         this.startBlock = startBlock;
         this.endBlock = endBlock;
         this.startPort = startPort;
         this.endPort = endPort;
         this.portManager = portManager;
+        this.shapeModel = shapeModel;
         this.currentPosition = portManager.getPortCenter(startBlock, startPort);
+        this.direction = new Point2D.Float(0,0);
         this.movementPercentage = 0;
         this.noise = 0;
         this.lost = false;
     }
 
     public void draw(Graphics2D g) {
-        g.setColor(Color.CYAN);
-        g.fillOval((int) currentPosition.x - 5, (int) currentPosition.y - 5,10,10);
+        int size = 12;
+        double angle = Math.atan2(direction.y, direction.x);
+
+        Graphics2D g2d = (Graphics2D) g.create();
+        g2d.setColor(Color.GREEN);
+        g2d.translate(currentPosition.x, currentPosition.y);
+        g2d.rotate(angle);
+
+        if (shapeModel == 1) {
+            g2d.fillRect(-size / 2, -size / 2, size, size);
+        } else if (shapeModel == 2) {
+            Path2D triangle = new Path2D.Float();
+            triangle.moveTo((double) -size / 2, (double) -size / 2);
+            triangle.lineTo((double) +size / 2, 0);
+            triangle.lineTo((double) -size / 2, (double) +size / 2);
+            triangle.closePath();
+            g2d.setColor(Color.YELLOW);
+            g2d.fill(triangle);
+        }
+
+        g2d.dispose();
     }
+
 
     public void update(Point2D.Float nearestWirePoint) {
         startPosition = portManager.getPortCenter(startBlock, startPort);
