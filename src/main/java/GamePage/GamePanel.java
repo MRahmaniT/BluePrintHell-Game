@@ -151,7 +151,6 @@ public class GamePanel extends JPanel {
                     totalPackets,
                     coins
             );
-            System.out.println(packetManager.isImpactIsDisabled());
             repaint();
         });
         gameTimer.start();
