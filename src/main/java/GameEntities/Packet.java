@@ -5,6 +5,7 @@ import GameLogic.PortManager;
 import GameShapes.GameShape;
 
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 
@@ -44,30 +45,14 @@ public class Packet {
     }
 
     public void draw(Graphics2D g) {
-        int size = 12;
-        double angle = Math.atan2(direction.y, direction.x);
-
         Graphics2D g2d = (Graphics2D) g.create();
-        g2d.translate(currentPosition.x, currentPosition.y);
-        g2d.rotate(angle);
 
         if (shapeModel == 1) {
-            rectangle = new Path2D.Float();
-            rectangle.moveTo((double) -size / 2, (double) -size / 2);
-            rectangle.lineTo((double) +size / 2, (double) -size / 2);
-            rectangle.lineTo((double) +size / 2, (double) +size / 2);
-            rectangle.lineTo((double) -size / 2, (double) +size / 2);
-            rectangle.closePath();
             g2d.setColor(Color.GREEN);
-            g2d.fill(rectangle);
+            g2d.fill(getPath());
         } else if (shapeModel == 2) {
-            triangle = new Path2D.Float();
-            triangle.moveTo((double) -size / 2, (double) -size / 2);
-            triangle.lineTo((double) +size / 2, 0);
-            triangle.lineTo((double) -size / 2, (double) +size / 2);
-            triangle.closePath();
             g2d.setColor(Color.YELLOW);
-            g2d.fill(triangle);
+            g2d.fill(getPath());
         }
 
         g2d.dispose();
@@ -165,11 +150,30 @@ public class Packet {
     public Connection getConnection(){return this.connection;}
 
     public Path2D getPath(){
-        if (shapeModel == 1){
-            return rectangle;
+        AffineTransform transform = new AffineTransform();
+
+        double angle = Math.atan2(direction.y, direction.x);
+        transform.translate(currentPosition.x, currentPosition.y);
+        transform.rotate(angle);
+
+        int size = 12;
+
+        if (shapeModel == 1) {
+            rectangle = new Path2D.Float();
+            rectangle.moveTo(- (double) size / 2, - (double) size / 2);
+            rectangle.lineTo(+ (double) size / 2, (double) -size / 2);
+            rectangle.lineTo(+ (double) size / 2, (double) +size / 2);
+            rectangle.lineTo(- (double) size / 2, (double) +size / 2);
+            rectangle.closePath();
+            return (Path2D) rectangle.createTransformedShape(transform);
+        } else if (shapeModel == 2) {
+            triangle = new Path2D.Float();
+            triangle.moveTo((double) -size / 2, (double) -size / 2);
+            triangle.lineTo((double) +size / 2, 0);
+            triangle.lineTo((double) -size / 2, (double) +size / 2);
+            triangle.closePath();
+            return (Path2D) triangle.createTransformedShape(transform);
         }
-        else {
-            return triangle;
-        }
+        return null;
     }
 }

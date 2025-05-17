@@ -64,7 +64,6 @@ public class PacketManager {
                 }
             }
             if (!area1.isEmpty() && firstImpact){
-                System.out.println(area1);
                 Rectangle2D boundsArea1 = area1.getBounds2D();
                 Point point = new Point((int) boundsArea1.getX(), (int) boundsArea1.getY());
                 Impact impact = new Impact(packet1, packet2, point);
@@ -74,12 +73,15 @@ public class PacketManager {
     }
 
     public void manageImpact(List<Impact> impacts, List<Packet> packets){
+        List<Impact> impactsToRemove;
         for (Impact impact : impacts){
             for (Packet packet : packets) {
                 if (impact.packet1 != packet && impact.packet2 != packet){
                     packet.applyImpact(impact.point);
+                    System.out.println("Bang");
                 }
             }
+
         }
     }
 }
