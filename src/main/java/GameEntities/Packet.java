@@ -20,7 +20,7 @@ public class Packet {
     private Path2D rectangle;
     private final int startPort;
     private final int endPort;
-    private float speed;
+    private float speed, speedChanger, acceleration, accelerationChanger;
     private float movementPercentage;
     private float noise;
     private boolean lost;
@@ -29,7 +29,7 @@ public class Packet {
     public static final float NOISE_THRESHOLD = 100f;
     public static final float MAX_DISTANCE_FROM_WIRE = 20f;
 
-    public Packet(PortManager portManager, Connection connection, GameShape startBlock, int startPort, GameShape endBlock, int endPort, int shapeModel) {
+    public Packet(PortManager portManager, Connection connection, GameShape startBlock, int startPort, GameShape endBlock, int endPort, int shapeModel, float speedChanger, float accelerationChanger) {
         this.connection = connection;
         this.startBlock = startBlock;
         this.endBlock = endBlock;
@@ -38,6 +38,8 @@ public class Packet {
         this.portManager = portManager;
         this.shapeModel = shapeModel;
         this.currentPosition = portManager.getPortCenter(startBlock, startPort);
+        this.speedChanger = speedChanger;
+        this.accelerationChanger = accelerationChanger;
         this.direction = new Point2D.Float(0,0);
         this.movementPercentage = 0;
         this.noise = 0;
@@ -69,7 +71,8 @@ public class Packet {
 
         //Move
         direction = normalize(new Point2D.Float(destinationDistance.x, destinationDistance.y));
-        speed = (float) (5.0 / (startPosition.distance(endPosition)));
+        acceleration = (float) (accelerationChanger / (startPosition.distance(endPosition)));
+        speed = (float) ((5.0 / (startPosition.distance(endPosition))) + acceleration + (5.0 / (startPosition.distance(endPosition)) * speedChanger));
         movementPercentage += speed;
         currentPosition.x = (startPosition.x + movementPercentage * destinationDistance.x);
         currentPosition.y = (startPosition.y + movementPercentage * destinationDistance.y);
@@ -101,8 +104,8 @@ public class Packet {
 
         Point2D.Float forceVector = new Point2D.Float(currentPosition.x - pointOfImpact.x, currentPosition.y - pointOfImpact.y);
 
-        direction.x += forceVector.x * attenuation * 10f;
-        direction.y += forceVector.y * attenuation * 10f;
+        direction.x += forceVector.x * attenuation * 100000000f;
+        direction.y += forceVector.y * attenuation * 100000000f;
         direction = normalize(direction);
         // Add noise
         noise += 10f * attenuation;

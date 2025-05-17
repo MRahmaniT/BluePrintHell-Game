@@ -139,7 +139,7 @@ public class GamePanel extends JPanel {
             public void keyTyped(KeyEvent e) {
                 switch (e.getKeyChar()) {
                     case 'p' -> {
-                        spawnPacket.SpawnPacket(blockShapes.getFirst(),portManager,packets,1);
+                        blockShapes.getFirst().setSquarePacketCount(blockShapes.getFirst().getSquarePacketCount() + 1);
                     }
                 }
             }

@@ -26,10 +26,10 @@ public class PacketManager {
                 int shapeModel = p.getShapeModel();
                 if (shapeModel == 1){
                     p.getEndBlock().setSquarePacketCount(p.getEndBlock().getSquarePacketCount()+1);
-                    PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount()+2);
+                    PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount()+1);
                 }else {
                     p.getEndBlock().setTrianglePacketCount(p.getEndBlock().getTrianglePacketCount()+1);
-                    PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount()+3);
+                    PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount()+2);
                 }
                 p.getConnection().packetOnLine = false;
             }
@@ -73,7 +73,6 @@ public class PacketManager {
     }
 
     public void manageImpact(List<Impact> impacts, List<Packet> packets){
-        List<Impact> impactsToRemove;
         for (Impact impact : impacts){
             for (Packet packet : packets) {
                 if (impact.packet1 != packet && impact.packet2 != packet){
@@ -83,5 +82,6 @@ public class PacketManager {
             }
 
         }
+        impacts.clear();
     }
 }
