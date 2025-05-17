@@ -30,4 +30,5 @@ public class GameEngine {
         leftPressed = false;
         rightPressed = false;
     }
+
 }

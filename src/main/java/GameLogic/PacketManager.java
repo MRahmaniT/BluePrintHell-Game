@@ -6,6 +6,7 @@ import GameShapes.GameShape;
 
 import Player.PlayerState;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
@@ -14,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PacketManager {
+    private boolean impactIsDisabled = false;
+    private boolean waveIsDisabled = false;
+
     public void manageMovement(List<GameShape> blockShapes, PortManager portManager, List<Packet> packets,
                                SpawnPackets spawnPacket, List<Impact> impacts){
         List<Packet> packetsToAdd = new ArrayList<>();
@@ -49,6 +53,7 @@ public class PacketManager {
     }
 
     public void findImpact(List<Impact> impacts, List<Packet> packets, Packet packet1){
+        if (impactIsDisabled)return;
         for (Packet packet2 : packets) {
             if (packet2 == packet1 || packet1.getPath() == null || packet2.getPath() == null){
                 return;
@@ -75,13 +80,31 @@ public class PacketManager {
     public void manageImpact(List<Impact> impacts, List<Packet> packets){
         for (Impact impact : impacts){
             for (Packet packet : packets) {
-                if (impact.packet1 != packet && impact.packet2 != packet){
+                if (impact.packet1 != packet && impact.packet2 != packet && !isWaveIsDisabled()){
                     packet.applyImpact(impact.point);
-                    System.out.println("Bang");
+                } else if (impact.packet1 == packet || impact.packet2 == packet){
+                    packet.increaseNoise(10);
                 }
             }
 
         }
         impacts.clear();
+    }
+
+    public void disableImpactForSeconds(int seconds) {
+        impactIsDisabled = true;
+        new Timer(seconds * 1000, e -> impactIsDisabled = false).start();
+    }
+    public boolean isImpactIsDisabled() {
+        return impactIsDisabled;
+    }
+
+    public void disableWaveForSeconds(int seconds) {
+        waveIsDisabled = true;
+        new Timer(seconds * 1000, e -> waveIsDisabled = false).start();
+    }
+
+    public boolean isWaveIsDisabled() {
+        return waveIsDisabled;
     }
 }

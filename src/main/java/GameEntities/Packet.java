@@ -107,8 +107,6 @@ public class Packet {
         direction.x += forceVector.x * attenuation * 100000000f;
         direction.y += forceVector.y * attenuation * 100000000f;
         direction = normalize(direction);
-        // Add noise
-        noise += 10f * attenuation;
     }
 
     public boolean collidesWith(Packet other) {
@@ -134,9 +132,18 @@ public class Packet {
         return startPosition;
     }
 
+    public void resetNoise() {
+        this.noise = 0;
+    }
+
     public float getNoise() {
         return noise;
     }
+
+    public void increaseNoise(float noise) {
+        this.noise += noise;
+    }
+
 
     public GameShape getEndBlock(){
         return this.endBlock;

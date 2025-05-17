@@ -1,10 +1,12 @@
 package GamePage;
 
 import GameEntities.Packet;
-
 import GameEntities.SpawnPackets;
+
 import GameEnvironment.BuildBackground;
 import GameEnvironment.BuildLevel1;
+import GameEnvironment.HUDPanel;
+import GameEnvironment.ShopPanel;
 
 import GameLogic.*;
 
@@ -47,7 +49,11 @@ public class GamePanel extends JPanel {
     private int mousePointX;
     private int mousePointY;
 
+    //For HUD
+    private final HUDPanel hudPanel;
+
     //For Timer
+    Timer gameTimer;
     private final TimeController timeController = new TimeController();
 
     //For Engine
@@ -57,10 +63,17 @@ public class GamePanel extends JPanel {
     private final PacketManager packetManager = new PacketManager();
     private final SpawnPackets spawnPacket = new SpawnPackets();
     private final List<Packet> packets = new ArrayList<>();
-    private Packet packet;
+    private final int totalPackets = 5;
+    private int lostPackets;
 
     //For Impact
     private final List<Impact> impacts = new ArrayList<>();
+    private Impact impact;
+
+    //For Shop
+    private ShopPanel shopPanel;
+    private int coins;
+
 
     public GamePanel(){
         setLayout(null);
@@ -83,11 +96,10 @@ public class GamePanel extends JPanel {
                              screenSizeY - buttonsHeight - buttonSpace,
                                 buttonsWidth, buttonsHeight);
         shopButton.setFont(new Font("Arial", Font.BOLD, fontSize));
-        shopButton.addActionListener(_ -> System.exit(0));
         shopButton.setFocusable(false);
         add(shopButton);
 
-        //Add Time Counter
+
         JLabel timeLabel = new JLabel(timeController.getFormattedTime());
         timeLabel.setBounds((int) (0.025*screenSizeX),
                             (int) (0.025*screenSizeY),
@@ -96,9 +108,10 @@ public class GamePanel extends JPanel {
         timeLabel.setFont(new Font("Arial", Font.BOLD, (int) (1.5*fontSize)));
         timeLabel.setForeground(Color.WHITE);
         timeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        timeLabel.setText("DAY 1");
         add(timeLabel);
 
-        //HUD
+        /*
         JLabel wireLabel = new JLabel();
         wireLabel.setBounds(0,
                 (int) (0.15 * screenSizeY),
@@ -108,38 +121,52 @@ public class GamePanel extends JPanel {
         wireLabel.setForeground(Color.WHITE);
         wireLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(wireLabel);
+        */
 
-        JLabel goldLabel = new JLabel();
-        goldLabel.setBounds(0,
-                (int) (0.3 * screenSizeY),
-                (int) (0.2f * screenSizeX),
-                (int) (0.05f * screenSizeY));
-        goldLabel.setFont(new Font("Arial", Font.BOLD, fontSize));
-        goldLabel.setForeground(Color.WHITE);
-        goldLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        add(goldLabel);
+        //Add HUD
+        hudPanel = new HUDPanel(screenSizeX, screenSizeY, fontSize);
+        hudPanel.setVisible(false);
+        add(hudPanel);
+        setComponentZOrder(hudPanel, 0);
+
+        //Add Shop
+        shopPanel = new ShopPanel(this);
+        shopPanel.setBounds(0, 0, screenSizeX, screenSizeY);
+        shopPanel.setVisible(false);
+        add(shopPanel);
+        setComponentZOrder(shopPanel, 0);
 
         //Timing
-        Timer gameTimer = new Timer(10, _ -> {
+        gameTimer = new Timer(10, _ -> {
             gameEngine.update();
-            timeLabel.setText(gameEngine.getFormattedTime());
-            double remaining = portManager.getRemainingWireLength(MAX_WIRE_LENGTH);
-            wireLabel.setText("Remaining Wire Length: " + (int) remaining + " px");
-            goldLabel.setText("Your Gold: " + PlayerState.getPlayer().getGoldCount());
 
             packetManager.manageMovement(blockShapes, portManager, packets, spawnPacket, impacts);
             packetManager.manageImpact(impacts,  packets);
 
+            coins = PlayerState.getPlayer().getGoldCount();
+            hudPanel.update(
+                    portManager.getRemainingWireLength(MAX_WIRE_LENGTH),
+                    timeController.getFormattedTime(),
+                    lostPackets,
+                    totalPackets,
+                    coins
+            );
+            System.out.println(packetManager.isImpactIsDisabled());
             repaint();
         });
         gameTimer.start();
+
+        shopButton.addActionListener(_ -> {
+            shopPanel.setVisible(true);
+            gameTimer.stop();
+        });
 
         addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
                 switch (e.getKeyChar()) {
                     case 'p' -> {
-                        blockShapes.getFirst().setSquarePacketCount(blockShapes.getFirst().getSquarePacketCount() + 1);
+                        blockShapes.getFirst().setSquarePacketCount(totalPackets);
                     }
                 }
             }
@@ -149,6 +176,7 @@ public class GamePanel extends JPanel {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_LEFT -> gameEngine.setLeftPressed(true);
                     case KeyEvent.VK_RIGHT -> gameEngine.setRightPressed(true);
+                    case KeyEvent.VK_TAB -> hudPanel.setVisible(true);
                 }
             }
 
@@ -157,6 +185,7 @@ public class GamePanel extends JPanel {
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_LEFT -> gameEngine.setLeftPressed(false);
                     case KeyEvent.VK_RIGHT -> gameEngine.setRightPressed(false);
+                    case KeyEvent.VK_TAB -> hudPanel.setVisible(false);
                 }
             }
 
@@ -190,7 +219,27 @@ public class GamePanel extends JPanel {
             }
         });
         setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
     }
+    public int getCoins() { return coins; }
+
+    public void spendCoins(int amount) { PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount() - amount); }
+
+    public List<Packet> getPackets() { return packets; }
+
+    public void disableImpactWaves(int seconds) {
+        packetManager.disableWaveForSeconds(seconds);
+    }
+
+    public void disableCollisions(int seconds) {
+        packetManager.disableImpactForSeconds(seconds);
+    }
+
+    public void resumeGame() {
+        shopPanel.setVisible(false);
+        gameTimer.start();  // restart main game loop
+    }
+
 
 
     @Override
