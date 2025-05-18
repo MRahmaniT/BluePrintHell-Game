@@ -10,16 +10,16 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 
 public class Packet {
-    private final PortManager portManager;
-    private final GameShape startBlock;
-    private final GameShape endBlock;
-    private final Connection connection;
+    private PortManager portManager;
+    private GameShape startBlock;
+    private GameShape endBlock;
+    private Connection connection;
     private Point2D.Float startPosition, endPosition, currentPosition, direction, destinationDistance;
     private final int shapeModel; //1 for square, 2 for triangle
     private Path2D triangle;
     private Path2D rectangle;
-    private final int startPort;
-    private final int endPort;
+    private int startPort;
+    private int endPort;
     private float speed, speedChanger, acceleration, accelerationChanger;
     private float movementPercentage;
     private float noise;
@@ -91,11 +91,7 @@ public class Packet {
     }
 
     public boolean isArrived (){
-        if (movementPercentage >= 1) {
-            return true;
-        }else {
-            return false;
-        }
+        return movementPercentage >= 1;
     }
 
     public void applyImpact(Point pointOfImpact) {
@@ -144,7 +140,6 @@ public class Packet {
         this.noise += noise;
     }
 
-
     public GameShape getEndBlock(){
         return this.endBlock;
     }
@@ -185,5 +180,18 @@ public class Packet {
             return (Path2D) triangle.createTransformedShape(transform);
         }
         return null;
+    }
+
+    public void changeLocationToOtherPort(PortManager portManager, Connection connection, GameShape startBlock, int startPort, GameShape endBlock, int endPort, float speedChanger, float accelerationChanger) {
+        this.connection = connection;
+        this.startBlock = startBlock;
+        this.endBlock = endBlock;
+        this.startPort = startPort;
+        this.endPort = endPort;
+        this.portManager = portManager;
+        this.currentPosition = portManager.getPortCenter(startBlock, startPort);
+        this.speedChanger = speedChanger;
+        this.accelerationChanger = accelerationChanger;
+        this.movementPercentage = 0;
     }
 }

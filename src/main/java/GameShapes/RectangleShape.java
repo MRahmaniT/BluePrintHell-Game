@@ -1,7 +1,10 @@
 package GameShapes;
 
+import GameEntities.Packet;
+
 import java.awt.*;
 import java.awt.geom.Path2D;
+import java.util.ArrayList;
 
 public class RectangleShape implements GameShape {
 
@@ -93,5 +96,20 @@ public class RectangleShape implements GameShape {
     @Override
     public int getTrianglePacketCount() {
         return 0;
+    }
+
+    @Override
+    public void addBlockPackets(Packet packet) {
+
+    }
+
+    @Override
+    public void releaseBlockPackets(Packet packet) {
+
+    }
+
+    @Override
+    public ArrayList<Packet> getBlockPackets() {
+        return null;
     }
 }

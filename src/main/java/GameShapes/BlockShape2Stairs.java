@@ -1,5 +1,7 @@
 package GameShapes;
 
+import GameEntities.Packet;
+
 import java.awt.*;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
@@ -10,6 +12,7 @@ public class BlockShape2Stairs implements GameShape {
     private final float width, height;
     private final ArrayList<Integer> shapeModel; //1 for square, 2 for triangle
     private final ArrayList<Boolean> portConnection;
+    private final ArrayList<Packet> blockPackets = new ArrayList<>();
     private int squarePacketCount, trianglePacketCount;
     Path2D.Float port1, port2, port3, port4;
     private Color color;
@@ -122,6 +125,8 @@ public class BlockShape2Stairs implements GameShape {
     }
 
 
+
+    //Getters
     @Override
     public Path2D.Float getPortPath(int portNumber) {
         return switch (portNumber) {
@@ -142,6 +147,37 @@ public class BlockShape2Stairs implements GameShape {
     }
 
     @Override
+    public Point getPosition() {
+        return new Point((int) x, (int) y);
+    }
+
+    @Override
+    public int getShapeModel(int i) {
+        return shapeModel.get(i-1);
+    }
+
+    @Override
+    public boolean getConnection(int i) {
+        return portConnection.get(i-1);
+    }
+
+    @Override
+    public int getSquarePacketCount() {
+        return this.squarePacketCount;
+    }
+
+    @Override
+    public int getTrianglePacketCount() {
+        return this.trianglePacketCount;
+    }
+
+    @Override
+    public ArrayList<Packet> getBlockPackets() {
+        return blockPackets;
+    }
+
+    //Setters
+    @Override
     public void setColor(Color color) {
         this.color = color;
     }
@@ -153,23 +189,8 @@ public class BlockShape2Stairs implements GameShape {
     }
 
     @Override
-    public Point getPosition() {
-        return new Point((int) x, (int) y);
-    }
-
-    @Override
-    public int getShapeModel(int i) {
-        return shapeModel.get(i-1);
-    }
-
-    @Override
     public void setConnection(int i, boolean b) {
         portConnection.set(i-1,b);
-    }
-
-    @Override
-    public boolean getConnection(int i) {
-        return portConnection.get(i-1);
     }
 
     @Override
@@ -178,17 +199,17 @@ public class BlockShape2Stairs implements GameShape {
     }
 
     @Override
-    public int getSquarePacketCount() {
-        return this.squarePacketCount;
-    }
-
-    @Override
     public void setTrianglePacketCount(int i) {
         this.trianglePacketCount = i;
     }
 
     @Override
-    public int getTrianglePacketCount() {
-        return this.trianglePacketCount;
+    public void addBlockPackets(Packet packet) {
+        this.blockPackets.add(packet);
+    }
+
+    @Override
+    public void releaseBlockPackets(Packet packet) {
+        this.blockPackets.remove(packet);
     }
 }

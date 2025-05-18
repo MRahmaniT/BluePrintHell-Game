@@ -61,7 +61,10 @@ public class SpawnPackets {
             } else if (connection.blockB.getShapeModel(connection.portB) == 1 && shapeModel == 2){
                 acceleration = 1;
             }
-            Packet packet = new Packet(portManager, connection, connection.blockA, connection.portA, connection.blockB, connection.portB, shapeModel, speedChanger, acceleration);
+            Packet packet = connection.blockA.getBlockPackets().getFirst();
+            if (packet == null)return;
+            connection.blockA.releaseBlockPackets(packet);
+            packet.changeLocationToOtherPort(portManager, connection, connection.blockA, connection.portA, connection.blockB, connection.portB, speedChanger, acceleration);
             packets.add(packet);
             connection.packetOnLine = true;
             if(shapeModel == 1){
@@ -78,7 +81,10 @@ public class SpawnPackets {
                 acceleration = 1;
             }
 
-            Packet packet = new Packet(portManager, connection, connection.blockB, connection.portB, connection.blockA, connection.portA, shapeModel, speedChanger, acceleration);
+            Packet packet = connection.blockB.getBlockPackets().getFirst();
+            if (packet == null)return;
+            connection.blockB.releaseBlockPackets(packet);
+            packet.changeLocationToOtherPort(portManager, connection, connection.blockB, connection.portB, connection.blockA, connection.portA, speedChanger, acceleration);
             packets.add(packet);
             connection.packetOnLine = true;
             if(shapeModel == 1){
@@ -87,6 +93,11 @@ public class SpawnPackets {
                 startBlock.setTrianglePacketCount(startBlock.getTrianglePacketCount()-1);
             }
         }
+    }
+
+    public void addPacketToStartBlock(GameShape startBlock, PortManager portManager, int shapeModel){
+        Packet packet = new Packet(portManager, null, startBlock, 4, null, 1, shapeModel, 0, 0);
+        startBlock.addBlockPackets(packet);
     }
 
 }

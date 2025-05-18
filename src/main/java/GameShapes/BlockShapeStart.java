@@ -1,5 +1,7 @@
 package GameShapes;
 
+import GameEntities.Packet;
+
 import java.awt.*;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
@@ -12,6 +14,7 @@ public class BlockShapeStart implements GameShape {
     private final float height;
     private final ArrayList<Integer> shapeModel; //1 for square, 2 for triangle
     private final ArrayList<Boolean> portConnection;
+    private final ArrayList<Packet> blockPackets = new ArrayList<>();
     private int squarePacketCount, trianglePacketCount;
     Path2D.Float port1, port2, port3, port4;
     private Color color;
@@ -140,5 +143,20 @@ public class BlockShapeStart implements GameShape {
     @Override
     public int getTrianglePacketCount() {
         return this.trianglePacketCount;
+    }
+
+    @Override
+    public void addBlockPackets(Packet packet) {
+        this.blockPackets.add(packet);
+    }
+
+    @Override
+    public void releaseBlockPackets(Packet packet) {
+        this.blockPackets.remove(packet);
+    }
+
+    @Override
+    public ArrayList<Packet> getBlockPackets() {
+        return blockPackets;
     }
 }

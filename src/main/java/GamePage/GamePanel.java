@@ -166,6 +166,9 @@ public class GamePanel extends JPanel {
                 switch (e.getKeyChar()) {
                     case 'p' -> {
                         blockShapes.getFirst().setSquarePacketCount(totalPackets);
+                        for (int i = 1; i <= totalPackets; i++){
+                            spawnPacket.addPacketToStartBlock(blockShapes.getFirst(),portManager,blockShapes.getFirst().getShapeModel(4));
+                        }
                     }
                 }
             }

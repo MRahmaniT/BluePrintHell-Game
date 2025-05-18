@@ -27,6 +27,7 @@ public class PacketManager {
             findImpact(impacts, packets, p);
             if (p.isArrived()) {
                 packetsToRemove.add(p);
+                p.getEndBlock().addBlockPackets(p);
                 int shapeModel = p.getShapeModel();
                 if (shapeModel == 1){
                     p.getEndBlock().setSquarePacketCount(p.getEndBlock().getSquarePacketCount()+1);
