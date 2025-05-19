@@ -37,7 +37,7 @@ public class PortManager {
         }
     }
 
-    public void handleMouseRelease(List<GameShape> blockShapes, int mouseX, int mouseY) {
+    public void handleMouseRelease(List<GameShape> blockShapes, int mouseX, int mouseY, double remainingWireLength) {
         if (!dragging) return;
         dragging = false;
 
@@ -66,6 +66,12 @@ public class PortManager {
                     }
 
                     if (!sameBlock && !alreadyConnected && sameModel && (sourceIsEntrance ^ targetIsEntrance)) {
+
+                        Rectangle2D boundsA = sourceBlock.getPortPath(sourcePort).getBounds2D();
+                        Rectangle2D boundsB = targetBlock.getPortPath(i).getBounds2D();
+                        double dx = boundsA.getCenterX() - boundsB.getCenterX();
+                        double dy = boundsA.getCenterY() - boundsB.getCenterY();
+                        if (remainingWireLength - Math.sqrt(dx * dx + dy * dy) < 0)return;
 
                         MainFrame.audioManager.playSoundEffect("Resources/connection.wav");
                         LineShape line = new LineShape(sourceBlock, sourcePort, targetBlock, i, Color.CYAN);

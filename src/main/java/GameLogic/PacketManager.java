@@ -4,6 +4,7 @@ import GameEntities.Packet;
 import GameEntities.SpawnPackets;
 import GameShapes.GameShape;
 
+import Main.MainFrame;
 import Player.PlayerState;
 
 import javax.swing.*;
@@ -29,7 +30,10 @@ public class PacketManager {
                 packetsToRemove.add(p);
                 p.getConnection().packetOnLine = false;
                 if(p.isLost()){
+
+                    MainFrame.audioManager.playSoundEffect("Resources/lose.wav");
                     lostPackets++;
+
                 } else {
                     p.getEndBlock().addBlockPackets(p);
                     int shapeModel = p.getShapeModel();

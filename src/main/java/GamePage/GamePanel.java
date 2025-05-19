@@ -45,7 +45,8 @@ public class GamePanel extends JPanel {
     //For Ports
     private final PortManager portManager = new PortManager();
 
-    //For Lines
+    //For Wires
+    private final double MAX_WIRE_LENGTH = 2000;
     private int mousePointX;
     private int mousePointY;
 
@@ -87,7 +88,6 @@ public class GamePanel extends JPanel {
 
         //Build Level 1
         BuildLevel1.buildStage1(screenSizeX, blockShapes);
-        final double MAX_WIRE_LENGTH = 2000;
 
         //Add Shop Button
         JButton shopButton = new JButton("Shop");
@@ -152,6 +152,17 @@ public class GamePanel extends JPanel {
                     totalPackets,
                     coins
             );
+
+            if(portManager.getRemainingWireLength(MAX_WIRE_LENGTH) < 0){
+                for (Connection c : portManager.getConnections()) {
+                    c.line.setColor(Color.RED);
+                }
+            }else {
+                for (Connection c : portManager.getConnections()) {
+                    c.line.setColor(Color.CYAN);
+                }
+            }
+
             repaint();
         });
         gameTimer.start();
@@ -203,7 +214,7 @@ public class GamePanel extends JPanel {
             }
             @Override
             public void mouseReleased(MouseEvent e) {
-                portManager.handleMouseRelease(blockShapes, mousePointX, mousePointY);
+                portManager.handleMouseRelease(blockShapes, mousePointX, mousePointY, portManager.getRemainingWireLength(MAX_WIRE_LENGTH));
                 blockManager.handleMouseRelease(mousePointX, mousePointY);
                 repaint();
             }
@@ -248,7 +259,6 @@ public class GamePanel extends JPanel {
         shopPanel.setVisible(false);
         gameTimer.start();  // restart main game loop
     }
-
 
 
     @Override

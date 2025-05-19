@@ -12,7 +12,7 @@ public class LineShape implements GameShape {
     private final int portA;
     private final GameShape blockB;
     private final int portB;
-    private final Color color;
+    private Color color;
 
     public LineShape(GameShape blockA, int portA, GameShape blockB, int portB, Color color) {
         this.blockA = blockA;
@@ -40,7 +40,7 @@ public class LineShape implements GameShape {
         g.drawLine(x1, y1, x2, y2);
     }
 
-    @Override public void setColor(Color color) {}
+    @Override public void setColor(Color color) {this.color = color;}
     @Override public void setPosition(Point point) {}
     @Override public Point getPosition() { return null; }
     @Override public Path2D.Float getTopPath() { return null; }

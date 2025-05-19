@@ -4,6 +4,7 @@ import GameShapes.GameShape;
 
 import java.awt.*;
 import java.awt.geom.Path2D;
+import java.awt.geom.Point2D;
 
 public class BlockManager {
     private boolean dragging = false;
