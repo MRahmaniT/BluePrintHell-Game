@@ -146,7 +146,7 @@ public class GamePanel extends JPanel {
             coins = PlayerState.getPlayer().getGoldCount();
 
             hudPanel.update(
-                    portManager.getRemainingWireLength(MAX_WIRE_LENGTH),
+                    Math.max(0,portManager.getRemainingWireLength(MAX_WIRE_LENGTH)),
                     timeController.getFormattedTime(),
                     lostPackets,
                     totalPackets,
