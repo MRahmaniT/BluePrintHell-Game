@@ -3,15 +3,20 @@ package GamePage;
 import GameEntities.Packet;
 import GameEntities.SpawnPackets;
 
-import GameEnvironment.BuildBackground;
-import GameEnvironment.BuildLevel1;
-import GameEnvironment.HUDPanel;
-import GameEnvironment.ShopPanel;
+import GameEnvironment.*;
 
+import GameEnvironment.State.GameOverPanel;
+import GameEnvironment.State.PausePanel;
+import GameEnvironment.State.WinPanel;
+import GameEnvironment.Levels.BuildLevel1;
+import GameEnvironment.Levels.BuildLevel2;
+import GameEnvironment.Options.HUDPanel;
+import GameEnvironment.Options.ShopPanel;
 import GameLogic.*;
 
 import GameShapes.GameShape;
 
+import Main.MainFrame;
 import Player.PlayerState;
 
 import javax.imageio.ImageIO;
@@ -37,6 +42,9 @@ public class GamePanel extends JPanel {
     //For Background
     private Image backgroundImage;
     private final List<GameShape> shapes = new ArrayList<>();
+
+    //For Level
+    private int levelOnGoing;
 
     //For Blocks
     private final List<GameShape> blockShapes = new ArrayList<>();
@@ -74,6 +82,14 @@ public class GamePanel extends JPanel {
     private final ShopPanel shopPanel;
     private int coins;
 
+    //For Pause
+    private PausePanel pausePanel;
+
+    //For GameOver
+    private final GameOverPanel gameOverPanel;
+
+    //For Win
+    private final WinPanel winPanel;
 
     public GamePanel(){
         setLayout(null);
@@ -86,8 +102,17 @@ public class GamePanel extends JPanel {
         }
         BuildBackground.buildBackground(screenSizeX, screenSizeY, shapes);
 
-        //Build Level 1
-        BuildLevel1.buildStage1(screenSizeX, blockShapes);
+        //Build Level
+        levelOnGoing = PlayerState.getPlayer().getLevelNumber();
+        switch (levelOnGoing) {
+            case 1 -> {
+                BuildLevel1.buildLevel1(screenSizeX, blockShapes);
+            }
+            case 2 ->{
+                BuildLevel2.buildLevel2(screenSizeX, blockShapes);
+            }
+        }
+
 
         //Add Shop Button
         JButton shopButton = new JButton("Shop");
@@ -110,18 +135,6 @@ public class GamePanel extends JPanel {
         timeLabel.setText("DAY 1");
         add(timeLabel);
 
-        /*
-        JLabel wireLabel = new JLabel();
-        wireLabel.setBounds(0,
-                (int) (0.15 * screenSizeY),
-                (int) (0.2f * screenSizeX),
-                (int) (0.05f * screenSizeY));
-        wireLabel.setFont(new Font("Arial", Font.BOLD, fontSize));
-        wireLabel.setForeground(Color.WHITE);
-        wireLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        add(wireLabel);
-        */
-
         //Add HUD
         hudPanel = new HUDPanel(screenSizeX, screenSizeY, fontSize);
         hudPanel.setVisible(false);
@@ -134,6 +147,38 @@ public class GamePanel extends JPanel {
         shopPanel.setVisible(false);
         add(shopPanel);
         setComponentZOrder(shopPanel, 0);
+
+        //Add Pause
+        pausePanel = new PausePanel(
+                () -> {pausePanel.setVisible(false); gameTimer.start(); },
+                this::retryLevel,
+                this::returnToMenu
+        );
+        pausePanel.setBounds(0, 0, screenSizeX, screenSizeY);
+        pausePanel.setVisible(false);
+        add(pausePanel);
+        setComponentZOrder(pausePanel, 0);
+
+        //Add GameOver
+        gameOverPanel = new GameOverPanel(
+                () -> retryLevel(),
+                () -> returnToMenu()
+        );
+        gameOverPanel.setBounds(0, 0, screenSizeX, screenSizeY);
+        gameOverPanel.setVisible(false);
+        add(gameOverPanel);
+        setComponentZOrder(gameOverPanel, 0);
+
+        //Add Win
+        winPanel = new WinPanel(
+                () -> proceedToNextLevel(),
+                () -> retryLevel(),
+                () -> returnToMenu()
+        );
+        winPanel.setBounds(0, 0, screenSizeX, screenSizeY);
+        winPanel.setVisible(false);
+        add(winPanel);
+        setComponentZOrder(winPanel, 0);
 
         //Timing
         gameTimer = new Timer(10, _ -> {
@@ -163,6 +208,32 @@ public class GamePanel extends JPanel {
                 }
             }
 
+            if (!blockShapes.isEmpty() && totalPackets == blockShapes.getLast().getSquarePacketCount() + blockShapes.getLast().getTrianglePacketCount()) {
+                gameTimer.stop();
+                MainFrame.audioManager.playSoundEffect("Resources/win.wav");
+                winPanel.updateStats(
+                        blockShapes.getLast().getSquarePacketCount() +
+                                blockShapes.getLast().getTrianglePacketCount(),
+                        totalPackets,
+                        timeController.getFormattedTime(),
+                        coins
+                );
+                winPanel.setVisible(true);
+            }
+
+
+
+            if (packetManager.getLostPackets() >= totalPackets / 2) {
+                gameTimer.stop();
+                gameOverPanel.updateStats(
+                        packetManager.getLostPackets(),
+                        totalPackets,
+                        timeController.getFormattedTime()
+                );
+                gameOverPanel.setVisible(true);
+            }
+
+
             repaint();
         });
         gameTimer.start();
@@ -191,6 +262,10 @@ public class GamePanel extends JPanel {
                     case KeyEvent.VK_LEFT -> gameEngine.setLeftPressed(true);
                     case KeyEvent.VK_RIGHT -> gameEngine.setRightPressed(true);
                     case KeyEvent.VK_TAB -> hudPanel.setVisible(true);
+                    case KeyEvent.VK_ESCAPE -> {
+                        pausePanel.setVisible(true);
+                        gameTimer.stop();
+                    }
                 }
             }
 
@@ -257,9 +332,24 @@ public class GamePanel extends JPanel {
 
     public void resumeGame() {
         shopPanel.setVisible(false);
-        gameTimer.start();  // restart main game loop
+        gameTimer.start();
     }
 
+    public void proceedToNextLevel() {
+        PlayerState.getPlayer().setLevelNumber(PlayerState.getPlayer().getLevelNumber() + 1);
+        MainFrame.startGame();
+        winPanel.setVisible(false);
+        gameTimer.start();
+    }
+
+    private void retryLevel() {
+        MainFrame.startGame();
+        pausePanel.setVisible(false);
+    }
+
+    private void returnToMenu() {
+        MainFrame.showMenu();
+    }
 
     @Override
     protected void paintComponent(Graphics g) {

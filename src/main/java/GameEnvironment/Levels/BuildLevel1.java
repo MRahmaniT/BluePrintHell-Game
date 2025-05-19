@@ -1,4 +1,4 @@
-package GameEnvironment;
+package GameEnvironment.Levels;
 
 import GameShapes.GameShape;
 import GameShapes.BlockShape2Stairs;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BuildLevel1 {
-    public static void buildStage1(int screenSizeX, List<GameShape> blockShapes){
+    public static void buildLevel1(int screenSizeX, List<GameShape> blockShapes){
 
         //Block Start
         ArrayList<Integer> forDrawBlockStart = new ArrayList<>();

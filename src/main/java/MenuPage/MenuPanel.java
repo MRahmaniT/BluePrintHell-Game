@@ -85,7 +85,7 @@ public class MenuPanel extends JPanel {
             MainFrame.startGame();
         });
         levelsButton.addActionListener(_ -> {
-            MainFrame.showSettings();
+            MainFrame.showLevels();
         });
         settingsButton.addActionListener(_ -> {
             MainFrame.showSettings();

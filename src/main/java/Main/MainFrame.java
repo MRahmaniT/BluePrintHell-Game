@@ -3,6 +3,7 @@ package Main;
 import LoginPage.LoginPanel;
 import MenuPage.MenuPanel;
 import GamePage.GamePanel;
+import LevelPage.LevelPanel;
 import SettingsPage.AudioManager;
 import SettingsPage.SettingsPanel;
 
@@ -17,12 +18,14 @@ public class MainFrame extends JFrame {
     public static LoginPanel loginPanel;
     public static MenuPanel menuPanel;
     public static GamePanel gamePanel;
+    public static LevelPanel levelPanel;
     public static SettingsPanel settingsPanel;
 
 
     public static final String LOGIN = "Login";
     public static final String MENU = "Menu";
     public static final String GAME = "Game";
+    public static final String LEVEL = "Level";
     public static final String SETTINGS = "Settings";
 
     public MainFrame(){
@@ -57,6 +60,9 @@ public class MainFrame extends JFrame {
         gamePanel = new GamePanel();
         mainPanel.add(gamePanel, GAME);
 
+        levelPanel = new LevelPanel();
+        mainPanel.add(levelPanel, LEVEL);
+
         settingsPanel = new SettingsPanel(audioManager);
         mainPanel.add(settingsPanel, SETTINGS);
 
@@ -88,6 +94,11 @@ public class MainFrame extends JFrame {
         cardLayout.show(mainPanel, GAME);
         SwingUtilities.invokeLater(() -> gamePanel.requestFocusInWindow());
     }
+
+    public static void showLevels() {
+        cardLayout.show(mainPanel, LEVEL);
+    }
+
 
     public static void showSettings() {
         cardLayout.show(mainPanel, SETTINGS);

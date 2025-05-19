@@ -1,6 +1,5 @@
-package GameEnvironment;
+package GameEnvironment.Options;
 
-import GameEntities.Packet;
 import GamePage.GamePanel;
 
 import javax.swing.*;

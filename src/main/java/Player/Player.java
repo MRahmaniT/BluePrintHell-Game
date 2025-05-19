@@ -14,6 +14,7 @@ public class Player {
         this.password = password;
         this.goldCount = 0;
         this.isLogin = false;
+        this.levelNumber = 1;
     }
 
     //Getters

@@ -1,4 +1,4 @@
-package GameEnvironment;
+package GameEnvironment.Options;
 
 import javax.swing.*;
 import java.awt.*;
