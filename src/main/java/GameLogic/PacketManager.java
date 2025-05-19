@@ -9,7 +9,6 @@ import Player.PlayerState;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,26 +16,31 @@ import java.util.List;
 public class PacketManager {
     private boolean impactIsDisabled = false;
     private boolean waveIsDisabled = false;
+    private int lostPackets = 0;
 
     public void manageMovement(List<GameShape> blockShapes, PortManager portManager, List<Packet> packets,
                                SpawnPackets spawnPacket, List<Impact> impacts){
         List<Packet> packetsToAdd = new ArrayList<>();
         List<Packet> packetsToRemove = new ArrayList<>();
         for (Packet p : packets) {
-            p.update(new Point2D.Float(0,0));
+            p.update();
             findImpact(impacts, packets, p);
             if (p.isArrived()) {
                 packetsToRemove.add(p);
-                p.getEndBlock().addBlockPackets(p);
-                int shapeModel = p.getShapeModel();
-                if (shapeModel == 1){
-                    p.getEndBlock().setSquarePacketCount(p.getEndBlock().getSquarePacketCount()+1);
-                    PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount()+1);
-                }else {
-                    p.getEndBlock().setTrianglePacketCount(p.getEndBlock().getTrianglePacketCount()+1);
-                    PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount()+2);
-                }
                 p.getConnection().packetOnLine = false;
+                if(p.isLost()){
+                    lostPackets++;
+                } else {
+                    p.getEndBlock().addBlockPackets(p);
+                    int shapeModel = p.getShapeModel();
+                    if (shapeModel == 1){
+                        p.getEndBlock().setSquarePacketCount(p.getEndBlock().getSquarePacketCount()+1);
+                        PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount()+1);
+                    }else {
+                        p.getEndBlock().setTrianglePacketCount(p.getEndBlock().getTrianglePacketCount()+1);
+                        PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount()+2);
+                    }
+                }
             }
         }
         for (GameShape blockShape : blockShapes){
@@ -108,4 +112,6 @@ public class PacketManager {
     public boolean isWaveIsDisabled() {
         return waveIsDisabled;
     }
+
+    public int getLostPackets(){return lostPackets;}
 }

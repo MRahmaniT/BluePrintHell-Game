@@ -2,7 +2,6 @@ package GameLogic;
 
 import GameEntities.Packet;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class Impact {

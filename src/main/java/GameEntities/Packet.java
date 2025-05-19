@@ -14,7 +14,7 @@ public class Packet {
     private GameShape startBlock;
     private GameShape endBlock;
     private Connection connection;
-    private Point2D.Float startPosition, endPosition, currentPosition, direction, destinationDistance;
+    private Point2D.Float startPosition, endPosition, currentPosition, direction, changeDirection, destinationDistance;
     private final int shapeModel; //1 for square, 2 for triangle
     private Path2D triangle;
     private Path2D rectangle;
@@ -41,6 +41,7 @@ public class Packet {
         this.speedChanger = speedChanger;
         this.accelerationChanger = accelerationChanger;
         this.direction = new Point2D.Float(0,0);
+        this.changeDirection = new Point2D.Float(0,0);
         this.movementPercentage = 0;
         this.noise = 0;
         this.lost = false;
@@ -61,7 +62,7 @@ public class Packet {
     }
 
 
-    public void update(Point2D.Float nearestWirePoint) {
+    public void update() {
         startPosition = portManager.getPortCenter(startBlock, startPort);
         endPosition = portManager.getPortCenter(endBlock, endPort);
         destinationDistance = new Point2D.Float(endPosition.x - startPosition.x, endPosition.y - startPosition.y);
@@ -70,19 +71,14 @@ public class Packet {
         }
 
         //Move
-        direction = normalize(new Point2D.Float(destinationDistance.x, destinationDistance.y));
+        direction.x += destinationDistance.x + changeDirection.x;
+        direction.y += destinationDistance.y + changeDirection.y;
+        direction = normalize(direction);
         acceleration = (float) (accelerationChanger / (startPosition.distance(endPosition)));
         speed = (float) ((5.0 / (startPosition.distance(endPosition))) + acceleration + (5.0 / (startPosition.distance(endPosition)) * speedChanger));
         movementPercentage += speed;
-        currentPosition.x = (startPosition.x + movementPercentage * destinationDistance.x);
-        currentPosition.y = (startPosition.y + movementPercentage * destinationDistance.y);
-
-        //Check off-wire
-        double distance = startPosition.distance(nearestWirePoint);
-
-        if (distance > MAX_DISTANCE_FROM_WIRE) {
-            markLost();
-        }
+        currentPosition.x = (startPosition.x + movementPercentage * (destinationDistance.x + changeDirection.x));
+        currentPosition.y = (startPosition.y + movementPercentage * (destinationDistance.y + changeDirection.y));
 
         //Check noise
         if (noise >= NOISE_THRESHOLD) {
@@ -90,19 +86,14 @@ public class Packet {
         }
     }
 
-    public boolean isArrived (){
-        return movementPercentage >= 1;
-    }
-
     public void applyImpact(Point pointOfImpact) {
         double distanceFromImpact = currentPosition.distance(pointOfImpact);
-        float attenuation = (float) (1.0f - Math.min(1.0f, distanceFromImpact / 100f));
+        float attenuation = (float) (1.0f - Math.min(1.0f, distanceFromImpact / 500f));
 
         Point2D.Float forceVector = new Point2D.Float(currentPosition.x - pointOfImpact.x, currentPosition.y - pointOfImpact.y);
-
-        direction.x += forceVector.x * attenuation * 100000000f;
-        direction.y += forceVector.y * attenuation * 100000000f;
-        direction = normalize(direction);
+        changeDirection.x += forceVector.x * attenuation;
+        changeDirection.y += forceVector.y * attenuation;
+        update();
     }
 
     public boolean collidesWith(Packet other) {
@@ -117,24 +108,39 @@ public class Packet {
 
     //Setters and Getters
     public boolean isLost() {
+        if (isArrived()){
+            if (currentPosition.distance(endPosition) > 12){
+                lost = true;
+            }
+        }
         return lost;
+    }
+
+
+    public Point2D.Float getPosition() {
+        return startPosition;
+    }
+
+    public float getNoise() {
+        return noise;
+    }
+
+    public int getEndPort(){
+        return this.endPort;
+    }
+
+    public boolean isArrived (){
+        return movementPercentage >= 1;
     }
 
     public void markLost() {
         this.lost = true;
     }
 
-    public Point2D.Float getPosition() {
-        return startPosition;
-    }
-
     public void resetNoise() {
         this.noise = 0;
     }
 
-    public float getNoise() {
-        return noise;
-    }
 
     public void increaseNoise(float noise) {
         this.noise += noise;
@@ -142,10 +148,6 @@ public class Packet {
 
     public GameShape getEndBlock(){
         return this.endBlock;
-    }
-
-    public int getEndPort(){
-        return this.endPort;
     }
 
     public int getShapeModel() {

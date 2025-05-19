@@ -64,14 +64,13 @@ public class GamePanel extends JPanel {
     private final SpawnPackets spawnPacket = new SpawnPackets();
     private final List<Packet> packets = new ArrayList<>();
     private final int totalPackets = 5;
-    private int lostPackets;
+    private int lostPackets = 0;
 
     //For Impact
     private final List<Impact> impacts = new ArrayList<>();
-    private Impact impact;
 
     //For Shop
-    private ShopPanel shopPanel;
+    private final ShopPanel shopPanel;
     private int coins;
 
 
@@ -143,7 +142,9 @@ public class GamePanel extends JPanel {
             packetManager.manageMovement(blockShapes, portManager, packets, spawnPacket, impacts);
             packetManager.manageImpact(impacts,  packets);
 
+            lostPackets = packetManager.getLostPackets();
             coins = PlayerState.getPlayer().getGoldCount();
+
             hudPanel.update(
                     portManager.getRemainingWireLength(MAX_WIRE_LENGTH),
                     timeController.getFormattedTime(),
