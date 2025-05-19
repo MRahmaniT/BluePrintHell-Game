@@ -238,6 +238,12 @@ public class GamePanel extends JPanel {
         packetManager.disableImpactForSeconds(seconds);
     }
 
+    public void resetAllNoise() {
+        for (Packet packet : packets){
+            packet.resetNoise();
+        }
+    }
+
     public void resumeGame() {
         shopPanel.setVisible(false);
         gameTimer.start();  // restart main game loop

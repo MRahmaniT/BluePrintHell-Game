@@ -26,8 +26,7 @@ public class Packet {
     private boolean lost;
 
     // Constants
-    public static final float NOISE_THRESHOLD = 100f;
-    public static final float MAX_DISTANCE_FROM_WIRE = 20f;
+    public static final float NOISE_THRESHOLD = 15f;
 
     public Packet(PortManager portManager, Connection connection, GameShape startBlock, int startPort, GameShape endBlock, int endPort, int shapeModel, float speedChanger, float accelerationChanger) {
         this.connection = connection;
@@ -80,10 +79,6 @@ public class Packet {
         currentPosition.x = (startPosition.x + movementPercentage * (destinationDistance.x + changeDirection.x));
         currentPosition.y = (startPosition.y + movementPercentage * (destinationDistance.y + changeDirection.y));
 
-        //Check noise
-        if (noise >= NOISE_THRESHOLD) {
-            markLost();
-        }
     }
 
     public void applyImpact(Point pointOfImpact) {
@@ -91,14 +86,9 @@ public class Packet {
         float attenuation = (float) (1.0f - Math.min(1.0f, distanceFromImpact / 500f));
 
         Point2D.Float forceVector = new Point2D.Float(currentPosition.x - pointOfImpact.x, currentPosition.y - pointOfImpact.y);
-        changeDirection.x += forceVector.x * attenuation;
-        changeDirection.y += forceVector.y * attenuation;
+        changeDirection.x += forceVector.x * attenuation / 10;
+        changeDirection.y += forceVector.y * attenuation / 10;
         update();
-    }
-
-    public boolean collidesWith(Packet other) {
-        return !this.lost && !other.lost &&
-                this.startPosition.distance(other.startPosition) < 12;
     }
 
     private Point2D.Float normalize(Point2D.Float vector) {
@@ -109,8 +99,13 @@ public class Packet {
     //Setters and Getters
     public boolean isLost() {
         if (isArrived()){
+            //Check direction
             if (currentPosition.distance(endPosition) > 12){
-                lost = true;
+                markLost();
+            }
+            //Check noise
+            if (noise > NOISE_THRESHOLD) {
+                markLost();
             }
         }
         return lost;

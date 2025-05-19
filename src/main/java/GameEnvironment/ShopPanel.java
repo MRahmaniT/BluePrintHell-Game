@@ -17,7 +17,7 @@ public class ShopPanel extends JPanel {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int screenWidth = screenSize.width;
         int screenHeight = screenSize.height;
-        int fontSize = screenWidth / 80;
+        int fontSize = screenWidth / 100;
 
         JLabel title = new JLabel("Game Shop");
         title.setFont(new Font("Arial", Font.BOLD, fontSize * 2));
@@ -61,9 +61,7 @@ public class ShopPanel extends JPanel {
         btnAnahita.addActionListener(e -> {
             if (gamePanel.getCoins() >= 5) {
                 gamePanel.spendCoins(5);
-                for (Packet p : gamePanel.getPackets()) {
-                    p.resetNoise();
-                }
+                gamePanel.resetAllNoise();
                 gamePanel.resumeGame();
             }
         });
