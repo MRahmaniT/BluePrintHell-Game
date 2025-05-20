@@ -40,8 +40,9 @@ public class SpawnPackets {
                     boolean isStartPort = (connection.blockA == startBlock && connection.portA == i);
                     boolean isEndPort = (connection.blockB == startBlock && connection.portB == i);
                     if (isStartPort || isEndPort) {
-                        if (connection.packetOnLine) return;
-                        Spawn(startBlock, portManager, packets, shapeModel, i, connection);
+                        if (!connection.packetOnLine) {
+                            Spawn(startBlock, portManager, packets, shapeModel, i, connection);
+                        }
                     }
                 }
             }

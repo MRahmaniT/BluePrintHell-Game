@@ -15,19 +15,14 @@ public class BuildLevel1 {
         //Block Start
         ArrayList<Integer> forDrawBlockStart = new ArrayList<>();
         ArrayList<Boolean> forPortBlockStart = new ArrayList<>();
-        ArrayList<Boolean> forPortPacketBlockStart = new ArrayList<>();
         forDrawBlockStart.add(0);
         forPortBlockStart.add(true);
-        forPortPacketBlockStart.add(true);
         forDrawBlockStart.add(0);
         forPortBlockStart.add(true);
-        forPortPacketBlockStart.add(true);
         forDrawBlockStart.add(0);
         forPortBlockStart.add(true);
-        forPortPacketBlockStart.add(true);
         forDrawBlockStart.add(1);
         forPortBlockStart.add(false);
-        forPortPacketBlockStart.add(false);
         BlockShapeStart blockStart = new BlockShapeStart(-300, -100,
                 0.1f * screenSizeX, 0.6f * 0.1f * screenSizeX, Color.RED,
                 forDrawBlockStart, forPortBlockStart);
