@@ -43,9 +43,6 @@ public class GamePanel extends JPanel {
     private Image backgroundImage;
     private final List<GameShape> shapes = new ArrayList<>();
 
-    //For Level
-    private int levelOnGoing;
-
     //For Blocks
     private final List<GameShape> blockShapes = new ArrayList<>();
     private final BlockManager blockManager = new BlockManager();
@@ -103,7 +100,7 @@ public class GamePanel extends JPanel {
         BuildBackground.buildBackground(screenSizeX, screenSizeY, shapes);
 
         //Build Level
-        levelOnGoing = PlayerState.getPlayer().getLevelNumber();
+        int levelOnGoing = PlayerState.getPlayer().getLevelNumber();
         switch (levelOnGoing) {
             case 1 -> {
                 BuildLevel1.buildLevel1(screenSizeX, blockShapes);
@@ -161,8 +158,8 @@ public class GamePanel extends JPanel {
 
         //Add GameOver
         gameOverPanel = new GameOverPanel(
-                () -> retryLevel(),
-                () -> returnToMenu()
+                this::retryLevel,
+                this::returnToMenu
         );
         gameOverPanel.setBounds(0, 0, screenSizeX, screenSizeY);
         gameOverPanel.setVisible(false);
@@ -171,9 +168,9 @@ public class GamePanel extends JPanel {
 
         //Add Win
         winPanel = new WinPanel(
-                () -> proceedToNextLevel(),
-                () -> retryLevel(),
-                () -> returnToMenu()
+                this::proceedToNextLevel,
+                this::retryLevel,
+                this::returnToMenu
         );
         winPanel.setBounds(0, 0, screenSizeX, screenSizeY);
         winPanel.setVisible(false);
@@ -233,7 +230,6 @@ public class GamePanel extends JPanel {
                 gameOverPanel.setVisible(true);
             }
 
-
             repaint();
         });
         gameTimer.start();
@@ -246,12 +242,10 @@ public class GamePanel extends JPanel {
         addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-                switch (e.getKeyChar()) {
-                    case 'p' -> {
-                        blockShapes.getFirst().setSquarePacketCount(totalPackets);
-                        for (int i = 1; i <= totalPackets; i++){
-                            spawnPacket.addPacketToStartBlock(blockShapes.getFirst(),portManager,blockShapes.getFirst().getShapeModel(4));
-                        }
+                if (e.getKeyChar() == 'p') {
+                    blockShapes.getFirst().setSquarePacketCount(totalPackets);
+                    for (int i = 1; i <= totalPackets; i++) {
+                        spawnPacket.addPacketToStartBlock(blockShapes.getFirst(), portManager, blockShapes.getFirst().getShapeModel(4));
                     }
                 }
             }

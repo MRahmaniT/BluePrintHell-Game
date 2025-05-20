@@ -37,7 +37,6 @@ public class LevelPanel extends JPanel {
             JButton levelBtn = new JButton("Level " + level);
             levelBtn.setFont(new Font("Arial", Font.BOLD, fontSize));
             int col = i % cols;
-            System.out.println(col);
             int row = i / cols;
             levelBtn.setBounds(baseX + col * spacingX, baseY + row * spacingY, 150, 20);
             levelBtn.addActionListener(e ->{
