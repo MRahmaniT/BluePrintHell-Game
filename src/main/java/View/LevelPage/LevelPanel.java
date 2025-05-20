@@ -39,7 +39,7 @@ public class LevelPanel extends JPanel {
             int col = i % cols;
             System.out.println(col);
             int row = i / cols;
-            levelBtn.setBounds(baseX + col * spacingX, baseY + row * spacingY, 150, 25);
+            levelBtn.setBounds(baseX + col * spacingX, baseY + row * spacingY, 150, 20);
             levelBtn.addActionListener(e ->{
                 PlayerState.getPlayer().setLevelNumber(level);
                 MainFrame.startGame();
