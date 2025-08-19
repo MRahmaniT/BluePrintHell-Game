@@ -1,80 +1,85 @@
 package Controller.Levels;
 
-import Model.GameShapes.BlockShape2Stairs;
-import Model.GameShapes.BlockShapeEnd;
-import Model.GameShapes.BlockShapeStart;
-import Model.GameShapes.GameShape;
+import Model.Enums.BlockSystemType;
+import Model.Enums.PortRole;
+import Model.Enums.PortType;
+import Model.GameEntities.BlockSystem;
+import Model.GameEntities.Port;
+import View.Render.GameShapes.TwoStairsSystem;
+import View.Render.GameShapes.EndSystem;
+import View.Render.GameShapes.StartSystem;
+import View.Render.GameShapes.GameShape;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BuildLevel2 {
-    public static void buildLevel2(int screenSizeX, List<GameShape> blockShapes){
+    public static void buildLevel2(int screenSizeX, List<BlockSystem> blockSystems, List<GameShape> blockShapes){
+
+        BlockSystem blockSystem;
+        TwoStairsSystem block;
+        Port port1,port2,port3,port4;
+        ArrayList<Port> ports;
+        int blockSystemId = blockSystems.size();
 
         //Block Start
-        ArrayList<Integer> forDrawBlockStart = new ArrayList<>();
-        ArrayList<Boolean> forPortBlockStart = new ArrayList<>();
-        forDrawBlockStart.add(0);
-        forPortBlockStart.add(true);
-        forDrawBlockStart.add(0);
-        forPortBlockStart.add(true);
-        forDrawBlockStart.add(0);
-        forPortBlockStart.add(true);
-        forDrawBlockStart.add(2);
-        forPortBlockStart.add(false);
-        BlockShapeStart blockStart = new BlockShapeStart(-300, -100,
-                0.1f * screenSizeX, 0.6f * 0.1f * screenSizeX, Color.RED,
-                forDrawBlockStart, forPortBlockStart);
-        blockShapes.add(blockStart);
+        port1 = new Port(1, blockSystemId);
+        port2 = new Port(2, blockSystemId);
+        port3 = new Port(3, blockSystemId, PortRole.OUT, PortType.MESSENGER_3);
+        port4 = new Port(4, blockSystemId);
+        ports = new ArrayList<>(Arrays.asList(port1, port2, port3, port4));
+
+        blockSystem = new BlockSystem(blockSystemId, BlockSystemType.START, ports, -300, -100);
+        blockSystems.add(blockSystem);
+
+        block = new TwoStairsSystem(blockSystem,0.1f * screenSizeX, 0.1f * screenSizeX);
+        blockShapes.add(block);
+
+        blockSystemId++;
 
         //Block 1
-        ArrayList<Integer> forDrawBlock1 = new ArrayList<>();
-        ArrayList<Boolean> forPortBlock1 = new ArrayList<>();
-        forDrawBlock1.add(0);
-        forPortBlock1.add(true);
-        forDrawBlock1.add(2);
-        forPortBlock1.add(false);
-        forDrawBlock1.add(2);
-        forPortBlock1.add(false);
-        forDrawBlock1.add(1);
-        forPortBlock1.add(false);
+        port1 = new Port(1, blockSystemId);
+        port2 = new Port(2, blockSystemId, PortRole.IN, PortType.MESSENGER_3);
+        port3 = new Port(3, blockSystemId, PortRole.OUT, PortType.MESSENGER_3);
+        port4 = new Port(4, blockSystemId, PortRole.OUT, PortType.MESSENGER_2);
+        ports = new ArrayList<>(Arrays.asList(port1, port2, port3, port4));
 
-        BlockShape2Stairs block1 = new BlockShape2Stairs(-100, -100,
-                0.1f * screenSizeX, 0.1f * screenSizeX, Color.RED,
-                forDrawBlock1, forPortBlock1);
-        blockShapes.add(block1);
+        blockSystem = new BlockSystem(blockSystemId, BlockSystemType.PROCESSOR, ports, -100, -100);
+        blockSystems.add(blockSystem);
+
+        block = new TwoStairsSystem(blockSystem,0.1f * screenSizeX, 0.1f * screenSizeX);
+        blockShapes.add(block);
+
+        blockSystemId++;
 
         //Block 2
-        ArrayList<Integer> forDrawBlock2 = new ArrayList<>();
-        ArrayList<Boolean> forPortBlock2 = new ArrayList<>();
-        forDrawBlock2.add(2);
-        forPortBlock2.add(false);
-        forDrawBlock2.add(1);
-        forPortBlock2.add(false);
-        forDrawBlock2.add(2);
-        forPortBlock2.add(false);
-        forDrawBlock2.add(0);
-        forPortBlock2.add(true);
-        BlockShape2Stairs block2 = new BlockShape2Stairs(+100,+100,
-                0.1f*screenSizeX,0.1f*screenSizeX, Color.RED,
-                forDrawBlock2, forPortBlock2);
-        blockShapes.add(block2);
+        port1 = new Port(1, blockSystemId, PortRole.IN, PortType.MESSENGER_3);
+        port2 = new Port(2, blockSystemId, PortRole.IN, PortType.MESSENGER_2);
+        port3 = new Port(3, blockSystemId, PortRole.OUT, PortType.MESSENGER_3);
+        port4 = new Port(4, blockSystemId);
+        ports = new ArrayList<>(Arrays.asList(port1, port2, port3, port4));
+
+        blockSystem = new BlockSystem(blockSystemId, BlockSystemType.PROCESSOR, ports, 100, 100);
+        blockSystems.add(blockSystem);
+
+        block = new TwoStairsSystem(blockSystem,0.1f * screenSizeX, 0.1f * screenSizeX);
+        blockShapes.add(block);
+
+        blockSystemId++;
 
         //Block End
-        ArrayList<Integer> forDrawBlockEnd = new ArrayList<>();
-        ArrayList<Boolean> forPortBlockEnd = new ArrayList<>();
-        forDrawBlockEnd.add(2);
-        forPortBlockEnd.add(false);
-        forDrawBlockEnd.add(0);
-        forPortBlockEnd.add(true);
-        forDrawBlockEnd.add(0);
-        forPortBlockEnd.add(true);
-        forDrawBlockEnd.add(0);
-        forPortBlockEnd.add(true);
-        BlockShapeEnd blockEnd = new BlockShapeEnd(+300, +100,
-                0.1f * screenSizeX, 0.6f * 0.1f * screenSizeX, Color.RED,
-                forDrawBlockEnd, forPortBlockEnd);
-        blockShapes.add(blockEnd);
+        port1 = new Port(1, blockSystemId, PortRole.IN, PortType.MESSENGER_3);
+        port2 = new Port(2, blockSystemId);
+        port3 = new Port(3, blockSystemId);
+        port4 = new Port(4, blockSystemId);
+        ports = new ArrayList<>(Arrays.asList(port1, port2, port3, port4));
+
+        blockSystem = new BlockSystem(blockSystemId, BlockSystemType.START, ports, 300, 100);
+        blockSystems.add(blockSystem);
+
+        block = new TwoStairsSystem(blockSystem,0.1f * screenSizeX, 0.1f * screenSizeX);
+        blockShapes.add(block);
     }
 }

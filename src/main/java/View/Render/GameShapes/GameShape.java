@@ -1,5 +1,7 @@
-package Model.GameShapes;
+package View.Render.GameShapes;
 
+import Model.Enums.PortType;
+import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Packet;
 
 import java.awt.*;
@@ -12,29 +14,23 @@ public interface GameShape {
 
     Point getPosition();
 
-
     void draw(Graphics2D g2d);
 
     void setColor(Color color);
 
-
-    int getShapeModel(int i);
-
+    PortType getPortType(int i);
 
     void setConnection(int i, boolean b);
 
     boolean getConnection(int i);
 
-
     void setSquarePacketCount(int i);
 
     int getSquarePacketCount();
 
-
     void setTrianglePacketCount(int i);
 
     int getTrianglePacketCount();
-
 
     void addBlockPackets(Packet packet);
 
@@ -42,8 +38,9 @@ public interface GameShape {
 
     ArrayList<Packet> getBlockPackets();
 
-
     Path2D.Float getPortPath(int shapeNumber);
 
     Path2D.Float getTopPath();
+
+    BlockSystem getBlockSystem();
 }

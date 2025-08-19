@@ -1,7 +1,7 @@
 package View.GameEnvironment.Background;
 
-import Model.GameShapes.GameShape;
-import Model.GameShapes.RectangleShape;
+import View.Render.GameShapes.GameShape;
+import View.Render.GameShapes.RectangleShape;
 
 import java.awt.*;
 import java.util.List;

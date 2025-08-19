@@ -1,26 +1,55 @@
 package Model.GameEntities;
 
-import Model.GameShapes.GameShape;
-import Model.GameShapes.LineShape;
+import View.Render.GameShapes.GameShape;
 
-public class Connection {
-    public GameShape blockA;
-    public int portA;
-    public GameShape blockB;
-    public int portB;
-    public LineShape line;
-    public boolean packetOnLine;
+public class Connection implements java.io.Serializable {
+    private int id;
+    private int fromSystemId;
+    private int fromPortId;
+    private int toSystemId;
+    private int toPortId;
+    private boolean packetOnLine;
 
-    public Connection(GameShape a, int pa, GameShape b, int pb, LineShape l) {
-        this.blockA = a;
-        this.portA = pa;
-        this.blockB = b;
-        this.portB = pb;
-        this.line = l;
+    public Connection() {}
+
+    public Connection(int id, int fromSystemId, int fromPortId, int toSystemId, int toPortId) {
+        this.id = id;
+        this.fromSystemId = fromSystemId;
+        this.fromPortId = fromPortId;
+        this.toSystemId = toSystemId;
+        this.toPortId = toPortId;
         this.packetOnLine = false;
     }
 
-    public boolean contains(GameShape block, int port) {
-        return (blockA == block && portA == port) || (blockB == block && portB == port);
+    public boolean contains(int block, int port) {
+        return (this.fromSystemId == block && fromPortId == port) || (toSystemId == block && toPortId == port);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getFromSystemId() {
+        return fromSystemId;
+    }
+
+    public int getFromPortId() {
+        return fromPortId;
+    }
+
+    public int getToSystemId() {
+        return toSystemId;
+    }
+
+    public int getToPortId() {
+        return toPortId;
+    }
+
+    public boolean isPacketOnLine() {
+        return packetOnLine;
+    }
+
+    public void setPacketOnLine(boolean packetOnLine) {
+        this.packetOnLine = packetOnLine;
     }
 }

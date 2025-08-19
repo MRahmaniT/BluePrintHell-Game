@@ -1,7 +1,13 @@
 package View.GamePage;
 
 import Controller.*;
-import Model.GameEntities.Connection;
+import Controller.Packets.PacketManager;
+import Controller.Packets.SpawnPackets;
+import Controller.Wiring.WiringManager;
+import Controller.Systems.BlockManager;
+import Controller.Systems.ChangeBlocksLight;
+import Model.Enums.PacketType;
+import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Impact;
 import Model.GameEntities.Packet;
 
@@ -14,10 +20,12 @@ import Controller.Levels.BuildLevel2;
 import View.GameEnvironment.Options.HUDPanel;
 import View.GameEnvironment.Options.ShopPanel;
 
-import Model.GameShapes.GameShape;
+import View.Render.GameShapes.GameShape;
 
 import View.Main.MainFrame;
 import Model.Player.PlayerState;
+import View.Render.GameShapes.Line;
+import View.Render.PacketRenderer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -44,11 +52,12 @@ public class GamePanel extends JPanel {
     private final List<GameShape> shapes = new ArrayList<>();
 
     //For Blocks
+    private final List<BlockSystem> blockSystems = new ArrayList<>();
     private final List<GameShape> blockShapes = new ArrayList<>();
     private final BlockManager blockManager = new BlockManager();
 
-    //For Ports
-    private final PortManager portManager = new PortManager();
+    //For Wire
+    private final WiringManager wiringManager = new WiringManager();
 
     //For Wires
     private final double MAX_WIRE_LENGTH = 2000;
@@ -66,10 +75,11 @@ public class GamePanel extends JPanel {
     private final GameEngine gameEngine = new GameEngine(timeController);
 
     //For Packet
-    private final PacketManager packetManager = new PacketManager();
-    private final SpawnPackets spawnPacket = new SpawnPackets();
+    private PacketManager packetManager;
+    private SpawnPackets spawnPacket;
     private final List<Packet> packets = new ArrayList<>();
-    private final int totalPackets = 5;
+    private final int totalPackets = 10;
+    private int generatedPackets = 0;
     private int lostPackets = 0;
 
     //For Impact
@@ -103,10 +113,10 @@ public class GamePanel extends JPanel {
         int levelOnGoing = PlayerState.getPlayer().getLevelNumber();
         switch (levelOnGoing) {
             case 1 -> {
-                BuildLevel1.buildLevel1(screenSizeX, blockShapes);
+                BuildLevel1.buildLevel1(screenSizeX, blockSystems, blockShapes);
             }
             case 2 ->{
-                BuildLevel2.buildLevel2(screenSizeX, blockShapes);
+                BuildLevel2.buildLevel2(screenSizeX, blockSystems, blockShapes);
             }
         }
 
@@ -181,27 +191,31 @@ public class GamePanel extends JPanel {
         gameTimer = new Timer(10, _ -> {
             gameEngine.update();
 
-            packetManager.manageMovement(blockShapes, portManager, packets, spawnPacket, impacts);
-            packetManager.manageImpact(impacts,  packets);
+            spawnPacket = new SpawnPackets(blockSystems, wiringManager.getConnections(), packets);
+            packetManager = new PacketManager(blockSystems, blockShapes, wiringManager, wiringManager.getConnections(), packets, spawnPacket);
 
-            lostPackets = packetManager.getLostPackets();
+
+            packetManager.manageMovement();
+            //packetManager.manageImpact(impacts,  packets);
+
+            lostPackets = packetManager.getLostPacketsCount();
             coins = PlayerState.getPlayer().getGoldCount();
 
             hudPanel.update(
-                    Math.max(0,portManager.getRemainingWireLength(MAX_WIRE_LENGTH)),
+                    Math.max(0, wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH)),
                     timeController.getFormattedTime(),
                     lostPackets,
                     totalPackets,
                     coins
             );
 
-            if(portManager.getRemainingWireLength(MAX_WIRE_LENGTH) < 0){
-                for (Connection c : portManager.getConnections()) {
-                    c.line.setColor(Color.RED);
+            if(wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH) < 0){
+                for (Line line : wiringManager.getlines()) {
+                    line.setColor(Color.RED);
                 }
             }else {
-                for (Connection c : portManager.getConnections()) {
-                    c.line.setColor(Color.CYAN);
+                for (Line line : wiringManager.getlines()) {
+                    line.setColor(Color.CYAN);
                 }
             }
 
@@ -220,10 +234,10 @@ public class GamePanel extends JPanel {
 
 
 
-            if (packetManager.getLostPackets() >= totalPackets / 2) {
+            if (packetManager.getLostPacketsCount() >= totalPackets / 2) {
                 gameTimer.stop();
                 gameOverPanel.updateStats(
-                        packetManager.getLostPackets(),
+                        packetManager.getLostPacketsCount(),
                         totalPackets,
                         timeController.getFormattedTime()
                 );
@@ -243,9 +257,14 @@ public class GamePanel extends JPanel {
             @Override
             public void keyTyped(KeyEvent e) {
                 if (e.getKeyChar() == 'p') {
-                    blockShapes.getFirst().setSquarePacketCount(totalPackets);
-                    for (int i = 1; i <= totalPackets; i++) {
-                        spawnPacket.addPacketToStartBlock(blockShapes.getFirst(), portManager, blockShapes.getFirst().getShapeModel(4));
+                    int j = totalPackets/2;
+                    for (int i = 0; i < j; i++) {
+                        spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_2));
+                        generatedPackets++;
+                    }
+                    for (int i = j; i < totalPackets; i++) {
+                        spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_3));
+                        generatedPackets++;
                     }
                 }
             }
@@ -278,12 +297,12 @@ public class GamePanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                portManager.handleMousePress(blockShapes, mousePointX, mousePointY);
+                wiringManager.handleMousePress(blockShapes, mousePointX, mousePointY);
                 blockManager.handleMousePress(blockShapes, mousePointX, mousePointY);
             }
             @Override
             public void mouseReleased(MouseEvent e) {
-                portManager.handleMouseRelease(blockShapes, mousePointX, mousePointY, portManager.getRemainingWireLength(MAX_WIRE_LENGTH));
+                wiringManager.handleMouseRelease(blockSystems, blockShapes, mousePointX, mousePointY, wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH));
                 blockManager.handleMouseRelease(mousePointX, mousePointY);
                 repaint();
             }
@@ -366,12 +385,12 @@ public class GamePanel extends JPanel {
         }
 
         //For Lines
-        for (Connection c : portManager.getConnections()) {
-            c.line.draw(g2d);
+        for (Line line : wiringManager.getlines()) {
+            line.draw(g2d);
         }
 
-        if (portManager.isDragging()) {
-            portManager.drawDrag(g2d, new Point(mousePointX, mousePointY));
+        if (wiringManager.isDragging()) {
+            wiringManager.drawDrag(g2d, new Point(mousePointX, mousePointY));
         }
         if (blockManager.isDragging()) {
             blockManager.drawDrag(mousePointX, mousePointY);
@@ -379,7 +398,8 @@ public class GamePanel extends JPanel {
 
         //Packet
         for (Packet p : packets) {
-            p.draw(g2d);
+            if (!p.isOnWire()) continue;
+            PacketRenderer.draw(g2d,p);
         }
 
         g2d.dispose();

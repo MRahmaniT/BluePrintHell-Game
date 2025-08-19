@@ -1,6 +1,6 @@
-package Controller;
+package Controller.Systems;
 
-import Model.GameShapes.GameShape;
+import View.Render.GameShapes.GameShape;
 
 import java.awt.*;
 import java.awt.geom.Path2D;

@@ -1,33 +1,34 @@
-package Model.GameShapes;
+package View.Render.GameShapes;
 
+import Model.Enums.PortType;
 import Model.GameEntities.Packet;
+import Model.GameEntities.BlockSystem;
 
 import java.awt.*;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-public class BlockShape2Stairs implements GameShape {
+public class TwoStairsSystem implements GameShape {
+    private final BlockSystem blockSystem;
     private float x, y;
     private final float width, height;
-    private final ArrayList<Integer> shapeModel; //1 for square, 2 for triangle
+    private final ArrayList<PortType> portType;
     private final ArrayList<Boolean> portConnection;
     private final ArrayList<Packet> blockPackets = new ArrayList<>();
     private int squarePacketCount, trianglePacketCount;
     Path2D.Float port1, port2, port3, port4;
     private Color color;
 
-    public BlockShape2Stairs(float x, float y,
-                             float width, float height,
-                             Color color, ArrayList<Integer> shapeModel,
-                             ArrayList<Boolean> portConnection) {
-        this.x = x;
-        this.y = y;
+    public TwoStairsSystem(BlockSystem blockSystem, float width, float height) {
+        this.blockSystem = blockSystem;
+        this.x = blockSystem.getX();
+        this.y = blockSystem.getY();
         this.width = width;
         this.height = height;
-        this.shapeModel = shapeModel;
-        this.color = color;
-        this.portConnection = portConnection;
+        this.portType = blockSystem.getPortsType();
+        this.portConnection = blockSystem.getPortsConnection();
+        this.color = blockSystem.getColor();
         this.squarePacketCount = 0;
         this.trianglePacketCount = 0;
     }
@@ -58,7 +59,7 @@ public class BlockShape2Stairs implements GameShape {
                         (int)(0.1*width), (int)(0.09*height));
 
         //Draw ports
-        if (shapeModel.get(0) == 1){
+        if (portType.getFirst() == PortType.MESSENGER_2){
             g.setColor(Color.GREEN);
             port1 = new Path2D.Float();
             port1.moveTo((int)(x - 0.08*width), (int)(y+0.4*height-0.08*width));
@@ -66,7 +67,7 @@ public class BlockShape2Stairs implements GameShape {
             port1.lineTo((int)(x + 0.08*width), (int)(y+0.4*height+0.08*width));
             port1.lineTo((int)(x - 0.08*width), (int)(y+0.4*height+0.08*width));
             g.fill(port1);
-        } else if (shapeModel.get(0) == 2){
+        } else if (portType.getFirst() == PortType.MESSENGER_3){
             g.setColor(Color.YELLOW);
             port1 = new Path2D.Float();
             port1.moveTo((int)(x - 0.08*width), (int)(y+0.4*height-0.08*width));
@@ -74,7 +75,7 @@ public class BlockShape2Stairs implements GameShape {
             port1.lineTo((int)(x - 0.08*width), (int)(y+0.4*height+0.08*width));
             g.fill(port1);
         }
-        if (shapeModel.get(1) == 1){
+        if (portType.get(1) == PortType.MESSENGER_2){
             g.setColor(Color.GREEN);
             port2 = new Path2D.Float();
             port2.moveTo((int)(x - 0.08*width), (int)(y+0.8*height-0.08*width));
@@ -82,7 +83,7 @@ public class BlockShape2Stairs implements GameShape {
             port2.lineTo((int)(x + 0.08*width), (int)(y+0.8*height+0.08*width));
             port2.lineTo((int)(x - 0.08*width), (int)(y+0.8*height+0.08*width));
             g.fill(port2);
-        } else if (shapeModel.get(1) == 2){
+        } else if (portType.get(1) == PortType.MESSENGER_3){
             g.setColor(Color.YELLOW);
             port2 = new Path2D.Float();
             port2.moveTo((int)(x - 0.08*width), (int)(y+0.8*height-0.08*width));
@@ -90,7 +91,7 @@ public class BlockShape2Stairs implements GameShape {
             port2.lineTo((int)(x - 0.08*width), (int)(y+0.8*height+0.08*width));
             g.fill(port2);
         }
-        if (shapeModel.get(2) == 1){
+        if (portType.get(2) == PortType.MESSENGER_2){
             g.setColor(Color.GREEN);
             port3 = new Path2D.Float();
             port3.moveTo((int)(x - 0.08*width + width), (int)(y+0.4*height-0.08*width));
@@ -98,7 +99,7 @@ public class BlockShape2Stairs implements GameShape {
             port3.lineTo((int)(x + 0.08*width + width), (int)(y+0.4*height+0.08*width));
             port3.lineTo((int)(x - 0.08*width + width), (int)(y+0.4*height+0.08*width));
             g.fill(port3);
-        } else if (shapeModel.get(2) == 2){
+        } else if (portType.get(2) == PortType.MESSENGER_3){
             g.setColor(Color.YELLOW);
             port3 = new Path2D.Float();
             port3.moveTo((int)(x - 0.08*width + width), (int)(y+0.4*height-0.08*width));
@@ -106,7 +107,7 @@ public class BlockShape2Stairs implements GameShape {
             port3.lineTo((int)(x - 0.08*width + width), (int)(y+0.4*height+0.08*width));
             g.fill(port3);
         }
-        if (shapeModel.get(3) == 1){
+        if (portType.get(3) == PortType.MESSENGER_2){
             g.setColor(Color.GREEN);
             port4 = new Path2D.Float();
             port4.moveTo((int)(x - 0.08*width + width), (int)(y+0.8*height-0.08*width));
@@ -114,7 +115,7 @@ public class BlockShape2Stairs implements GameShape {
             port4.lineTo((int)(x + 0.08*width + width), (int)(y+0.8*height+0.08*width));
             port4.lineTo((int)(x - 0.08*width + width), (int)(y+0.8*height+0.08*width));
             g.fill(port4);
-        } else if (shapeModel.get(3) == 2){
+        } else if (portType.get(3) == PortType.MESSENGER_3){
             g.setColor(Color.YELLOW);
             port4 = new Path2D.Float();
             port4.moveTo((int)(x - 0.08*width + width), (int)(y+0.8*height-0.08*width));
@@ -147,13 +148,18 @@ public class BlockShape2Stairs implements GameShape {
     }
 
     @Override
+    public BlockSystem getBlockSystem() {
+        return blockSystem;
+    }
+
+    @Override
     public Point getPosition() {
         return new Point((int) x, (int) y);
     }
 
     @Override
-    public int getShapeModel(int i) {
-        return shapeModel.get(i-1);
+    public PortType getPortType(int i) {
+        return portType.get(i-1);
     }
 
     @Override
@@ -180,6 +186,7 @@ public class BlockShape2Stairs implements GameShape {
     @Override
     public void setColor(Color color) {
         this.color = color;
+        this.blockSystem.setColor(color);
     }
 
     @Override
@@ -212,4 +219,5 @@ public class BlockShape2Stairs implements GameShape {
     public void releaseBlockPackets(Packet packet) {
         this.blockPackets.remove(packet);
     }
+
 }

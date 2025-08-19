@@ -1,193 +1,140 @@
 package Model.GameEntities;
 
-import Controller.PortManager;
-import Model.GameShapes.GameShape;
+import Model.Enums.PacketType;
 
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Path2D;
-import java.awt.geom.Point2D;
+import java.io.Serializable;
 
-public class Packet {
-    private PortManager portManager;
-    private GameShape startBlock;
-    private GameShape endBlock;
-    private Connection connection;
-    private Point2D.Float startPosition, endPosition, currentPosition, direction, changeDirection, destinationDistance;
-    private final int shapeModel; //1 for square, 2 for triangle
-    private Path2D triangle;
-    private Path2D rectangle;
-    private int startPort;
-    private int endPort;
-    private float speed, speedChanger, acceleration, accelerationChanger;
-    private float movementPercentage;
+public class Packet implements Serializable {
+
+    public enum Type { SQUARE, TRIANGLE, MESSENGER, PROTECTED, PRIVET4, PRIVET6, BULKY8, BULKY10}
+    public enum Location { IN_BLOCK, ON_WIRE, LOST }
+
+    // Identity
+    private int id;
+    private PacketType packetType;
+
+    // Where it is
+    private Location location = Location.IN_BLOCK;
+
+    // When IN_BLOCK
+    private int blockIdx = -1;
+    private long enqueuedAt = 0;
+
+    // When ON_WIRE
+    // Index in WiringManager.getConnections()
+    private int connectionIdx = -1;
+    private int fromBlockIdx = -1, fromPort = -1;
+    private int toBlockIdx   = -1, toPort   = -1;
+
+    // Kinematics (for drawing/snapshots); physics sets/updates these.
+    private float x, y;        // current position
+    private float vx, vy;      // facing (normalized direction used for rotation)
+    private float progress;    // [0..1] geometric progress along the wire (physics maintains)
+    private float devX, devY;  // deviation from impact waves
+    private float speed;       // constant movement magnitude (physics uses this each update)
+    private float speedFactor;
+    private float accel;       // per-update additive to speed (can be 0)
+
+    // status
     private float noise;
-    private boolean lost;
-
-    // Constants
     public static final float NOISE_THRESHOLD = 15f;
+    public final float baseSpeed = 100f;
 
-    public Packet(PortManager portManager, Connection connection, GameShape startBlock, int startPort, GameShape endBlock, int endPort, int shapeModel, float speedChanger, float accelerationChanger) {
-        this.connection = connection;
-        this.startBlock = startBlock;
-        this.endBlock = endBlock;
-        this.startPort = startPort;
-        this.endPort = endPort;
-        this.portManager = portManager;
-        this.shapeModel = shapeModel;
-        this.currentPosition = portManager.getPortCenter(startBlock, startPort);
-        this.speedChanger = speedChanger;
-        this.accelerationChanger = accelerationChanger;
-        this.direction = new Point2D.Float(0,0);
-        this.changeDirection = new Point2D.Float(0,0);
-        this.movementPercentage = 0;
-        this.noise = 0;
-        this.lost = false;
+    public Packet() { /* for JSON */ }
+
+    public Packet(int id, PacketType packetType) {
+        this.id = id;
+        this.packetType = packetType;
+        this.speed = baseSpeed;
     }
 
-    public void draw(Graphics2D g) {
-        Graphics2D g2d = (Graphics2D) g.create();
+    /* ---------------- State transitions (no physics here) ---------------- */
 
-        if (shapeModel == 1) {
-            g2d.setColor(Color.GREEN);
-            g2d.fill(getPath());
-        } else if (shapeModel == 2) {
-            g2d.setColor(Color.YELLOW);
-            g2d.fill(getPath());
-        }
+    public void parkInBlock(int blockIdx) {
+        this.location = Location.IN_BLOCK;
+        this.blockIdx = blockIdx;
 
-        g2d.dispose();
+        this.connectionIdx = -1;
+        this.progress = 0f;
+        this.speedFactor = 0f;
+        this.accel = 0f;
     }
 
+    public void startOnWire(int connectionIdx,
+                            int fromBlockIdx, int fromPort,
+                            int toBlockIdx,   int toPort,
+                            float speedFactor, float accel) {
+        this.location = Location.ON_WIRE;
+        this.connectionIdx = connectionIdx;
 
-    public void update() {
-        startPosition = portManager.getPortCenter(startBlock, startPort);
-        endPosition = portManager.getPortCenter(endBlock, endPort);
-        destinationDistance = new Point2D.Float(endPosition.x - startPosition.x, endPosition.y - startPosition.y);
-        if (movementPercentage >= 1) {
-            return;
-        }
+        this.fromBlockIdx = fromBlockIdx;
+        this.fromPort     = fromPort;
+        this.toBlockIdx   = toBlockIdx;
+        this.toPort       = toPort;
 
-        //Move
-        direction.x += destinationDistance.x + changeDirection.x;
-        direction.y += destinationDistance.y + changeDirection.y;
-        direction = normalize(direction);
-        acceleration = (float) (accelerationChanger / (startPosition.distance(endPosition)));
-        speed = (float) ((5.0 / (startPosition.distance(endPosition))) + acceleration + (5.0 / (startPosition.distance(endPosition)) * speedChanger));
-        movementPercentage += speed;
-        currentPosition.x = (startPosition.x + movementPercentage * (destinationDistance.x + changeDirection.x));
-        currentPosition.y = (startPosition.y + movementPercentage * (destinationDistance.y + changeDirection.y));
-
+        this.progress = 0f;
+        this.speed = baseSpeed * speedFactor;
+        this.accel = accel;
     }
 
-    public void applyImpact(Point pointOfImpact) {
-        double distanceFromImpact = currentPosition.distance(pointOfImpact);
-        float attenuation = (float) (1.0f - Math.min(1.0f, distanceFromImpact / 500f));
-
-        Point2D.Float forceVector = new Point2D.Float(currentPosition.x - pointOfImpact.x, currentPosition.y - pointOfImpact.y);
-        changeDirection.x += forceVector.x * attenuation / 10;
-        changeDirection.y += forceVector.y * attenuation / 10;
-        update();
-    }
-
-    private Point2D.Float normalize(Point2D.Float vector) {
-        float len = (float) Math.sqrt(vector.x * vector.x + vector.y * vector.y);
-        return len == 0 ? new Point2D.Float(0, 0) : new Point2D.Float(vector.x / len, vector.y / len);
-    }
-
-    //Setters and Getters
-    public boolean isLost() {
-        if (isArrived()){
-            //Check direction
-            if (currentPosition.distance(endPosition) > 12){
-                markLost();
-            }
-            //Check noise
-            if (noise > NOISE_THRESHOLD) {
-                markLost();
-            }
-        }
-        return lost;
-    }
-
-
-    public Point2D.Float getPosition() {
-        return startPosition;
-    }
-
-    public float getNoise() {
-        return noise;
-    }
-
-    public int getEndPort(){
-        return this.endPort;
-    }
-
-    public boolean isArrived (){
-        return movementPercentage >= 1;
+    public void markArrivedToBlock(int destBlockIdx) {
+        parkInBlock(destBlockIdx);
     }
 
     public void markLost() {
-        this.lost = true;
+        this.location = Location.LOST;
+        this.connectionIdx = -1;
     }
 
-    public void resetNoise() {
-        this.noise = 0;
-    }
+    /* ---------------- Small helpers ---------------- */
 
+    public void addNoise(float amount) { this.noise += amount; }
+    public void resetNoise()           { this.noise = 0f; }
 
-    public void increaseNoise(float noise) {
-        this.noise += noise;
-    }
+    /* ---------------- Getters / Setters ---------------- */
 
-    public GameShape getEndBlock(){
-        return this.endBlock;
-    }
+    public int getId() { return id; }
+    public PacketType getType() { return packetType; }
 
-    public int getShapeModel() {
-        return shapeModel;
-    }
+    public Location getLocation() { return location; }
+    public boolean isOnWire()  { return location == Location.ON_WIRE; }
+    public boolean isInBlock() { return location == Location.IN_BLOCK; }
+    public boolean isLost()    { return location == Location.LOST; }
 
-    public Connection getConnection(){return this.connection;}
+    public int  getBlockIdx()   { return blockIdx; }
+    public long getEnqueuedAt() { return enqueuedAt; }
 
-    public Path2D getPath(){
-        AffineTransform transform = new AffineTransform();
+    public int getConnectionIdx() { return connectionIdx; }
+    public void setConnectionIdx(int idx) { this.connectionIdx = idx; }
 
-        double angle = Math.atan2(direction.y, direction.x);
-        transform.translate(currentPosition.x, currentPosition.y);
-        transform.rotate(angle);
+    public int getFromBlockIdx() { return fromBlockIdx; }
+    public int getFromPort()     { return fromPort; }
+    public int getToBlockIdx()   { return toBlockIdx; }
+    public int getToPort()       { return toPort; }
 
-        int size = 12;
+    public float getX() { return x; }
+    public float getY() { return y; }
+    public void setX(float x) { this.x = x; }
+    public void setY(float y) { this.y = y; }
 
-        if (shapeModel == 1) {
-            rectangle = new Path2D.Float();
-            rectangle.moveTo(- (double) size / 2, - (double) size / 2);
-            rectangle.lineTo(+ (double) size / 2, (double) -size / 2);
-            rectangle.lineTo(+ (double) size / 2, (double) +size / 2);
-            rectangle.lineTo(- (double) size / 2, (double) +size / 2);
-            rectangle.closePath();
-            return (Path2D) rectangle.createTransformedShape(transform);
-        } else if (shapeModel == 2) {
-            triangle = new Path2D.Float();
-            triangle.moveTo((double) -size / 2, (double) -size / 2);
-            triangle.lineTo((double) +size / 2, 0);
-            triangle.lineTo((double) -size / 2, (double) +size / 2);
-            triangle.closePath();
-            return (Path2D) triangle.createTransformedShape(transform);
-        }
-        return null;
-    }
+    public float getVx() { return vx; }
+    public float getVy() { return vy; }
+    public void setVx(float vx) { this.vx = vx; }
+    public void setVy(float vy) { this.vy = vy; }
 
-    public void changeLocationToOtherPort(PortManager portManager, Connection connection, GameShape startBlock, int startPort, GameShape endBlock, int endPort, float speedChanger, float accelerationChanger) {
-        this.connection = connection;
-        this.startBlock = startBlock;
-        this.endBlock = endBlock;
-        this.startPort = startPort;
-        this.endPort = endPort;
-        this.portManager = portManager;
-        this.currentPosition = portManager.getPortCenter(startBlock, startPort);
-        this.speedChanger = speedChanger;
-        this.accelerationChanger = accelerationChanger;
-        this.movementPercentage = 0;
-    }
+    public float getProgress() { return progress; }
+    public void setProgress(float progress) { this.progress = progress; }
+
+    public float getDevX() { return devX; }
+    public float getDevY() { return devY; }
+    public void setDevX(float devX) { this.devX = devX; }
+    public void setDevY(float devY) { this.devY = devY; }
+
+    public float getSpeed() { return speed; }
+    public void setSpeed(float speed) { this.speed = speed; }
+
+    public float getAccel() { return accel; }
+    public void setAccel(float accel) { this.accel = accel; }
+
+    public float getNoise() { return noise; }
 }

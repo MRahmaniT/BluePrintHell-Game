@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="df39b545-5a81-4486-9064-30ffdede674e" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/SpawnPackets.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Model/Enums/BlockSystemType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Model/Enums/PacketType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Model/Enums/PortRole.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Model/Enums/PortType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/BlockSystem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Port.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/View/Render/PacketRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/BlockManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Systems/BlockManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/ChangeBlocksLight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Systems/ChangeBlocksLight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Levels/BuildLevel1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Levels/BuildLevel1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Levels/BuildLevel2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Levels/BuildLevel2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/PacketManager.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/PortManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Wiring/WiringManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/SpawnPackets.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Connection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Packet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Packet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameShapes/BlockShape2Stairs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/TwoStairsSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameShapes/BlockShapeEnd.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/EndSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameShapes/BlockShapeStart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/StartSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameShapes/GameShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/GameShape.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameShapes/LineShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Line.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameShapes/RectangleShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/RectangleShape.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/GameEnvironment/Background/BuildBackground.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GameEnvironment/Background/BuildBackground.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;MRahmaniT&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/MRahmaniT/AP-Project-Phase-1.git&quot;,
+    &quot;accountId&quot;: &quot;79f55dcc-9368-46b4-9e87-2a0226973461&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="313FYf3H0Q2LYBMMTUiY6JfCJ8F" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;MVC__Branch&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/university/Term 8/AP/Project/Phase-2&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="Controller.Packets" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="Phase-1" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="Phase-2" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="Phase-2" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="Phase-2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <module name="Phase-2" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="df39b545-5a81-4486-9064-30ffdede674e" name="Changes" comment="" />
+      <created>1754744898942</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1754744898942</updated>
+    </task>
+    <servers />
+  </component>
+</project>

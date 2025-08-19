@@ -1,5 +1,7 @@
-package Model.GameShapes;
+package View.Render.GameShapes;
 
+import Model.Enums.PortType;
+import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Packet;
 
 import java.awt.*;
@@ -61,13 +63,18 @@ public class RectangleShape implements GameShape {
     }
 
     @Override
+    public BlockSystem getBlockSystem() {
+        return null;
+    }
+
+    @Override
     public void setColor(Color color) {
         this.color = color;
     }
 
     @Override
-    public int getShapeModel(int i) {
-        return 0;
+    public PortType getPortType(int i) {
+        return null;
     }
 
     @Override
