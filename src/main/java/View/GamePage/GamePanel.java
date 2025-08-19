@@ -70,6 +70,7 @@ public class GamePanel extends JPanel {
     //For Timer
     Timer gameTimer;
     private final TimeController timeController = new TimeController();
+    private boolean isRunning = false;
 
     //For Engine
     private final GameEngine gameEngine = new GameEngine(timeController);
@@ -91,6 +92,7 @@ public class GamePanel extends JPanel {
 
     //For Pause
     private PausePanel pausePanel;
+    private boolean isPause = false;
 
     //For GameOver
     private final GameOverPanel gameOverPanel;
@@ -157,7 +159,11 @@ public class GamePanel extends JPanel {
 
         //Add Pause
         pausePanel = new PausePanel(
-                () -> {pausePanel.setVisible(false); gameTimer.start(); },
+                () -> {
+                    pausePanel.setVisible(false);
+                    gameTimer.start();
+                    isPause = false;
+                    isRunning = true; },
                 this::retryLevel,
                 this::returnToMenu
         );
@@ -257,6 +263,7 @@ public class GamePanel extends JPanel {
             @Override
             public void keyTyped(KeyEvent e) {
                 if (e.getKeyChar() == 'p') {
+                    isRunning = true;
                     int j = totalPackets/2;
                     for (int i = 0; i < j; i++) {
                         spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_2));
@@ -278,6 +285,8 @@ public class GamePanel extends JPanel {
                     case KeyEvent.VK_ESCAPE -> {
                         pausePanel.setVisible(true);
                         gameTimer.stop();
+                        isRunning = false;
+                        isPause = true;
                     }
                 }
             }
@@ -297,8 +306,10 @@ public class GamePanel extends JPanel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                wiringManager.handleMousePress(blockShapes, mousePointX, mousePointY);
-                blockManager.handleMousePress(blockShapes, mousePointX, mousePointY);
+                if (!isRunning) {
+                    wiringManager.handleMousePress(blockShapes, mousePointX, mousePointY);
+                    blockManager.handleMousePress(blockShapes, mousePointX, mousePointY);
+                }
             }
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -358,6 +369,8 @@ public class GamePanel extends JPanel {
     private void retryLevel() {
         MainFrame.startGame();
         pausePanel.setVisible(false);
+        isRunning = true;
+        isPause = false;
     }
 
     private void returnToMenu() {
