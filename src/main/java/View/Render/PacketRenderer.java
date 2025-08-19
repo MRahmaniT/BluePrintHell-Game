@@ -11,22 +11,25 @@ import java.awt.geom.Rectangle2D;
 public final class PacketRenderer {
     private PacketRenderer() {}
 
-    public static Shape getShape(Packet p) {
+    public static Shape getShape(Packet packet) {
         int size = 12;
-        double angle = Math.atan2(p.getYDirection(), p.getXDirection());
+        double angle = Math.atan2(packet.getYDirection(), packet.getXDirection());
 
-        AffineTransform at = AffineTransform.getTranslateInstance(p.getX(), p.getY());
+        AffineTransform at = AffineTransform.getTranslateInstance(packet.getX(), packet.getY());
         at.rotate(angle);
 
-        if (p.getType() == PacketType.MESSENGER_2) {
+        if (packet.getType() == PacketType.MESSENGER_2) {
             return at.createTransformedShape(new Rectangle2D.Float(-size/2f, -size/2f, size, size));
-        } else {
+        } else if (packet.getType() == PacketType.MESSENGER_3){
             Path2D.Float tri = new Path2D.Float();
             tri.moveTo(-size/2f, -size/2f);
             tri.lineTo( size/2f,        0f);
             tri.lineTo(-size/2f,  size/2f);
             tri.closePath();
             return at.createTransformedShape(tri);
+        }
+        else {
+            return null;
         }
     }
 

@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="df39b545-5a81-4486-9064-30ffdede674e" name="Changes" comment="Refreshing phase 1&#10;Part 3">
+    <list default="true" id="df39b545-5a81-4486-9064-30ffdede674e" name="Changes" comment="Refreshing phase 1&#10;Part 4">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/PacketRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/PacketRenderer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,13 +158,22 @@
       <option name="project" value="LOCAL" />
       <updated>1755615975018</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Refreshing phase 1&#10;Part 4">
+      <option name="closed" value="true" />
+      <created>1755616741006</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1755616741006</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Refreshing phase 1" />
     <MESSAGE value="Refreshing phase 1&#10;Part 2" />
     <MESSAGE value="Refreshing phase 1&#10;Part 3" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refreshing phase 1&#10;Part 3" />
+    <MESSAGE value="Refreshing phase 1&#10;Part 4" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refreshing phase 1&#10;Part 4" />
   </component>
 </project>
