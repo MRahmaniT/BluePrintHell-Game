@@ -1,6 +1,8 @@
 package Controller.Packets;
 
+import Model.Enums.PacketType;
 import Model.Enums.PortRole;
+import Model.Enums.PortType;
 import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Connection;
 import Model.GameEntities.Packet;
@@ -24,8 +26,6 @@ public class SpawnPackets {
     public void spawnFromBlocks() {
 
         Packet firstPacketInQueue;
-        float speedFactor = 1f;
-        float accel       = 0f;
 
         for (BlockSystem blockSystem : blockSystems) {
             if (blockSystem.queueCount() == 0) {
@@ -45,8 +45,12 @@ public class SpawnPackets {
             // put the packet on the wire
             firstPacketInQueue.startOnWire(connectionChoice.getId(),
                     connectionChoice.getFromSystemId(),connectionChoice.getFromPortId(),
-                    connectionChoice.getToSystemId(), connectionChoice.getToPortId(),
-                    speedFactor, accel);
+                    connectionChoice.getToSystemId(), connectionChoice.getToPortId());
+
+            // check speed and acceleration
+            PortType portType = blockSystem.getPort(connectionChoice.getFromPortId()).getType();
+            checkSpeedConditions(firstPacketInQueue, portType);
+
             connectionChoice.setPacketOnLine(true);
             blockSystem.pollNextPacketId();
         }
@@ -88,6 +92,24 @@ public class SpawnPackets {
         return options.get(randomOption);
     }
 
+    private void checkSpeedConditions (Packet packet, PortType portType) {
+        PacketType packetType = packet.getType();
+
+        if (packetType == PacketType.MESSENGER_1) {
+            packet.setAcceleration(10);
+            if (portType != PortType.MESSENGER_1) {
+                packet.setAccelerationChanger(-0.05f);
+            }
+        } else if (packetType == PacketType.MESSENGER_2) {
+            if (portType == PortType.MESSENGER_2) {
+                packet.setSpeed(packet.getSpeed()/2);
+            }
+        } else if (packetType == PacketType.MESSENGER_3) {
+            if (portType != PortType.MESSENGER_3){
+                packet.setAccelerationChanger(10);
+            }
+        }
+    }
     private static boolean isOutput(BlockSystem blockSystem, int port) {
         return blockSystem.getPort(port).getRole() == PortRole.OUT;
     }

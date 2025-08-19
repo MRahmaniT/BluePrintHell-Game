@@ -31,8 +31,8 @@ public class Packet implements Serializable {
     private float progress;    // [0..1] geometric progress along the wire (physics maintains)
     private float xImpactDirection, yImpactDirection;  // deviation from impact waves
     private float speed;       // constant movement magnitude (physics uses this each update)
-    private float speedFactor;
-    private float accel;       // per-update additive to speed (can be 0)
+    private float acceleration;       // per-update additive to speed (can be 0)
+    private float accelerationChanger;
 
     // status
     private float noise;
@@ -55,14 +55,12 @@ public class Packet implements Serializable {
 
         this.connectionIdx = -1;
         this.progress = 0f;
-        this.speedFactor = 0f;
-        this.accel = 0f;
+        this.acceleration = 0f;
     }
 
     public void startOnWire(int connectionIdx,
                             int fromBlockIdx, int fromPort,
-                            int toBlockIdx,   int toPort,
-                            float speedFactor, float accel) {
+                            int toBlockIdx,   int toPort) {
         this.location = Location.ON_WIRE;
         this.connectionIdx = connectionIdx;
 
@@ -72,8 +70,6 @@ public class Packet implements Serializable {
         this.toPort       = toPort;
 
         this.progress = 0f;
-        this.speed = baseSpeed * speedFactor;
-        this.accel = accel;
     }
 
     public void markArrivedToBlock(int destBlockIdx) {
@@ -132,8 +128,16 @@ public class Packet implements Serializable {
     public float getSpeed() { return speed; }
     public void setSpeed(float speed) { this.speed = speed; }
 
-    public float getAccel() { return accel; }
-    public void setAccel(float accel) { this.accel = accel; }
+    public float getAcceleration() { return acceleration; }
+    public void setAcceleration(float acceleration) { this.acceleration = acceleration; }
+
+    public float getAccelerationChanger() {
+        return accelerationChanger;
+    }
+
+    public void setAccelerationChanger(float accelerationChanger) {
+        this.accelerationChanger = accelerationChanger;
+    }
 
     public float getNoise() { return noise; }
 }
