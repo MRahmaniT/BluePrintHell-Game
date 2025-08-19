@@ -1,5 +1,6 @@
 package Controller.Packets;
 
+import Controller.Wiring.LinePath;
 import Controller.Wiring.WiringManager;
 import Model.GameEntities.Packet;
 import View.Render.GameShapes.GameShape;
@@ -50,24 +51,21 @@ public class PacketPhysics {
             }
 
             // Direction to target + deviation
-            float dx = (destinationPoint.x - startPoint.x);
-            float dy = (destinationPoint.y - startPoint.y);
-            float len = (float) Math.hypot(dx, dy);
-            float nx = (len > 0f) ? dx / len : 0f;
-            float ny = (len > 0f) ? dy / len : 0f;
-            packet.setVx(nx + packet.getDevX());
-            packet.setVy(ny + packet.getDevY());
+            LinePath linePath = new LinePath(startPoint, destinationPoint);
+            packet.setXDirection(linePath.tangent().x + packet.getXImpactDirection());
+            packet.setYDirection(linePath.tangent().y + packet.getYImpactDirection());
 
             // speed (+ optional accel)
             float speed = Math.max(0f, packet.getSpeed() + packet.getAccel());
             packet.setSpeed(speed);
-            packet.setX(packet.getX() + packet.getVx() * speed * dt);
-            packet.setY(packet.getY() + packet.getVy() * speed * dt);
+            packet.setX(packet.getX() + packet.getXDirection() * speed * dt);
+            packet.setY(packet.getY() + packet.getYDirection() * speed * dt);
 
             // Update progress
-            float px = packet.getX() - startPoint.x, py = packet.getY() - startPoint.y;
-            float pLen = (float) Math.hypot(px, py);
-            float progress = pLen/len;
+            float progressX = packet.getX() - startPoint.x;
+            float progressY = packet.getY() - startPoint.y;
+            float progressLength = (float) Math.hypot(progressX, progressY);
+            float progress = progressLength / linePath.getLength();
             if (progress <= 0){
                 packet.setProgress(0);
             }else if (progress >= 1){
@@ -104,8 +102,8 @@ public class PacketPhysics {
         float attenuation = 1f - Math.min(1f, dist / 500f);
         if (attenuation <= 0f) return;
 
-        p.setDevX(p.getDevX() + (dx * attenuation) / 10f);
-        p.setDevY(p.getDevY() + (dy * attenuation) / 10f);
+        p.setXImpactDirection(p.getXImpactDirection() + (dx * attenuation) / 10f);
+        p.setYImpactDirection(p.getYImpactDirection() + (dy * attenuation) / 10f);
     }
 
     private GameShape findBlockShape(int id) {

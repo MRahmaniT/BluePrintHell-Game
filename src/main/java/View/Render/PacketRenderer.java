@@ -13,7 +13,7 @@ public final class PacketRenderer {
 
     public static Shape getShape(Packet p) {
         int size = 12;
-        double angle = Math.atan2(p.getVy(), p.getVx());
+        double angle = Math.atan2(p.getYDirection(), p.getXDirection());
 
         AffineTransform at = AffineTransform.getTranslateInstance(p.getX(), p.getY());
         at.rotate(angle);

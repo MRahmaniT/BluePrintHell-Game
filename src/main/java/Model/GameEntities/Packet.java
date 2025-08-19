@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 public class Packet implements Serializable {
 
-    public enum Type { SQUARE, TRIANGLE, MESSENGER, PROTECTED, PRIVET4, PRIVET6, BULKY8, BULKY10}
     public enum Location { IN_BLOCK, ON_WIRE, LOST }
 
     // Identity
@@ -28,9 +27,9 @@ public class Packet implements Serializable {
 
     // Kinematics (for drawing/snapshots); physics sets/updates these.
     private float x, y;        // current position
-    private float vx, vy;      // facing (normalized direction used for rotation)
+    private float xDirection, yDirection;      // facing (normalized direction used for rotation)
     private float progress;    // [0..1] geometric progress along the wire (physics maintains)
-    private float devX, devY;  // deviation from impact waves
+    private float xImpactDirection, yImpactDirection;  // deviation from impact waves
     private float speed;       // constant movement magnitude (physics uses this each update)
     private float speedFactor;
     private float accel;       // per-update additive to speed (can be 0)
@@ -117,18 +116,18 @@ public class Packet implements Serializable {
     public void setX(float x) { this.x = x; }
     public void setY(float y) { this.y = y; }
 
-    public float getVx() { return vx; }
-    public float getVy() { return vy; }
-    public void setVx(float vx) { this.vx = vx; }
-    public void setVy(float vy) { this.vy = vy; }
+    public float getXDirection() { return xDirection; }
+    public float getYDirection() { return yDirection; }
+    public void setXDirection(float xDirection) { this.xDirection = xDirection; }
+    public void setYDirection(float yDirection) { this.yDirection = yDirection; }
 
     public float getProgress() { return progress; }
     public void setProgress(float progress) { this.progress = progress; }
 
-    public float getDevX() { return devX; }
-    public float getDevY() { return devY; }
-    public void setDevX(float devX) { this.devX = devX; }
-    public void setDevY(float devY) { this.devY = devY; }
+    public float getXImpactDirection() { return xImpactDirection; }
+    public float getYImpactDirection() { return yImpactDirection; }
+    public void setXImpactDirection(float xImpactDirection) { this.xImpactDirection = xImpactDirection; }
+    public void setYImpactDirection(float yImpactDirection) { this.yImpactDirection = yImpactDirection; }
 
     public float getSpeed() { return speed; }
     public void setSpeed(float speed) { this.speed = speed; }

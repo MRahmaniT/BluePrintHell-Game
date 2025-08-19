@@ -4,37 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="df39b545-5a81-4486-9064-30ffdede674e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/SpawnPackets.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Model/Enums/BlockSystemType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Model/Enums/PacketType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Model/Enums/PortRole.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Model/Enums/PortType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/BlockSystem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Port.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/View/Render/PacketRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/BlockManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Systems/BlockManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/ChangeBlocksLight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Systems/ChangeBlocksLight.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Levels/BuildLevel1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Levels/BuildLevel1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Levels/BuildLevel2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Levels/BuildLevel2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/PacketManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/PortManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Wiring/WiringManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/SpawnPackets.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Connection.java" afterDir="false" />
+    <list default="true" id="df39b545-5a81-4486-9064-30ffdede674e" name="Changes" comment="Refreshing phase 1">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Controller/Wiring/LinePath.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Controller/Wiring/WirePath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Packet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Packet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameShapes/BlockShape2Stairs.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/TwoStairsSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameShapes/BlockShapeEnd.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/EndSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameShapes/BlockShapeStart.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/StartSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameShapes/GameShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/GameShape.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameShapes/LineShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Line.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameShapes/RectangleShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/RectangleShape.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/GameEnvironment/Background/BuildBackground.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GameEnvironment/Background/BuildBackground.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/PacketRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/PacketRenderer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,6 +130,19 @@
       <option name="presentableId" value="Default" />
       <updated>1754744898942</updated>
     </task>
+    <task id="LOCAL-00001" summary="Refreshing phase 1">
+      <option name="closed" value="true" />
+      <created>1755604224401</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1755604224401</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Refreshing phase 1" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refreshing phase 1" />
   </component>
 </project>
