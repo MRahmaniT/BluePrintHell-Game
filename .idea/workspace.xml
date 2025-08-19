@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="df39b545-5a81-4486-9064-30ffdede674e" name="Changes" comment="Refreshing phase 1&#10;Part 2">
+    <list default="true" id="df39b545-5a81-4486-9064-30ffdede674e" name="Changes" comment="Refreshing phase 1&#10;Part 3">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/SpawnPackets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/SpawnPackets.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Packet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Packet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Systems/ChangeBlocksLight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Systems/ChangeBlocksLight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/BlockSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/BlockSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/EndSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/EndSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/StartSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/StartSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/TwoStairsSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/TwoStairsSystem.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,12 +146,21 @@
       <option name="project" value="LOCAL" />
       <updated>1755614162861</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Refreshing phase 1&#10;Part 3">
+      <option name="closed" value="true" />
+      <created>1755615412428</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1755615412428</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Refreshing phase 1" />
     <MESSAGE value="Refreshing phase 1&#10;Part 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refreshing phase 1&#10;Part 2" />
+    <MESSAGE value="Refreshing phase 1&#10;Part 3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refreshing phase 1&#10;Part 3" />
   </component>
 </project>

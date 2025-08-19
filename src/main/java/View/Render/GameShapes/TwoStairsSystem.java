@@ -28,7 +28,7 @@ public class TwoStairsSystem implements GameShape {
         this.height = height;
         this.portType = blockSystem.getPortsType();
         this.portConnection = blockSystem.getPortsConnection();
-        this.color = blockSystem.getColor();
+        this.color = Color.red;
         this.squarePacketCount = 0;
         this.trianglePacketCount = 0;
     }
@@ -186,7 +186,6 @@ public class TwoStairsSystem implements GameShape {
     @Override
     public void setColor(Color color) {
         this.color = color;
-        this.blockSystem.setColor(color);
     }
 
     @Override

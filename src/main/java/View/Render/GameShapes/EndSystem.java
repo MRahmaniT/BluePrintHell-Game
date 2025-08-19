@@ -30,7 +30,7 @@ public class EndSystem implements GameShape {
         this.height = height;
         this.portType = blockSystem.getPortsType();
         this.portConnection = blockSystem.getPortsConnection();
-        this.color = blockSystem.getColor();
+        this.color = Color.red;
     }
 
     @Override

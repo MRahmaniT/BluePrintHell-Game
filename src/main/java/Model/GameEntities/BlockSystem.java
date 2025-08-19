@@ -15,7 +15,6 @@ public class BlockSystem implements Serializable {
     private float x, y;
     private boolean isActive;
     private int capacity;
-    private Color color;
 
     private List<Port> ports = new ArrayList<>();
     private Deque<Integer> queueOfPackets = new ArrayDeque<>();
@@ -30,7 +29,6 @@ public class BlockSystem implements Serializable {
         this.ports = ports;
 
         this.capacity = 5;
-        this.color = Color.red;
         this.isActive = true;
     }
 
@@ -50,14 +48,6 @@ public class BlockSystem implements Serializable {
 
     public void setY(float y) {
         this.y = y;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
     }
 
     public BlockSystemType getType() { return type; }

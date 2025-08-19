@@ -379,7 +379,7 @@ public class GamePanel extends JPanel {
         }
 
         //Block Shapes
-        ChangeBlocksLight.changeBlocksLight(blockShapes);
+        ChangeBlocksLight.changeBlocksLight(blockSystems, blockShapes);
         for(GameShape gameShape : blockShapes){
             gameShape.draw(g2d);
         }
