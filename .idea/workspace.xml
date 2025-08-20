@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="df39b545-5a81-4486-9064-30ffdede674e" name="Changes" comment="phase 2 &#10;new packet">
+    <list default="true" id="df39b545-5a81-4486-9064-30ffdede674e" name="Changes" comment="phase 2 &#10;new packet&#10;debug 2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/SpawnPackets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/SpawnPackets.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Packet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Packet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" afterDir="false" />
@@ -184,7 +186,23 @@
       <option name="project" value="LOCAL" />
       <updated>1755690726643</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="phase 2 &#10;new packet&#10;debug 1">
+      <option name="closed" value="true" />
+      <created>1755691811287</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1755691811287</updated>
+    </task>
+    <task id="LOCAL-00009" summary="phase 2 &#10;new packet&#10;debug 2">
+      <option name="closed" value="true" />
+      <created>1755692011601</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1755692011601</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -193,6 +211,8 @@
     <MESSAGE value="Refreshing phase 1&#10;Part 3" />
     <MESSAGE value="Refreshing phase 1&#10;Part 4" />
     <MESSAGE value="phase 2 &#10;new packet" />
-    <option name="LAST_COMMIT_MESSAGE" value="phase 2 &#10;new packet" />
+    <MESSAGE value="phase 2 &#10;new packet&#10;debug 1" />
+    <MESSAGE value="phase 2 &#10;new packet&#10;debug 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="phase 2 &#10;new packet&#10;debug 2" />
   </component>
 </project>

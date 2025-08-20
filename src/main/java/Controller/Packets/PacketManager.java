@@ -31,6 +31,9 @@ public class PacketManager {
     private boolean impactIsDisabled = false; // disable collision detection
     private boolean waveIsDisabled   = false; // disable outward impact wave
 
+    // thresholds
+    private final float maxSpeed = 100f;
+
     // counters
     private int lostPacketsCount = 0;
 
@@ -73,18 +76,26 @@ public class PacketManager {
 
         // 4) handle arrivedPackets & lostPackets
         for (PacketPhysics.ArrivedPackets arrivedPacket : arrivedPackets) {
-            Packet p = arrivedPacket.packet;
-            freeLine(p);
-
-            // enqueue to destination block
-            p.markArrivedToBlock(arrivedPacket.destBlockSystemId);
-            blockSystems.get(arrivedPacket.destBlockSystemId).addPacket(p.getId());
-
-            // coin rules
-            if (p.getType() == PacketType.MESSENGER_2) {
-                PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount() + 1);
+            Packet packet = arrivedPacket.packet;
+            if (!blockSystems.get(packet.getToBlockIdx()).isActive()) {
+                packet.startOnWire(packet.getConnectionIdx(), packet.getToBlockIdx(), packet.getToPort(), packet.getFromBlockIdx(), packet.getFromPort());
             } else {
-                PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount() + 2);
+                System.out.println(packet.getSpeed());
+                if (packet.getSpeed() >= maxSpeed) {
+                    deActiveDestinationSystem(arrivedPacket.destBlockSystemId);
+                }
+                freeLine(packet);
+
+                // enqueue to destination block
+                packet.parkInBlock(arrivedPacket.destBlockSystemId);
+                blockSystems.get(arrivedPacket.destBlockSystemId).addPacket(packet.getId());
+
+                // coin rules
+                if (packet.getType() == PacketType.MESSENGER_2) {
+                    PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount() + 1);
+                } else {
+                    PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount() + 2);
+                }
             }
         }
 
@@ -151,15 +162,28 @@ public class PacketManager {
 
     public void disableImpactForSeconds(int seconds) {
         impactIsDisabled = true;
-        new Timer(seconds * 1000, e -> impactIsDisabled = false).start();
+        Timer timer = new Timer(seconds * 1000, e -> impactIsDisabled = false);
+        timer.setRepeats(false);
+        timer.start();
     }
     public boolean isImpactIsDisabled() { return impactIsDisabled; }
 
     public void disableWaveForSeconds(int seconds) {
         waveIsDisabled = true;
-        new Timer(seconds * 1000, e -> waveIsDisabled = false).start();
+        Timer timer = new Timer(seconds * 1000, e -> waveIsDisabled = false);
+        timer.setRepeats(false);
+        timer.start();
     }
     public boolean isWaveIsDisabled() { return waveIsDisabled; }
+
+    public void deActiveDestinationSystem(int blockSystemId) {
+        blockSystems.get(blockSystemId).setActive(false);
+        Timer timer = new Timer(5 * 1000, e -> {
+            blockSystems.get(blockSystemId).setActive(true);
+        });
+        timer.setRepeats(false);
+        timer.start();
+    }
 
     public int getLostPacketsCount() { return lostPacketsCount; }
 }

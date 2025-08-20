@@ -5,7 +5,10 @@ import Controller.Wiring.WiringManager;
 import Model.GameEntities.Packet;
 import View.Render.GameShapes.GameShape;
 import View.Main.MainFrame;
+import View.Render.PacketRenderer;
 
+import java.awt.*;
+import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.util.List;
 
@@ -17,16 +20,12 @@ public class PacketPhysics {
         public ArrivedPackets(Packet p, int destBlockSystemId) { this.packet = p; this.destBlockSystemId = destBlockSystemId; }
     }
 
-    private final List<GameShape> blocks;
+    private final List<GameShape> blockShapes;
     private final WiringManager wiringManager;      // to compute port centers
-
-    // thresholds
-    private final float arriveEps = 4f;         // how close to B counts as arrived
-    private final float offTargetLossEps = 12f; // if progress>=1 but still far -> lost
 
     public PacketPhysics(List<GameShape> blocks,
                          WiringManager portManager) {
-        this.blocks = blocks;
+        this.blockShapes = blocks;
         this.wiringManager = portManager;
     }
 
@@ -83,13 +82,12 @@ public class PacketPhysics {
             }
 
             // Arrival / off-target after 100% progress
-            float distToB = (float) Math.hypot(destinationPoint.x - packet.getX(), destinationPoint.y - packet.getY());
-            if (packet.getProgress() >= 1f) {
-                if (distToB <= arriveEps) {
-                    arrivedPackets.add(new ArrivedPackets(packet, packet.getToBlockIdx()));
-                } else if (distToB > offTargetLossEps) {
-                    lostPackets.add(packet);
-                    MainFrame.audioManager.playSoundEffect("Resources/lose.wav");                }
+            //float distToB = (float) Math.hypot(destinationPoint.x - packet.getX(), destinationPoint.y - packet.getY());
+            if (!isLost(packet)) {
+                arrivedPackets.add(new ArrivedPackets(packet, packet.getToBlockIdx()));
+            } else if (packet.getProgress() >= 1f) {
+                lostPackets.add(packet);
+                MainFrame.audioManager.playSoundEffect("Resources/lose.wav");
             }
         }
     }
@@ -108,7 +106,17 @@ public class PacketPhysics {
     }
 
     private GameShape findBlockShape(int id) {
-        if (id < 0 || id >= blocks.size()) return null;
-        return blocks.get(id);
+        if (id < 0 || id >= blockShapes.size()) return null;
+        return blockShapes.get(id);
+    }
+
+    private boolean isLost (Packet packet) {
+        Shape shape1 = PacketRenderer.getShape(packet);
+        Shape shape2 = blockShapes.get(packet.getToBlockIdx()).getPortPath(packet.getToPort());
+
+        Area a1 = new Area(shape1);
+        a1.intersect(new Area(shape2));
+
+        return a1.isEmpty();
     }
 }

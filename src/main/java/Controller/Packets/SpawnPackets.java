@@ -37,7 +37,7 @@ public class SpawnPackets {
                 continue;
             }
 
-            Connection connectionChoice = pickFreeOutgoingConnection(blockSystem, firstPacketInQueue);
+            Connection connectionChoice = pickFreeOutgoingConnection(blockSystems, blockSystem, firstPacketInQueue);
             if (connectionChoice == null) {
                 continue;
             }
@@ -66,13 +66,15 @@ public class SpawnPackets {
     }
 
     /* ------------------- internals ------------------- */
-    private Connection pickFreeOutgoingConnection(BlockSystem blockSystem, Packet packet) {
+    private Connection pickFreeOutgoingConnection(List<BlockSystem> blockSystems, BlockSystem blockSystem, Packet packet) {
 
         List<Connection> options = new ArrayList<>();
 
         for (Connection connection : connections) {
 
             if (connection.isPacketOnLine()) continue;
+
+            if (!blockSystems.get(connection.getToSystemId()).isActive()) continue;
 
             if (connection.getFromSystemId() == blockSystem.getId() &&
                     isOutput(blockSystem, connection.getFromPortId())) {

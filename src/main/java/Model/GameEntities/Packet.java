@@ -74,10 +74,6 @@ public class Packet implements Serializable {
         this.speed = baseSpeed;
     }
 
-    public void markArrivedToBlock(int destBlockIdx) {
-        parkInBlock(destBlockIdx);
-    }
-
     public void markLost() {
         this.location = Location.LOST;
         this.connectionIdx = -1;
