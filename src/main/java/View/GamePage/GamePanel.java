@@ -225,12 +225,11 @@ public class GamePanel extends JPanel {
                 }
             }
 
-            if (!blockShapes.isEmpty() && totalPackets == blockShapes.getLast().getSquarePacketCount() + blockShapes.getLast().getTrianglePacketCount()) {
+            if (!blockShapes.isEmpty() && totalPackets == blockSystems.getLast().queueCount()) {
                 gameTimer.stop();
                 MainFrame.audioManager.playSoundEffect("Resources/win.wav");
                 winPanel.updateStats(
-                        blockShapes.getLast().getSquarePacketCount() +
-                                blockShapes.getLast().getTrianglePacketCount(),
+                        blockSystems.getLast().queueCount(),
                         totalPackets,
                         timeController.getFormattedTime(),
                         coins
@@ -264,13 +263,16 @@ public class GamePanel extends JPanel {
             public void keyTyped(KeyEvent e) {
                 if (e.getKeyChar() == 'p') {
                     isRunning = true;
-                    int j = totalPackets/2;
-                    for (int i = 0; i < j; i++) {
-                        spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_1));
+                    for (int i = 0; i < 3; i++) {
+                        spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_2));
                         generatedPackets++;
                     }
-                    for (int i = j; i < totalPackets; i++) {
+                    for (int i = 3; i < 7; i++) {
                         spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_3));
+                        generatedPackets++;
+                    }
+                    for (int i = 7; i < 10; i++) {
+                        spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_1));
                         generatedPackets++;
                     }
                 }
@@ -323,7 +325,7 @@ public class GamePanel extends JPanel {
             public void mouseMoved(MouseEvent e) {
                 mousePointX = e.getX() - getWidth() / 2;
                 mousePointY = e.getY() - getHeight() / 2;
-                repaint();
+                //repaint();
             }
 
             @Override

@@ -98,7 +98,7 @@ public class SpawnPackets {
         if (packetType == PacketType.MESSENGER_1) {
             packet.setAcceleration(5);
             if (portType != PortType.MESSENGER_1) {
-                packet.setAccelerationChanger(-0.05f);
+                packet.setAccelerationChanger(-0.005f);
             }
         } else if (packetType == PacketType.MESSENGER_2) {
             if (portType == PortType.MESSENGER_2) {
@@ -106,7 +106,7 @@ public class SpawnPackets {
             }
         } else if (packetType == PacketType.MESSENGER_3) {
             if (portType != PortType.MESSENGER_3){
-                packet.setAccelerationChanger(5);
+                packet.setAccelerationChanger(1);
             }
         }
     }

@@ -37,7 +37,7 @@ public class Packet implements Serializable {
     // status
     private float noise;
     public static final float NOISE_THRESHOLD = 15f;
-    public final float baseSpeed = 100f;
+    public final float baseSpeed = 50f;
 
     public Packet() { /* for JSON */ }
 
@@ -55,6 +55,7 @@ public class Packet implements Serializable {
 
         this.connectionIdx = -1;
         this.progress = 0f;
+        this.speed = 0;
         this.acceleration = 0f;
     }
 
@@ -70,6 +71,7 @@ public class Packet implements Serializable {
         this.toPort       = toPort;
 
         this.progress = 0f;
+        this.speed = baseSpeed;
     }
 
     public void markArrivedToBlock(int destBlockIdx) {
