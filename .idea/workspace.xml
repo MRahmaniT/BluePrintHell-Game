@@ -4,13 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="df39b545-5a81-4486-9064-30ffdede674e" name="Changes" comment="phase 2 &#10;new packet&#10;debug 2">
+    <list default="true" id="df39b545-5a81-4486-9064-30ffdede674e" name="Changes" comment="phase 2 &#10;speed threshold">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Controller/Wiring/Wire.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Wire/QuadBezierWire.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/SpawnPackets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/SpawnPackets.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Packet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Packet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Wiring/WiringManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Wiring/WiringManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Line.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Wire/Line.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/PacketRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/PacketRenderer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +21,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -55,6 +57,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;MVC__Branch&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/university/Term 8/AP/Project/Phase-2&quot;
   }
 }</component>
@@ -202,7 +205,15 @@
       <option name="project" value="LOCAL" />
       <updated>1755692011601</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="phase 2 &#10;speed threshold">
+      <option name="closed" value="true" />
+      <created>1755709871788</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1755709871788</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -213,6 +224,7 @@
     <MESSAGE value="phase 2 &#10;new packet" />
     <MESSAGE value="phase 2 &#10;new packet&#10;debug 1" />
     <MESSAGE value="phase 2 &#10;new packet&#10;debug 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="phase 2 &#10;new packet&#10;debug 2" />
+    <MESSAGE value="phase 2 &#10;speed threshold" />
+    <option name="LAST_COMMIT_MESSAGE" value="phase 2 &#10;speed threshold" />
   </component>
 </project>

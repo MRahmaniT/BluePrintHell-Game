@@ -5,6 +5,7 @@ import Model.GameEntities.Packet;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Rectangle2D;
 
@@ -39,8 +40,22 @@ public final class PacketRenderer {
             triangle.closePath();
             return at.createTransformedShape(triangle);
 
-        }
-        else {
+        } else if (packet.getType() == PacketType.PROTECTED) {
+
+            // lock shape
+            return at.createTransformedShape(new Rectangle2D.Float(-size/2f, -size/2f, size, size));
+
+        } else if (packet.getType() == PacketType.PRIVATE_4) {
+
+            // circle shape
+            return at.createTransformedShape(new Rectangle2D.Float(-size/2f, -size/2f, size, size));
+
+        } else if (packet.getType() == PacketType.PRIVATE_6) {
+
+            // circle shape
+            return at.createTransformedShape(new Rectangle2D.Float(-size/2f, -size/2f, size, size));
+
+        } else {
             return null;
         }
     }

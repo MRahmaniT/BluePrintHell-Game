@@ -5,7 +5,7 @@ import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Connection;
 import View.Main.MainFrame;
 import View.Render.GameShapes.GameShape;
-import View.Render.GameShapes.Line;
+import View.Render.GameShapes.Wire.Line;
 
 import java.awt.*;
 import java.awt.geom.Path2D;

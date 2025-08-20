@@ -24,7 +24,7 @@ import View.Render.GameShapes.GameShape;
 
 import View.Main.MainFrame;
 import Model.Player.PlayerState;
-import View.Render.GameShapes.Line;
+import View.Render.GameShapes.Wire.Line;
 import View.Render.PacketRenderer;
 
 import javax.imageio.ImageIO;

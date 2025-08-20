@@ -1,8 +1,9 @@
-package View.Render.GameShapes;
+package View.Render.GameShapes.Wire;
 
 import Model.Enums.PortType;
 import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Packet;
+import View.Render.GameShapes.GameShape;
 
 import java.awt.*;
 import java.awt.geom.Path2D;
