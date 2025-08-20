@@ -96,17 +96,17 @@ public class SpawnPackets {
         PacketType packetType = packet.getType();
 
         if (packetType == PacketType.MESSENGER_1) {
-            packet.setAcceleration(5);
+            packet.setAcceleration(0.1f);
             if (portType != PortType.MESSENGER_1) {
                 packet.setAccelerationChanger(-0.005f);
             }
         } else if (packetType == PacketType.MESSENGER_2) {
-            if (portType == PortType.MESSENGER_2) {
-                packet.setSpeed(packet.getSpeed()/2);
+            if (portType != PortType.MESSENGER_2) {
+                packet.setSpeed(packet.getSpeed()*2);
             }
         } else if (packetType == PacketType.MESSENGER_3) {
             if (portType != PortType.MESSENGER_3){
-                packet.setAccelerationChanger(1);
+                packet.setAccelerationChanger(0.1f);
             }
         }
     }
