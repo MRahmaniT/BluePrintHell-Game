@@ -56,7 +56,8 @@ public class PacketPhysics {
             packet.setYDirection(linePath.tangent().y + packet.getYImpactDirection());
 
             // speed (+ optional accel)
-            float speed = Math.max(0f, packet.getSpeed() + packet.getAcceleration());
+            packet.setAcceleration(packet.getAcceleration()+packet.getAccelerationChanger());
+            float speed = packet.getSpeed() + packet.getAcceleration();
             packet.setSpeed(speed);
             packet.setX(packet.getX() + packet.getXDirection() * speed * dt);
             packet.setY(packet.getY() + packet.getYDirection() * speed * dt);

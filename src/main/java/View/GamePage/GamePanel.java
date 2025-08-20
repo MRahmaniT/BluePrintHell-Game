@@ -266,7 +266,7 @@ public class GamePanel extends JPanel {
                     isRunning = true;
                     int j = totalPackets/2;
                     for (int i = 0; i < j; i++) {
-                        spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_2));
+                        spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_1));
                         generatedPackets++;
                     }
                     for (int i = j; i < totalPackets; i++) {
