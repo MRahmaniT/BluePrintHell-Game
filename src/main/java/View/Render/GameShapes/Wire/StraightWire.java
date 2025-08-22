@@ -3,21 +3,23 @@ package View.Render.GameShapes.Wire;
 import Model.Enums.PortType;
 import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Packet;
+import Model.GameEntities.Wire.StraightPath;
 import View.Render.GameShapes.GameShape;
 
 import java.awt.*;
 import java.awt.geom.Path2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-public class Line implements GameShape {
+public class StraightWire implements GameShape {
     private final GameShape blockA;
     private final int portA;
     private final GameShape blockB;
     private final int portB;
     private Color color;
 
-    public Line(GameShape blockA, int portA, GameShape blockB, int portB, Color color) {
+    public StraightWire(GameShape blockA, int portA, GameShape blockB, int portB, Color color) {
         this.blockA = blockA;
         this.portA = portA;
         this.blockB = blockB;
@@ -33,14 +35,15 @@ public class Line implements GameShape {
 
         Rectangle2D boundsA = pathA.getBounds2D();
         Rectangle2D boundsB = pathB.getBounds2D();
-        int x1 = (int) boundsA.getCenterX();
-        int y1 = (int) boundsA.getCenterY();
-        int x2 = (int) boundsB.getCenterX();
-        int y2 = (int) boundsB.getCenterY();
+
+        Point2D.Float startPoint = new Point2D.Float((float) boundsA.getCenterX(), (float) boundsA.getCenterY());
+        Point2D.Float endPoint = new Point2D.Float((float) boundsB.getCenterX(), (float) boundsB.getCenterY());
+
+        StraightPath straightPath = new StraightPath(startPoint, endPoint);
 
         g.setColor(color);
         g.setStroke(new BasicStroke(4f));
-        g.drawLine(x1, y1, x2, y2);
+        g.draw(straightPath.toShape());
     }
 
     public GameShape getBlockA() {

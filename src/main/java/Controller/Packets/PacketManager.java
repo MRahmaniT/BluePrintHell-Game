@@ -80,7 +80,6 @@ public class PacketManager {
             if (!blockSystems.get(packet.getToBlockIdx()).isActive()) {
                 packet.startOnWire(packet.getConnectionIdx(), packet.getToBlockIdx(), packet.getToPort(), packet.getFromBlockIdx(), packet.getFromPort());
             } else {
-                System.out.println(packet.getSpeed());
                 if (packet.getSpeed() >= maxSpeed) {
                     deActiveDestinationSystem(arrivedPacket.destBlockSystemId);
                 }

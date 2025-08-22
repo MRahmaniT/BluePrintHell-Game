@@ -5,7 +5,7 @@ import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Connection;
 import View.Main.MainFrame;
 import View.Render.GameShapes.GameShape;
-import View.Render.GameShapes.Wire.Line;
+import View.Render.GameShapes.Wire.StraightWire;
 
 import java.awt.*;
 import java.awt.geom.Path2D;
@@ -28,7 +28,7 @@ public class WiringManager {
     private final List<Connection> connections = new ArrayList<>();
     private int connectionIdCounter = 0;
 
-    private final List<Line> lines = new ArrayList<>();
+    private final List<StraightWire> lines = new ArrayList<>();
 
     public void handleMousePress(List<GameShape> blockShapes, int mouseX, int mouseY) {
         for (GameShape block : blockShapes) {
@@ -89,7 +89,7 @@ public class WiringManager {
 
                         MainFrame.audioManager.playSoundEffect("Resources/connection.wav");
 
-                        Line line = new Line(fromBlockShape, fromPortId, targetBlock, i, Color.CYAN);
+                        StraightWire line = new StraightWire(fromBlockShape, fromPortId, targetBlock, i, Color.CYAN);
                         lines.add(line);
 
                         connectionIdCounter++;
@@ -114,7 +114,7 @@ public class WiringManager {
         return blockSystems.get(id);
     }
     private void removeLine (GameShape blockSystem, int port){
-        for (Line line : lines) {
+        for (StraightWire line : lines) {
             if ((line.getBlockA() == blockSystem && line.getPortA() == port) || (line.getBlockB() == blockSystem && line.getPortB() == port )){
                 lines.remove(line);
                 break;
@@ -139,7 +139,7 @@ public class WiringManager {
 
     public double getUsedWireLength() {
         double total = 0;
-        for (Line line : lines) {
+        for (StraightWire line : lines) {
             Path2D.Float pathA = line.getBlockA().getPortPath(line.getPortA());
             Path2D.Float pathB = line.getBlockB().getPortPath(line.getPortB());
             if (pathA != null && pathB != null) {
@@ -161,7 +161,7 @@ public class WiringManager {
         return connections;
     }
 
-    public List<Line> getlines() {
+    public List<StraightWire> getlines() {
         return lines;
     }
 

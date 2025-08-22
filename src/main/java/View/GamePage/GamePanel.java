@@ -24,7 +24,7 @@ import View.Render.GameShapes.GameShape;
 
 import View.Main.MainFrame;
 import Model.Player.PlayerState;
-import View.Render.GameShapes.Wire.Line;
+import View.Render.GameShapes.Wire.StraightWire;
 import View.Render.PacketRenderer;
 
 import javax.imageio.ImageIO;
@@ -216,11 +216,11 @@ public class GamePanel extends JPanel {
             );
 
             if(wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH) < 0){
-                for (Line line : wiringManager.getlines()) {
+                for (StraightWire line : wiringManager.getlines()) {
                     line.setColor(Color.RED);
                 }
             }else {
-                for (Line line : wiringManager.getlines()) {
+                for (StraightWire line : wiringManager.getlines()) {
                     line.setColor(Color.CYAN);
                 }
             }
@@ -400,7 +400,7 @@ public class GamePanel extends JPanel {
         }
 
         //For Lines
-        for (Line line : wiringManager.getlines()) {
+        for (StraightWire line : wiringManager.getlines()) {
             line.draw(g2d);
         }
 
