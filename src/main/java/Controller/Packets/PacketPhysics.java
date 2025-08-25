@@ -1,8 +1,9 @@
 package Controller.Packets;
 
-import Controller.Wiring.LinePath;
 import Controller.Wiring.WiringManager;
 import Model.GameEntities.Packet;
+import Model.GameEntities.Wire.StraightPath;
+import Model.GameEntities.Wire.WirePath;
 import View.Render.GameShapes.GameShape;
 import View.Main.MainFrame;
 import View.Render.PacketRenderer;
@@ -24,9 +25,9 @@ public class PacketPhysics {
     private final WiringManager wiringManager;      // to compute port centers
 
     public PacketPhysics(List<GameShape> blocks,
-                         WiringManager portManager) {
+                         WiringManager wiringManager) {
         this.blockShapes = blocks;
-        this.wiringManager = portManager;
+        this.wiringManager = wiringManager;
     }
 
     public void update(List<Packet> packets, float dt,
@@ -50,9 +51,9 @@ public class PacketPhysics {
             }
 
             // Direction to target + deviation
-            LinePath linePath = new LinePath(startPoint, destinationPoint);
-            packet.setXDirection(linePath.tangent().x + packet.getXImpactDirection());
-            packet.setYDirection(linePath.tangent().y + packet.getYImpactDirection());
+            StraightPath straightPath = new StraightPath(startPoint, destinationPoint);
+            packet.setXDirection(straightPath.tangentAt(packet.getProgress()).x + packet.getXImpactDirection());
+            packet.setYDirection(straightPath.tangentAt(packet.getProgress()).y + packet.getYImpactDirection());
 
             // speed (+ optional accel)
             packet.setAcceleration(packet.getAcceleration()+packet.getAccelerationChanger());
@@ -62,16 +63,14 @@ public class PacketPhysics {
             packet.setY(packet.getY() + packet.getYDirection() * speed * dt);
 
             // Update progress
-            float progressX = packet.getX() - startPoint.x;
-            float progressY = packet.getY() - startPoint.y;
-            float progressLength = (float) Math.hypot(progressX, progressY);
-            float progress = progressLength / linePath.getLength();
-            if (progress <= 0){
+            WirePath.Nearest nearest = straightPath.nearestTo(new Point2D.Float(packet.getX(), packet.getY()));
+            float newProgress = nearest.t;
+            if (newProgress <= 0){
                 packet.setProgress(0);
-            }else if (progress >= 1){
+            }else if (newProgress >= 1){
                 packet.setProgress(1);
             } else {
-                packet.setProgress(progress);
+                packet.setProgress(newProgress);
             }
 
             // Loss checks
@@ -82,7 +81,6 @@ public class PacketPhysics {
             }
 
             // Arrival / off-target after 100% progress
-            //float distToB = (float) Math.hypot(destinationPoint.x - packet.getX(), destinationPoint.y - packet.getY());
             if (!isLost(packet)) {
                 arrivedPackets.add(new ArrivedPackets(packet, packet.getToBlockIdx()));
             } else if (packet.getProgress() >= 1f) {
@@ -114,6 +112,7 @@ public class PacketPhysics {
         Shape shape1 = PacketRenderer.getShape(packet);
         Shape shape2 = blockShapes.get(packet.getToBlockIdx()).getPortPath(packet.getToPort());
 
+        assert shape1 != null;
         Area a1 = new Area(shape1);
         a1.intersect(new Area(shape2));
 
