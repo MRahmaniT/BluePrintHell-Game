@@ -1,6 +1,8 @@
 package Model.GameEntities.Wire;
 
 import java.awt.*;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 
 public class OneFilletPath implements WirePath {
@@ -98,6 +100,31 @@ public class OneFilletPath implements WirePath {
 
     @Override
     public Shape toShape() {
+        Path2D.Float path = new Path2D.Float();
+        if (!hasArc) {
+            path.moveTo(A.x, A.y);
+            path.lineTo(B.x, B.y);
+            return path;
+        }
+
+        path.moveTo(A.x, A.y);
+        path.lineTo(T1.x, T1.y);
+
+        double startDeg  = Math.toDegrees(thetaStart);
+        double extentDeg = Math.toDegrees(thetaEnd - thetaStart); // CCW sweep
+        // Ensure positive CCW extent
+        if (extentDeg < 0) extentDeg += 360.0;
+
+        double x = C.x - r, y = C.y - r, d = r * 2.0;
+        Arc2D.Double arc = new Arc2D.Double(T1.x, T2.y, d, d, startDeg, extentDeg, Arc2D.OPEN);
+        path.append(arc, true);
+
+        path.lineTo(B.x, B.y);
+        return path;
+    }
+
+    @Override
+    public Path2D.Float getPath() {
         return null;
     }
 

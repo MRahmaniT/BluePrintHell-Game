@@ -56,10 +56,8 @@ public class GamePanel extends JPanel {
     private final List<GameShape> blockShapes = new ArrayList<>();
     private final BlockManager blockManager = new BlockManager();
 
-    //For Wire
-    private final WiringManager wiringManager = new WiringManager();
-
     //For Wires
+    private final WiringManager wiringManager = new WiringManager();
     private final double MAX_WIRE_LENGTH = 2000;
     private int mousePointX;
     private int mousePointY;
@@ -216,11 +214,11 @@ public class GamePanel extends JPanel {
             );
 
             if(wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH) < 0){
-                for (Wire line : wiringManager.getlines()) {
+                for (Wire line : wiringManager.getWires()) {
                     line.setColor(Color.RED);
                 }
             }else {
-                for (Wire line : wiringManager.getlines()) {
+                for (Wire line : wiringManager.getWires()) {
                     line.setColor(Color.CYAN);
                 }
             }
@@ -400,7 +398,7 @@ public class GamePanel extends JPanel {
         }
 
         //For Lines
-        for (Wire line : wiringManager.getlines()) {
+        for (Wire line : wiringManager.getWires()) {
             line.draw(g2d);
         }
 

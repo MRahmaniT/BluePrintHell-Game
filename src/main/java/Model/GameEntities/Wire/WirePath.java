@@ -1,9 +1,12 @@
 package Model.GameEntities.Wire;
 
 import java.awt.*;
+import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 
 public interface WirePath {
+
+    Path2D.Float getPath ();
 
     Point2D.Float pointAt(float t);
 

@@ -1,9 +1,7 @@
 package View.Render.GameShapes.Wire;
 
-import Model.Enums.PortType;
 import Model.Enums.WireType;
-import Model.GameEntities.BlockSystem;
-import Model.GameEntities.Packet;
+import Model.GameEntities.Wire.OneFilletPath;
 import Model.GameEntities.Wire.StraightPath;
 import View.Render.GameShapes.GameShape;
 
@@ -13,16 +11,18 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-public class Wire implements GameShape {
+public class Wire {
     private WireType wireType;
+    private final ArrayList<Point2D.Float> midPoints;
     private final GameShape blockA;
     private final int portA;
     private final GameShape blockB;
     private final int portB;
     private Color color;
 
-    public Wire(WireType wireType, GameShape blockA, int portA, GameShape blockB, int portB, Color color) {
+    public Wire(WireType wireType, ArrayList<Point2D.Float> midPoints, GameShape blockA, int portA, GameShape blockB, int portB, Color color) {
         this.wireType = wireType;
+        this.midPoints = midPoints;
         this.blockA = blockA;
         this.portA = portA;
         this.blockB = blockB;
@@ -30,7 +30,7 @@ public class Wire implements GameShape {
         this.color = color;
     }
 
-    @Override
+
     public void draw(Graphics2D g) {
         if (wireType == WireType.STRAIGHT) {
             Path2D.Float pathA = blockA.getPortPath(portA);
@@ -48,7 +48,38 @@ public class Wire implements GameShape {
             g.setColor(color);
             g.setStroke(new BasicStroke(4f));
             g.draw(straightPath.toShape());
+        } else if (wireType == WireType.CURVE1) {
+            Path2D.Float pathA = blockA.getPortPath(portA);
+            Path2D.Float pathB = blockB.getPortPath(portB);
+            if (pathA == null || pathB == null) return;
+
+            Rectangle2D boundsA = pathA.getBounds2D();
+            Rectangle2D boundsB = pathB.getBounds2D();
+
+            Point2D.Float startPoint = new Point2D.Float((float) boundsA.getCenterX(), (float) boundsA.getCenterY());
+            Point2D.Float endPoint = new Point2D.Float((float) boundsB.getCenterX(), (float) boundsB.getCenterY());
+
+            OneFilletPath oneFilletPath = new OneFilletPath(startPoint, midPoints.get(0), endPoint, 15);
+            g.setColor(color);
+            g.setStroke(new BasicStroke(4f));
+            g.draw(oneFilletPath.toShape());
         }
+    }
+
+    public Path2D.Float getWirePath () {
+        Path2D.Float pathA = blockA.getPortPath(portA);
+        Path2D.Float pathB = blockB.getPortPath(portB);
+        if (pathA == null || pathB == null) return null;
+
+        Rectangle2D boundsA = pathA.getBounds2D();
+        Rectangle2D boundsB = pathB.getBounds2D();
+
+        Point2D.Float startPoint = new Point2D.Float((float) boundsA.getCenterX(), (float) boundsA.getCenterY());
+        Point2D.Float endPoint = new Point2D.Float((float) boundsB.getCenterX(), (float) boundsB.getCenterY());
+
+        StraightPath straightPath = new StraightPath(startPoint, endPoint);
+
+        return straightPath.getPath();
     }
 
     public GameShape getBlockA() {
@@ -67,53 +98,47 @@ public class Wire implements GameShape {
         return portB;
     }
 
-    @Override public void setColor(Color color) {this.color = color;}
-    @Override public void setPosition(Point point) {}
-    @Override public Point getPosition() { return null; }
-    @Override public Path2D.Float getTopPath() { return null; }
+    public void setColor(Color color) {this.color = color;}
 
-    @Override
-    public BlockSystem getBlockSystem() {
-        return null;
+    public boolean isNear(Point2D.Float point) {
+        Path2D.Float pathA = blockA.getPortPath(portA);
+        Path2D.Float pathB = blockB.getPortPath(portB);
+
+        Rectangle2D boundsA = pathA.getBounds2D();
+        Rectangle2D boundsB = pathB.getBounds2D();
+
+        Point2D.Float startPoint = new Point2D.Float((float) boundsA.getCenterX(), (float) boundsA.getCenterY());
+        Point2D.Float endPoint = new Point2D.Float((float) boundsB.getCenterX(), (float) boundsB.getCenterY());
+
+        StraightPath straightPath = new StraightPath(startPoint, endPoint);
+
+        return straightPath.nearestTo(point).distance < 5;
     }
 
-    @Override public Path2D.Float getPortPath(int i) { return null; }
-    @Override public PortType getPortType(int i) { return null; }
-    @Override public void setConnection(int i, boolean b) {}
-    @Override public boolean getConnection(int i) { return false; }
+    public Point2D.Float getStartPoint () {
+        Path2D.Float pathA = blockA.getPortPath(portA);
+        if (pathA == null) return null;
 
-    @Override
-    public void setSquarePacketCount(int i) {
+        Rectangle2D boundsA = pathA.getBounds2D();
 
+        Point2D.Float startPoint = new Point2D.Float((float) boundsA.getCenterX(), (float) boundsA.getCenterY());
+         return startPoint;
     }
 
-    @Override
-    public int getSquarePacketCount() {
-        return 0;
+    public Point2D.Float getEndPoint () {
+        Path2D.Float pathB = blockB.getPortPath(portB);
+        if (pathB == null) return null;
+
+        Rectangle2D boundsA = pathB.getBounds2D();
+
+        Point2D.Float endPoint = new Point2D.Float((float) boundsA.getCenterX(), (float) boundsA.getCenterY());
+        return endPoint;
     }
 
-    @Override
-    public void setTrianglePacketCount(int i) {
-
+    public void setWireType (WireType wireType) {
+        this.wireType = wireType;
     }
-
-    @Override
-    public int getTrianglePacketCount() {
-        return 0;
-    }
-
-    @Override
-    public void addBlockPackets(Packet packet) {
-
-    }
-
-    @Override
-    public void releaseBlockPackets(Packet packet) {
-
-    }
-
-    @Override
-    public ArrayList<Packet> getBlockPackets() {
-        return null;
+    public void addMidPoint (Point2D.Float point) {
+        this.midPoints.add(point);
     }
 }

@@ -4,14 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="df39b545-5a81-4486-9064-30ffdede674e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Model/Enums/WireType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/OneFilletPath.java" afterDir="false" />
+    <list default="true" id="df39b545-5a81-4486-9064-30ffdede674e" name="Changes" comment="phase 2 &#10;curve wiring">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Wiring/WiringManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Wiring/WiringManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/OneFilletPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/OneFilletPath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/StraightPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/StraightPath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/WirePath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/WirePath.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Wire/StraightWire.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Wire/Wire.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Wire/Wire.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Wire/Wire.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -230,8 +230,27 @@
       <option name="project" value="LOCAL" />
       <updated>1755857972030</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="phase 2 &#10;curve wiring">
+      <option name="closed" value="true" />
+      <created>1756129336136</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1756129336136</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Refreshing phase 1" />
@@ -243,6 +262,7 @@
     <MESSAGE value="phase 2 &#10;new packet&#10;debug 2" />
     <MESSAGE value="phase 2 &#10;speed threshold" />
     <MESSAGE value="phase 2 &#10;wiring" />
-    <option name="LAST_COMMIT_MESSAGE" value="phase 2 &#10;wiring" />
+    <MESSAGE value="phase 2 &#10;curve wiring" />
+    <option name="LAST_COMMIT_MESSAGE" value="phase 2 &#10;curve wiring" />
   </component>
 </project>
