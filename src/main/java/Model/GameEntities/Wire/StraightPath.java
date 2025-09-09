@@ -56,6 +56,6 @@ public final class StraightPath implements WirePath {
         t = Math.max(0f, Math.min(1f, t));
         Point2D.Float q = pointAt(t);
         float d = (float)Math.hypot(q.x - point.x, q.y - point.y);
-        return new Nearest(t, q, d);
+        return new Nearest(q, t, d);
     }
 }

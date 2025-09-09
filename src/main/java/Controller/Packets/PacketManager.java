@@ -32,13 +32,17 @@ public class PacketManager {
     private boolean waveIsDisabled   = false; // disable outward impact wave
 
     // thresholds
-    private final float maxSpeed = 100f;
+    private final float maxSpeed = 500f;
 
     // counters
     private int lostPacketsCount = 0;
 
     // constants (kept from your old logic)
-    private static final float NOISE_PER_HIT = 10f;
+    private static final float NOISE_PER_HIT = 5f;
+
+    // impacts
+    private List<Impact> impacts = new ArrayList<>();
+    private List<Impact> managedImpacts = new ArrayList<>();
 
     public PacketManager(List<BlockSystem> blockSystems,
                          List<GameShape> blockShapes,
@@ -65,14 +69,14 @@ public class PacketManager {
         physics.update(packets, 0.01f, arrivedPackets, lostPackets);
 
         // 2) find impacts
-        List<Impact> impacts = new ArrayList<>();
+
         for (Packet p : packets) {
             if (!p.isOnWire()) continue;
-            findImpact(impacts, packets, p);
+            findImpact(packets, p);
         }
 
         //3) apply impacts
-        manageImpact(impacts, packets);
+        manageImpact(packets);
 
         // 4) handle arrivedPackets & lostPackets
         for (PacketPhysics.ArrivedPackets arrivedPacket : arrivedPackets) {
@@ -81,13 +85,13 @@ public class PacketManager {
                 packet.startOnWire(packet.getConnectionIdx(), packet.getToBlockIdx(), packet.getToPort(), packet.getFromBlockIdx(), packet.getFromPort());
             } else {
                 if (packet.getSpeed() >= maxSpeed) {
-                    deActiveDestinationSystem(arrivedPacket.destBlockSystemId);
+                    deActiveDestinationSystem(arrivedPacket.destinationBlockSystemId);
                 }
                 freeLine(packet);
 
                 // enqueue to destination block
-                packet.parkInBlock(arrivedPacket.destBlockSystemId);
-                blockSystems.get(arrivedPacket.destBlockSystemId).addPacket(packet.getId());
+                packet.parkInBlock(arrivedPacket.destinationBlockSystemId);
+                blockSystems.get(arrivedPacket.destinationBlockSystemId).addPacket(packet.getId());
 
                 // coin rules
                 if (packet.getType() == PacketType.MESSENGER_2) {
@@ -106,7 +110,7 @@ public class PacketManager {
 
     }
 
-    private void findImpact(List<Impact> impacts, List<Packet> packets, Packet packet1) {
+    private void findImpact(List<Packet> packets, Packet packet1) {
         if (impactIsDisabled) return;
 
         for (Packet packet2 : packets) {
@@ -124,17 +128,24 @@ public class PacketManager {
                 Point point = new Point((int) r.getCenterX(), (int) r.getCenterY());
 
                 boolean firstImpact = true;
-                for (Impact i : impacts) {
-                    if (i.contains(packet1, packet2)) { firstImpact = false; break; }
+                for (Impact impact : managedImpacts) {
+                    if (impact.contains(packet1, packet2)) {
+                        System.out.println("redundant");
+                        firstImpact = false; break; }
                 }
                 if (firstImpact) {
                     impacts.add(new Impact(packet1, packet2, point));
+                }
+            } else {
+                for (Impact impact : managedImpacts) {
+                    if (impact.contains(packet1, packet2)) {
+                        managedImpacts.remove(impact); break; }
                 }
             }
         }
     }
 
-    private void manageImpact(List<Impact> impacts, List<Packet> packets) {
+    private void manageImpact(List<Packet> packets) {
         for (Impact impact : impacts) {
             for (Packet p : packets) {
                 if (!p.isOnWire()) continue;
@@ -145,6 +156,7 @@ public class PacketManager {
                     physics.applyImpact(p, impact.point.x, impact.point.y);
                 }
             }
+            managedImpacts.add(impact);
         }
         impacts.clear();
     }

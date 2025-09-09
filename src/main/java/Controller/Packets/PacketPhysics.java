@@ -17,8 +17,8 @@ public class PacketPhysics {
 
     public static class ArrivedPackets {
         public final Packet packet;
-        public final int destBlockSystemId;
-        public ArrivedPackets(Packet p, int destBlockSystemId) { this.packet = p; this.destBlockSystemId = destBlockSystemId; }
+        public final int destinationBlockSystemId;
+        public ArrivedPackets(Packet p, int destinationBlockSystemId) { this.packet = p; this.destinationBlockSystemId = destinationBlockSystemId; }
     }
 
     private final List<GameShape> blockShapes;
@@ -99,8 +99,8 @@ public class PacketPhysics {
         float attenuation = 1f - Math.min(1f, dist / 500f);
         if (attenuation <= 0f) return;
 
-        p.setXImpactDirection(p.getXImpactDirection() + (dx * attenuation) / 10f);
-        p.setYImpactDirection(p.getYImpactDirection() + (dy * attenuation) / 10f);
+        p.setXImpactDirection(p.getXImpactDirection() + (dx * attenuation) / 100f);
+        p.setYImpactDirection(p.getYImpactDirection() + (dy * attenuation) / 100f);
     }
 
     private GameShape findBlockShape(int id) {

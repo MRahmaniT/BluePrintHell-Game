@@ -4,71 +4,93 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="df39b545-5a81-4486-9064-30ffdede674e" name="Changes" comment="phase 2 &#10;curve wiring">
+    <list default="true" id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/players.json" beforeDir="false" afterPath="$PROJECT_DIR$/players.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/GameEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/GameEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Levels/BuildLevel1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Levels/BuildLevel1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Levels/BuildLevel2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Levels/BuildLevel2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/SpawnPackets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/SpawnPackets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Systems/BlockManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Systems/BlockManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Systems/ChangeBlocksLight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Systems/ChangeBlocksLight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/TimeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/TimeController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Wiring/WiringManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Wiring/WiringManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/Enums/BlockSystemType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/Enums/BlockSystemType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/Enums/PacketType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/Enums/PacketType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/Enums/PortRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/Enums/PortRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/Enums/PortType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/Enums/PortType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/Enums/WireType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/Enums/WireType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/BlockSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/BlockSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Connection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Impact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Impact.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Packet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Packet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Port.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Port.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/OneFilletPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/OneFilletPath.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/StraightPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/StraightPath.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/WirePath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/WirePath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/Player/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/Player/PlayerState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/Player/PlayerState.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Services/AudioManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Services/AudioManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Storage/PlayerStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Storage/PlayerStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/GameEnvironment/Background/BuildBackground.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GameEnvironment/Background/BuildBackground.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/GameEnvironment/Options/HUDPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GameEnvironment/Options/HUDPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/GameEnvironment/Options/ShopPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GameEnvironment/Options/ShopPanel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/State/GameOverPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GamePage/State/GameOverPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/State/PausePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GamePage/State/PausePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/State/WinPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GamePage/State/WinPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/LevelPage/LevelPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/LevelPage/LevelPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/LoginPage/LoginPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/LoginPage/LoginPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/Main/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Main/MainFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/MenuPage/MenuPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/MenuPage/MenuPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/EndSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/EndSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/GameShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/GameShape.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/RectangleShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/RectangleShape.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/StartSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/StartSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/TwoStairsSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/TwoStairsSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Wire/Wire.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Wire/Wire.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/PacketRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/PacketRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/SettingsPage/SettingsPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/SettingsPage/SettingsPanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Interface" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;MRahmaniT&quot;
-  }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/MRahmaniT/AP-Project-Phase-1.git&quot;,
-    &quot;accountId&quot;: &quot;79f55dcc-9368-46b4-9e87-2a0226973461&quot;
-  }
-}</component>
   <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: 7
+  &quot;associatedIndex&quot;: 1
 }</component>
-  <component name="ProjectId" id="313FYf3H0Q2LYBMMTUiY6JfCJ8F" />
+  <component name="ProjectId" id="32PYcxRJgkuOa7rJIvLD6ezrRdp" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;MVC__Branch&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/university/Term 8/AP/Project/Phase-2&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "MVC__Branch",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/mohammad/University/AP/Project/Phase-2"
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="Model.Enums" />
-      <recent name="Controller.Packets" />
-    </key>
-  </component>
+}]]></component>
   <component name="RunManager">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="Main" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="openjdk-24 (2)" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="Phase-1" />
       <method v="2">
@@ -81,188 +103,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="Phase-2" />
-      <option name="filePath" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
-      <module name="Phase-2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration default="true" type="Tox" factoryName="Tox">
-      <module name="Phase-2" />
-      <option name="ENV_FILES" value="" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <method v="2" />
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.Main" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="df39b545-5a81-4486-9064-30ffdede674e" name="Changes" comment="" />
-      <created>1754744898942</created>
+      <changelist id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="" />
+      <created>1757323758017</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1754744898942</updated>
+      <updated>1757323758017</updated>
     </task>
-    <task id="LOCAL-00001" summary="Refreshing phase 1">
-      <option name="closed" value="true" />
-      <created>1755604224401</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1755604224401</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Refreshing phase 1&#10;Part 2">
-      <option name="closed" value="true" />
-      <created>1755614162861</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1755614162861</updated>
-    </task>
-    <task id="LOCAL-00003" summary="Refreshing phase 1&#10;Part 3">
-      <option name="closed" value="true" />
-      <created>1755615412428</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1755615412428</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Refreshing phase 1&#10;Part 3">
-      <option name="closed" value="true" />
-      <created>1755615975018</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1755615975018</updated>
-    </task>
-    <task id="LOCAL-00005" summary="Refreshing phase 1&#10;Part 4">
-      <option name="closed" value="true" />
-      <created>1755616741006</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1755616741006</updated>
-    </task>
-    <task id="LOCAL-00006" summary="Refreshing phase 1&#10;Part 4">
-      <option name="closed" value="true" />
-      <created>1755622927135</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1755622927135</updated>
-    </task>
-    <task id="LOCAL-00007" summary="phase 2 &#10;new packet">
-      <option name="closed" value="true" />
-      <created>1755690726643</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1755690726643</updated>
-    </task>
-    <task id="LOCAL-00008" summary="phase 2 &#10;new packet&#10;debug 1">
-      <option name="closed" value="true" />
-      <created>1755691811287</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1755691811287</updated>
-    </task>
-    <task id="LOCAL-00009" summary="phase 2 &#10;new packet&#10;debug 2">
-      <option name="closed" value="true" />
-      <created>1755692011601</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1755692011601</updated>
-    </task>
-    <task id="LOCAL-00010" summary="phase 2 &#10;speed threshold">
-      <option name="closed" value="true" />
-      <created>1755709871788</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1755709871788</updated>
-    </task>
-    <task id="LOCAL-00011" summary="phase 2 &#10;wiring">
-      <option name="closed" value="true" />
-      <created>1755717219700</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1755717219700</updated>
-    </task>
-    <task id="LOCAL-00012" summary="phase 2 &#10;wiring">
-      <option name="closed" value="true" />
-      <created>1755857972030</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1755857972030</updated>
-    </task>
-    <task id="LOCAL-00013" summary="phase 2 &#10;curve wiring">
-      <option name="closed" value="true" />
-      <created>1756129336136</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1756129336136</updated>
-    </task>
-    <option name="localTasksCounter" value="14" />
     <servers />
-  </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State />
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="Refreshing phase 1" />
-    <MESSAGE value="Refreshing phase 1&#10;Part 2" />
-    <MESSAGE value="Refreshing phase 1&#10;Part 3" />
-    <MESSAGE value="Refreshing phase 1&#10;Part 4" />
-    <MESSAGE value="phase 2 &#10;new packet" />
-    <MESSAGE value="phase 2 &#10;new packet&#10;debug 1" />
-    <MESSAGE value="phase 2 &#10;new packet&#10;debug 2" />
-    <MESSAGE value="phase 2 &#10;speed threshold" />
-    <MESSAGE value="phase 2 &#10;wiring" />
-    <MESSAGE value="phase 2 &#10;curve wiring" />
-    <option name="LAST_COMMIT_MESSAGE" value="phase 2 &#10;curve wiring" />
   </component>
 </project>
