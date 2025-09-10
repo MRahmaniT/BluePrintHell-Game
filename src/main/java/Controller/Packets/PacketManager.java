@@ -130,7 +130,10 @@ public class PacketManager {
                 boolean firstImpact = true;
                 for (Impact impact : managedImpacts) {
                     if (impact.contains(packet1, packet2)) {
-                        System.out.println("redundant");
+                        firstImpact = false; break; }
+                }
+                for (Impact impact : impacts) {
+                    if (impact.contains(packet1, packet2)) {
                         firstImpact = false; break; }
                 }
                 if (firstImpact) {
@@ -139,7 +142,9 @@ public class PacketManager {
             } else {
                 for (Impact impact : managedImpacts) {
                     if (impact.contains(packet1, packet2)) {
-                        managedImpacts.remove(impact); break; }
+                        managedImpacts.remove(impact);
+                        break;
+                    }
                 }
             }
         }

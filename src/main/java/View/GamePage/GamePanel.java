@@ -191,16 +191,15 @@ public class GamePanel extends JPanel {
         add(winPanel);
         setComponentZOrder(winPanel, 0);
 
+        //
+        spawnPacket = new SpawnPackets(blockSystems, wiringManager.getConnections(), packets);
+        packetManager = new PacketManager(blockSystems, blockShapes, wiringManager, wiringManager.getConnections(), packets, spawnPacket);
+
         //Timing
         gameTimer = new Timer(10, _ -> {
             gameEngine.update();
 
-            spawnPacket = new SpawnPackets(blockSystems, wiringManager.getConnections(), packets);
-            packetManager = new PacketManager(blockSystems, blockShapes, wiringManager, wiringManager.getConnections(), packets, spawnPacket);
-
-
             packetManager.manageMovement();
-            //packetManager.manageImpact(impacts,  packets);
 
             lostPackets = packetManager.getLostPacketsCount();
             coins = PlayerState.getPlayer().getGoldCount();
