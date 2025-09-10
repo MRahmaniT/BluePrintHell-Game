@@ -9,10 +9,41 @@ public class ThreeFilletPath implements WirePath {
     private final ArrayList<StraightPath> straightPathList = new ArrayList<>();
 
     public ThreeFilletPath(Point2D.Float startPoint, Point2D.Float midPoint1, Point2D.Float midPoint2, Point2D.Float midPoint3, Point2D.Float endPoint) {
-        straightPathList.add(new StraightPath(startPoint, midPoint1));
-        straightPathList.add(new StraightPath(midPoint1, midPoint2));
-        straightPathList.add(new StraightPath(midPoint2, midPoint3));
-        straightPathList.add(new StraightPath(midPoint3, endPoint));
+        float distance1 = (float) Math.hypot(startPoint.x - midPoint1.x, startPoint.y - midPoint1.y);
+        float distance2 = (float) Math.hypot(startPoint.x - midPoint2.x, startPoint.y - midPoint2.y);
+        float distance3 = (float) Math.hypot(startPoint.x - midPoint3.x, startPoint.y - midPoint3.y);
+        if (distance1 <= distance2 && distance2 <= distance3) {
+            straightPathList.add(new StraightPath(startPoint, midPoint1));
+            straightPathList.add(new StraightPath(midPoint1, midPoint2));
+            straightPathList.add(new StraightPath(midPoint2, midPoint3));
+            straightPathList.add(new StraightPath(midPoint3, endPoint));
+        } else if (distance1 <= distance3 && distance3 <= distance2) {
+            straightPathList.add(new StraightPath(startPoint, midPoint1));
+            straightPathList.add(new StraightPath(midPoint1, midPoint3));
+            straightPathList.add(new StraightPath(midPoint3, midPoint2));
+            straightPathList.add(new StraightPath(midPoint2, endPoint));
+        } else if (distance2 <= distance1 && distance1 <= distance3) {
+            straightPathList.add(new StraightPath(startPoint, midPoint2));
+            straightPathList.add(new StraightPath(midPoint2, midPoint1));
+            straightPathList.add(new StraightPath(midPoint1, midPoint3));
+            straightPathList.add(new StraightPath(midPoint3, endPoint));
+        } else if (distance2 <= distance3) {
+            straightPathList.add(new StraightPath(startPoint, midPoint2));
+            straightPathList.add(new StraightPath(midPoint2, midPoint3));
+            straightPathList.add(new StraightPath(midPoint3, midPoint1));
+            straightPathList.add(new StraightPath(midPoint1, endPoint));
+        } else if (distance1 <= distance2) {
+            straightPathList.add(new StraightPath(startPoint, midPoint3));
+            straightPathList.add(new StraightPath(midPoint3, midPoint1));
+            straightPathList.add(new StraightPath(midPoint1, midPoint2));
+            straightPathList.add(new StraightPath(midPoint2, endPoint));
+        } else {
+            straightPathList.add(new StraightPath(startPoint, midPoint3));
+            straightPathList.add(new StraightPath(midPoint3, midPoint2));
+            straightPathList.add(new StraightPath(midPoint2, midPoint1));
+            straightPathList.add(new StraightPath(midPoint1, endPoint));
+        }
+
     }
 
     @Override public float length() {

@@ -20,6 +20,7 @@ public class WiringManager {
 
     private boolean dragging = false;
     private boolean filleting = false;
+    private boolean changingFillet = false;
 
     private Point startPoint;
     private int filletingWireId;
@@ -54,12 +55,29 @@ public class WiringManager {
             }
         }
         for (WireShape wireShape : wireShapes) {
-            if (wireShape.isNear(new Point2D.Float(mouseX,mouseY))) {
-                Path2D.Float wirePath = wireShape.getWirePath();
+            for (Point2D.Float midPoint : wireShape.getMidPoints()) {
+                if (Math.hypot(mouseX-midPoint.x, mouseY-midPoint.y) < 3) {
+                    filleting = true;
+                    filletingWireId = wireShape.getWire().getId();
+                    wireShape.getMidPoints().remove(midPoint);
+                    wireShape.addMidPoint(new Point2D.Float(mouseX,mouseY));
+                    break;
+                }
+            }
+            if (!filleting && wireShape.isNear(new Point2D.Float(mouseX,mouseY), 3)) {
                 filleting = true;
-                Rectangle2D bounds = wirePath.getBounds2D();
-                startPoint = new Point((int) bounds.getCenterX(), (int) bounds.getCenterY());
                 filletingWireId = wireShape.getWire().getId();
+                if (wireShape.getWire().getWireType() == WireType.STRAIGHT) {
+                    wireShape.setWireType(WireType.CURVE1);
+                    wireShape.getWire().setWireType(WireType.CURVE1);
+                } else if (wireShape.getWire().getWireType() == WireType.CURVE1) {
+                    wireShape.setWireType(WireType.CURVE2);
+                    wireShape.getWire().setWireType(WireType.CURVE2);
+                } else if (wireShape.getWire().getWireType() == WireType.CURVE2) {
+                    wireShape.setWireType(WireType.CURVE3);
+                    wireShape.getWire().setWireType(WireType.CURVE3);
+                }
+                wireShape.addMidPoint(new Point2D.Float(mouseX,mouseY));
                 return;
             }
         }
@@ -130,21 +148,6 @@ public class WiringManager {
             }
             dragging = false;
         } else if (filleting) {
-            for (WireShape wireShape : wireShapes) {
-                if (filletingWireId == wireShape.getWire().getId()) {
-                    if (wireShape.getWire().getWireType() == WireType.STRAIGHT) {
-                        wireShape.setWireType(WireType.CURVE1);
-                        wireShape.getWire().setWireType(WireType.CURVE1);
-                    } else if (wireShape.getWire().getWireType() == WireType.CURVE1) {
-                        wireShape.setWireType(WireType.CURVE2);
-                        wireShape.getWire().setWireType(WireType.CURVE2);
-                    } else if (wireShape.getWire().getWireType() == WireType.CURVE2) {
-                        wireShape.setWireType(WireType.CURVE3);
-                        wireShape.getWire().setWireType(WireType.CURVE3);
-                    }
-                    wireShape.addMidPoint(new Point2D.Float(mouseX,mouseY));
-                }
-            }
             filleting = false;
         }
 
@@ -177,6 +180,14 @@ public class WiringManager {
         g2d.setColor(Color.CYAN);
         g2d.setStroke(new BasicStroke(4f));
         g2d.drawLine(startPoint.x, startPoint.y, mousePoint.x, mousePoint.y);
+    }
+
+    public void drawFillet (Point mousePoint) {
+        for (WireShape wireShape : wireShapes) {
+            if (filletingWireId == wireShape.getWire().getId()) {
+                wireShape.editLastMidPoint(new Point2D.Float(mousePoint.x, mousePoint.y));
+            }
+        }
     }
 
     public double getUsedWireLength() {

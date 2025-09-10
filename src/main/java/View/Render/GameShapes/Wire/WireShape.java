@@ -97,7 +97,7 @@ public class WireShape {
 
     public void setColor(Color color) {this.color = color;}
 
-    public boolean isNear(Point2D.Float point) {
+    public boolean isNear(Point2D.Float point, int distance) {
         Path2D.Float pathA = blockA.getPortPath(portA);
         Path2D.Float pathB = blockB.getPortPath(portB);
 
@@ -109,13 +109,13 @@ public class WireShape {
 
         if (wireType == WireType.STRAIGHT) {
             StraightPath straightPath = new StraightPath(startPoint, endPoint);
-            return straightPath.nearestTo(point, straightPath.length(), 0).distance < 5;
+            return straightPath.nearestTo(point, straightPath.length(), 0).distance < distance;
         } else if (wireType == WireType.CURVE1) {
             OneFilletPath oneFilletPath = new OneFilletPath(startPoint, wire.getMidPoints().get(0), endPoint);
-            return oneFilletPath.nearestTo(point, oneFilletPath.length(), 0).distance < 5;
+            return oneFilletPath.nearestTo(point, oneFilletPath.length(), 0).distance < distance;
         } else if (wireType == WireType.CURVE2) {
             TwoFilletPath twoFilletPath = new TwoFilletPath(startPoint, wire.getMidPoints().get(0), wire.getMidPoints().get(1), endPoint);
-            return twoFilletPath.nearestTo(point, twoFilletPath.length(), 0).distance < 5;
+            return twoFilletPath.nearestTo(point, twoFilletPath.length(), 0).distance < distance;
         } else if (wireType == WireType.CURVE3) {
             ThreeFilletPath threeFilletPath = new ThreeFilletPath(startPoint, wire.getMidPoints().get(0), wire.getMidPoints().get(1),
                     wire.getMidPoints().get(2), endPoint);
@@ -151,5 +151,12 @@ public class WireShape {
     }
     public void addMidPoint (Point2D.Float point) {
         this.midPoints.add(point);
+    }
+    public void editLastMidPoint ( Point2D.Float point) {
+        this.midPoints.removeLast();
+        this.midPoints.add(point);
+    }
+    public ArrayList<Point2D.Float> getMidPoints () {
+        return this.midPoints;
     }
 }

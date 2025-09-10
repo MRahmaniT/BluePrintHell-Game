@@ -404,6 +404,9 @@ public class GamePanel extends JPanel {
         if (wiringManager.isDragging()) {
             wiringManager.drawDrag(g2d, new Point(mousePointX, mousePointY));
         }
+        if (wiringManager.isFilleting()) {
+            wiringManager.drawFillet(new Point(mousePointX, mousePointY));
+        }
         if (blockManager.isDragging()) {
             blockManager.drawDrag(mousePointX, mousePointY);
         }
