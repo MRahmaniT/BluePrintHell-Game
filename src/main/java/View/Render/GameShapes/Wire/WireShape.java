@@ -1,9 +1,7 @@
 package View.Render.GameShapes.Wire;
 
 import Model.Enums.WireType;
-import Model.GameEntities.Wire.OneFilletPath;
-import Model.GameEntities.Wire.StraightPath;
-import Model.GameEntities.Wire.Wire;
+import Model.GameEntities.Wire.*;
 import View.Render.GameShapes.GameShape;
 
 import java.awt.*;
@@ -36,37 +34,31 @@ public class WireShape {
 
 
     public void draw(Graphics2D g) {
+        Path2D.Float pathA = blockA.getPortPath(portA);
+        Path2D.Float pathB = blockB.getPortPath(portB);
+        if (pathA == null || pathB == null) return;
+
+        Rectangle2D boundsA = pathA.getBounds2D();
+        Rectangle2D boundsB = pathB.getBounds2D();
+
+        Point2D.Float startPoint = new Point2D.Float((float) boundsA.getCenterX(), (float) boundsA.getCenterY());
+        Point2D.Float endPoint = new Point2D.Float((float) boundsB.getCenterX(), (float) boundsB.getCenterY());
+        WirePath wirePath;
         if (wireType == WireType.STRAIGHT) {
-            Path2D.Float pathA = blockA.getPortPath(portA);
-            Path2D.Float pathB = blockB.getPortPath(portB);
-            if (pathA == null || pathB == null) return;
-
-            Rectangle2D boundsA = pathA.getBounds2D();
-            Rectangle2D boundsB = pathB.getBounds2D();
-
-            Point2D.Float startPoint = new Point2D.Float((float) boundsA.getCenterX(), (float) boundsA.getCenterY());
-            Point2D.Float endPoint = new Point2D.Float((float) boundsB.getCenterX(), (float) boundsB.getCenterY());
-
-            StraightPath straightPath = new StraightPath(startPoint, endPoint);
-
-            g.setColor(color);
-            g.setStroke(new BasicStroke(4f));
-            g.draw(straightPath.toShape());
+            wirePath = new StraightPath(startPoint, endPoint);
         } else if (wireType == WireType.CURVE1) {
-            Path2D.Float pathA = blockA.getPortPath(portA);
-            Path2D.Float pathB = blockB.getPortPath(portB);
-            if (pathA == null || pathB == null) return;
-
-            Rectangle2D boundsA = pathA.getBounds2D();
-            Rectangle2D boundsB = pathB.getBounds2D();
-
-            Point2D.Float startPoint = new Point2D.Float((float) boundsA.getCenterX(), (float) boundsA.getCenterY());
-            Point2D.Float endPoint = new Point2D.Float((float) boundsB.getCenterX(), (float) boundsB.getCenterY());
-
-            OneFilletPath oneFilletPath = new OneFilletPath(startPoint, midPoints.get(0), endPoint);
-            g.setColor(color);
-            g.setStroke(new BasicStroke(4f));
-            g.draw(oneFilletPath.toShape());
+            wirePath = new OneFilletPath(startPoint, midPoints.get(0), endPoint);
+        } else if (wireType == WireType.CURVE2) {
+            wirePath = new TwoFilletPath(startPoint, midPoints.get(0), midPoints.get(1), endPoint);
+        } else if (wireType == WireType.CURVE3) {
+            wirePath = new ThreeFilletPath(startPoint, midPoints.get(0), midPoints.get(1), midPoints.get(2), endPoint);
+        } else {
+            wirePath = null;
+        }
+        g.setColor(color);
+        g.setStroke(new BasicStroke(4f));
+        if (wirePath != null){
+            g.draw(wirePath.toShape());
         }
     }
 
@@ -115,9 +107,23 @@ public class WireShape {
         Point2D.Float startPoint = new Point2D.Float((float) boundsA.getCenterX(), (float) boundsA.getCenterY());
         Point2D.Float endPoint = new Point2D.Float((float) boundsB.getCenterX(), (float) boundsB.getCenterY());
 
-        StraightPath straightPath = new StraightPath(startPoint, endPoint);
-
-        return straightPath.nearestTo(point).distance < 3;
+        if (wireType == WireType.STRAIGHT) {
+            StraightPath straightPath = new StraightPath(startPoint, endPoint);
+            return straightPath.nearestTo(point, straightPath.length(), 0).distance < 5;
+        } else if (wireType == WireType.CURVE1) {
+            OneFilletPath oneFilletPath = new OneFilletPath(startPoint, wire.getMidPoints().get(0), endPoint);
+            return oneFilletPath.nearestTo(point, oneFilletPath.length(), 0).distance < 5;
+        } else if (wireType == WireType.CURVE2) {
+            TwoFilletPath twoFilletPath = new TwoFilletPath(startPoint, wire.getMidPoints().get(0), wire.getMidPoints().get(1), endPoint);
+            return twoFilletPath.nearestTo(point, twoFilletPath.length(), 0).distance < 5;
+        } else if (wireType == WireType.CURVE3) {
+            ThreeFilletPath threeFilletPath = new ThreeFilletPath(startPoint, wire.getMidPoints().get(0), wire.getMidPoints().get(1),
+                    wire.getMidPoints().get(2), endPoint);
+            //return threeFilletPath.nearestTo(point, threeFilletPath.length(), 0).distance < 5;
+            return false;
+        }  else {
+            return false;
+        }
     }
 
     public Point2D.Float getStartPoint () {

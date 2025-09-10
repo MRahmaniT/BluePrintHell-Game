@@ -3,9 +3,7 @@ package Controller.Packets;
 import Controller.Wiring.WiringManager;
 import Model.Enums.WireType;
 import Model.GameEntities.Packet;
-import Model.GameEntities.Wire.OneFilletPath;
-import Model.GameEntities.Wire.StraightPath;
-import Model.GameEntities.Wire.WirePath;
+import Model.GameEntities.Wire.*;
 import View.Render.GameShapes.GameShape;
 import View.Main.MainFrame;
 import View.Render.GameShapes.Wire.WireShape;
@@ -69,7 +67,13 @@ public class PacketPhysics {
                 wirePath = new StraightPath(startPoint, destinationPoint);
             } else if (packetWireShape.getWire().getWireType() == WireType.CURVE1) {
                 wirePath = new OneFilletPath(startPoint, packetWireShape.getWire().getMidPoints().get(0), destinationPoint);
-            } else {
+            } else if (packetWireShape.getWire().getWireType() == WireType.CURVE2) {
+                wirePath = new TwoFilletPath(startPoint, packetWireShape.getWire().getMidPoints().get(0),
+                        packetWireShape.getWire().getMidPoints().get(1), destinationPoint);
+            } else if (packetWireShape.getWire().getWireType() == WireType.CURVE3) {
+                wirePath = new ThreeFilletPath(startPoint, packetWireShape.getWire().getMidPoints().get(0),
+                        packetWireShape.getWire().getMidPoints().get(1), packetWireShape.getWire().getMidPoints().get(2), destinationPoint);
+            } else  {
                 wirePath = null;
             }
 
@@ -87,7 +91,7 @@ public class PacketPhysics {
             packet.setY(packet.getY() + packet.getYDirection() * speed * dt);
 
             // Update progress
-            WirePath.Nearest nearest = wirePath.nearestTo(new Point2D.Float(packet.getX(), packet.getY()));
+            WirePath.Nearest nearest = wirePath.nearestTo(new Point2D.Float(packet.getX(), packet.getY()), wirePath.length(), 0);
             float newProgress = nearest.t;
             if (newProgress <= 0){
                 packet.setProgress(0);

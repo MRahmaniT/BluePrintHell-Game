@@ -1,7 +1,6 @@
 package Model.GameEntities.Wire;
 
 import java.awt.Shape;
-import java.awt.geom.Line2D;
 import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 
@@ -47,7 +46,7 @@ public final class StraightPath implements WirePath {
 
     @Override public float length() { return length; }
 
-    @Override public Nearest nearestTo(Point2D.Float point) {
+    @Override public Nearest nearestTo(Point2D.Float point, float totalLength, float pastLength) {
         Point2D.Float nearestPoint;
         float t;
         float distance;
@@ -76,7 +75,7 @@ public final class StraightPath implements WirePath {
             nearestPoint = new Point2D.Float(alpha * a + startPoint.x, alpha * c + startPoint.y);
         }
 
-        t = (float) Math.hypot(nearestPoint.x - startPoint.x, nearestPoint.y - startPoint.y) / length;
+        t = ((float) Math.hypot(nearestPoint.x - startPoint.x, nearestPoint.y - startPoint.y) + pastLength) / totalLength;
 
         distance = (float)Math.hypot(nearestPoint.x - point.x, nearestPoint.y - point.y);
 

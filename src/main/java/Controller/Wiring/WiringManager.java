@@ -132,9 +132,17 @@ public class WiringManager {
         } else if (filleting) {
             for (WireShape wireShape : wireShapes) {
                 if (filletingWireId == wireShape.getWire().getId()) {
+                    if (wireShape.getWire().getWireType() == WireType.STRAIGHT) {
+                        wireShape.setWireType(WireType.CURVE1);
+                        wireShape.getWire().setWireType(WireType.CURVE1);
+                    } else if (wireShape.getWire().getWireType() == WireType.CURVE1) {
+                        wireShape.setWireType(WireType.CURVE2);
+                        wireShape.getWire().setWireType(WireType.CURVE2);
+                    } else if (wireShape.getWire().getWireType() == WireType.CURVE2) {
+                        wireShape.setWireType(WireType.CURVE3);
+                        wireShape.getWire().setWireType(WireType.CURVE3);
+                    }
                     wireShape.addMidPoint(new Point2D.Float(mouseX,mouseY));
-                    wireShape.setWireType(WireType.CURVE1);
-                    wireShape.getWire().setWireType(WireType.CURVE1);
                 }
             }
             filleting = false;

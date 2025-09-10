@@ -16,7 +16,7 @@ public interface WirePath {
 
     Shape toShape();
 
-    Nearest nearestTo(Point2D.Float p);
+    Nearest nearestTo(Point2D.Float p, float totalLength, float pastLength);
 
     final class Nearest {
         public final float t;                 // parameter [0..1] of closest point

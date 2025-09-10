@@ -4,17 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="Phase 2&#10;impact completed">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/Wire.java" afterDir="false" />
+    <list default="true" id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="Phase 2&#10;wiring">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/ThreeFilletPath.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/TwoFilletPath.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Wiring/WiringManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Wiring/WiringManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Connection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/OneFilletPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/OneFilletPath.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/StraightPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/StraightPath.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/GameEnvironment/Options/HUDPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GameEnvironment/Options/HUDPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Wire/Wire.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Wire/WireShape.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/WirePath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/WirePath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Wire/WireShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Wire/WireShape.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +49,11 @@
     &quot;last_opened_file_path&quot;: &quot;/Users/mohammad/University/AP/Project/Phase-2&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="Model.GameEntities.Wire" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="openjdk-24 (2)" />
@@ -91,12 +95,21 @@
       <option name="project" value="LOCAL" />
       <updated>1757485983562</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Phase 2&#10;wiring">
+      <option name="closed" value="true" />
+      <created>1757498942620</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1757498942620</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Phase 2&#10;impact" />
     <MESSAGE value="Phase 2&#10;impact completed" />
-    <option name="LAST_COMMIT_MESSAGE" value="Phase 2&#10;impact completed" />
+    <MESSAGE value="Phase 2&#10;wiring" />
+    <option name="LAST_COMMIT_MESSAGE" value="Phase 2&#10;wiring" />
   </component>
 </project>
