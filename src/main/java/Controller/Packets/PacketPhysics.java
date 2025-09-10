@@ -45,6 +45,7 @@ public class PacketPhysics {
             Point2D.Float startPoint = wiringManager.getPortCenter(fromBlock, packet.getFromPort());
             Point2D.Float destinationPoint = wiringManager.getPortCenter(toBlock,   packet.getToPort());
             List<WireShape> wireShapes = wiringManager.getWireShapes();
+
             WireShape packetWireShape = null;
             for (WireShape wireShape : wireShapes) {
                 if (packet.getConnectionIdx() == wireShape.getWire().getId()) {
@@ -52,7 +53,6 @@ public class PacketPhysics {
                     break;
                 }
             }
-
 
             if (startPoint == null || destinationPoint == null) continue;
 
