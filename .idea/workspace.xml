@@ -5,15 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="Phase 2&#10;wiring">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/ThreeFilletPath.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/TwoFilletPath.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Wiring/WiringManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Wiring/WiringManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/OneFilletPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/OneFilletPath.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/StraightPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/StraightPath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/ThreeFilletPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/ThreeFilletPath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/TwoFilletPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/TwoFilletPath.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/WirePath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/WirePath.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Wire/WireShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Wire/WireShape.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,7 +102,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757498942620</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Phase 2&#10;wiring">
+      <option name="closed" value="true" />
+      <created>1757508879650</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1757508879650</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

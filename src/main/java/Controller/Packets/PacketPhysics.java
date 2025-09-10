@@ -62,23 +62,10 @@ public class PacketPhysics {
             }
 
             // Path Type
-            WirePath wirePath;
-            if (packetWireShape.getWire().getWireType() == WireType.STRAIGHT) {
-                wirePath = new StraightPath(startPoint, destinationPoint);
-            } else if (packetWireShape.getWire().getWireType() == WireType.CURVE1) {
-                wirePath = new OneFilletPath(startPoint, packetWireShape.getWire().getMidPoints().get(0), destinationPoint);
-            } else if (packetWireShape.getWire().getWireType() == WireType.CURVE2) {
-                wirePath = new TwoFilletPath(startPoint, packetWireShape.getWire().getMidPoints().get(0),
-                        packetWireShape.getWire().getMidPoints().get(1), destinationPoint);
-            } else if (packetWireShape.getWire().getWireType() == WireType.CURVE3) {
-                wirePath = new ThreeFilletPath(startPoint, packetWireShape.getWire().getMidPoints().get(0),
-                        packetWireShape.getWire().getMidPoints().get(1), packetWireShape.getWire().getMidPoints().get(2), destinationPoint);
-            } else  {
-                wirePath = null;
-            }
+            assert packetWireShape != null;
+            WirePath wirePath = getWirePath(packetWireShape, startPoint, destinationPoint);
 
             // Direction to target + deviation
-            assert wirePath != null;
             packet.setXDirection(wirePath.tangentAt(packet.getProgress()).x + packet.getXImpactDirection());
             packet.setYDirection(wirePath.tangentAt(packet.getProgress()).y + packet.getYImpactDirection());
 
@@ -116,6 +103,26 @@ public class PacketPhysics {
                 MainFrame.audioManager.playSoundEffect("Resources/lose.wav");
             }
         }
+    }
+
+    private static WirePath getWirePath(WireShape packetWireShape, Point2D.Float startPoint, Point2D.Float destinationPoint) {
+        WirePath wirePath;
+        if (packetWireShape.getWire().getWireType() == WireType.STRAIGHT) {
+            wirePath = new StraightPath(startPoint, destinationPoint);
+        } else if (packetWireShape.getWire().getWireType() == WireType.CURVE1) {
+            wirePath = new OneFilletPath(startPoint, packetWireShape.getWire().getMidPoints().getFirst(), destinationPoint);
+        } else if (packetWireShape.getWire().getWireType() == WireType.CURVE2) {
+            wirePath = new TwoFilletPath(startPoint, packetWireShape.getWire().getMidPoints().get(0),
+                    packetWireShape.getWire().getMidPoints().get(1), destinationPoint);
+        } else if (packetWireShape.getWire().getWireType() == WireType.CURVE3) {
+            wirePath = new ThreeFilletPath(startPoint, packetWireShape.getWire().getMidPoints().get(0),
+                    packetWireShape.getWire().getMidPoints().get(1), packetWireShape.getWire().getMidPoints().get(2), destinationPoint);
+        } else  {
+            wirePath = null;
+        }
+
+        assert wirePath != null;
+        return wirePath;
     }
 
     public void applyImpact(Packet p, float impactX, float impactY) {

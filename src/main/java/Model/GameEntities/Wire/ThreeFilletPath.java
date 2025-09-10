@@ -43,11 +43,11 @@ public class ThreeFilletPath implements WirePath {
     }
 
     @Override public Point2D.Float tangentAt(float t) {
-        if (t <= straightPathList.get(0).length()/ length()) {
+        if (t < straightPathList.get(0).length()/ length()) {
             return straightPathList.get(0).tangentAt(t);
-        } else if (t <= (straightPathList.get(0).length() + straightPathList.get(1).length())/ length()){
+        } else if (t < (straightPathList.get(0).length() + straightPathList.get(1).length())/ length()){
             return straightPathList.get(1).tangentAt(t);
-        } else if (t <= (straightPathList.get(0).length() + straightPathList.get(1).length() + straightPathList.get(2).length())/ length()){
+        } else if (t < (straightPathList.get(0).length() + straightPathList.get(1).length() + straightPathList.get(2).length())/ length()){
             return straightPathList.get(2).tangentAt(t);
         } else {
             return straightPathList.get(3).tangentAt(t);

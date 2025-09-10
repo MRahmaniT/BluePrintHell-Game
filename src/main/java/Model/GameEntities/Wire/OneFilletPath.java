@@ -34,7 +34,7 @@ public class OneFilletPath implements WirePath {
     }
 
     @Override public Point2D.Float tangentAt(float t) {
-        if (t <= straightPathList.get(0).length()/ length()) {
+        if (t < straightPathList.get(0).length()/ length()) {
             return straightPathList.get(0).tangentAt(t);
         } else {
             return straightPathList.get(1).tangentAt(t);
@@ -45,8 +45,10 @@ public class OneFilletPath implements WirePath {
         Nearest nearestTo1 = straightPathList.get(0).nearestTo(point, totalLength, 0);
         Nearest nearestTo2 = straightPathList.get(1).nearestTo(point, totalLength, straightPathList.get(0).length());
         if (nearestTo1.distance >= nearestTo2.distance) {
+            System.out.println(2);
             return nearestTo2;
         } else {
+            System.out.println(1);
             return nearestTo1;
         }
     }

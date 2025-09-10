@@ -79,6 +79,6 @@ public final class StraightPath implements WirePath {
 
         distance = (float)Math.hypot(nearestPoint.x - point.x, nearestPoint.y - point.y);
 
-        return new Nearest(nearestPoint, t, distance);
+        return new Nearest(nearestPoint, t, distance, alpha);
     }
 }

@@ -210,4 +210,8 @@ public class WiringManager {
     public boolean isDragging() {
         return dragging;
     }
+
+    public boolean isFilleting() {
+        return filleting;
+    }
 }
