@@ -1,7 +1,5 @@
 package Model.GameEntities;
 
-import View.Render.GameShapes.GameShape;
-
 public class Connection implements java.io.Serializable {
     private int id;
     private int fromSystemId;

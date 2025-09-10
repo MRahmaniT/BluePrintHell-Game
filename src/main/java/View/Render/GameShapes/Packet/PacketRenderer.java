@@ -1,13 +1,10 @@
-package View.Render;
+package View.Render.GameShapes.Packet;
 
 import Model.Enums.PacketType;
 import Model.GameEntities.Packet;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.CubicCurve2D;
-import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 
 public final class PacketRenderer {
     private PacketRenderer() {}
@@ -43,17 +40,53 @@ public final class PacketRenderer {
         } else if (packet.getType() == PacketType.PROTECTED) {
 
             // lock shape
-            return at.createTransformedShape(new Rectangle2D.Float(-size/2f, -size/2f, size, size));
+            Shape body = new Rectangle2D.Float(-size/2f, -size/6f, size, size);
+            Area lock = new Area(body);
+            Shape arc = new Arc2D.Double(-size/2f, -size/2f, size, size, 0, 180, Arc2D.OPEN);
+            lock.add(new Area(arc));
+            return at.createTransformedShape(lock);
 
         } else if (packet.getType() == PacketType.PRIVATE_4) {
 
             // circle shape
-            return at.createTransformedShape(new Rectangle2D.Float(-size/2f, -size/2f, size, size));
+            int Size = (int) (1.2 * size);
+            return at.createTransformedShape(new Ellipse2D.Double(-Size/2f, -Size/2f, Size, Size));
 
         } else if (packet.getType() == PacketType.PRIVATE_6) {
 
             // circle shape
-            return at.createTransformedShape(new Rectangle2D.Float(-size/2f, -size/2f, size, size));
+            int Size = (int) (1.2 * size);
+            return at.createTransformedShape(new Ellipse2D.Double(-Size/2f, -Size/2f, Size, Size));
+
+        } else if (packet.getType() == PacketType.BULKY_8) {
+
+            // hexagon shape
+            int sides = 6;
+            int[] xs = new int[sides];
+            int[] ys = new int[sides];
+
+            for (int i = 0; i < sides; i++) {
+                double angle1 = Math.toRadians(60 * i);
+                xs[i] = (int) (0 + size * Math.cos(angle1));
+                ys[i] = (int) (0 + size * Math.sin(angle1));
+            }
+
+            return at.createTransformedShape(new Polygon(xs, ys, sides));
+
+        } else if (packet.getType() == PacketType.BULKY_10) {
+
+            // hexagon shape
+            int sides = 8;
+            int[] xs = new int[sides];
+            int[] ys = new int[sides];
+
+            for (int i = 0; i < sides; i++) {
+                double angle1 = Math.toRadians(45 * i);
+                xs[i] = (int) (0 + size * Math.cos(angle1));
+                ys[i] = (int) (0 + size * Math.sin(angle1));
+            }
+
+            return at.createTransformedShape(new Polygon(xs, ys, sides));
 
         } else {
             return null;
@@ -80,13 +113,18 @@ public final class PacketRenderer {
 
     public static void draw(Graphics2D g, Packet p) {
         Shape s = getShape(p);
-        if (p.getType() == PacketType.MESSENGER_1) {
-            g.setColor(Color.WHITE);
-        } else if (p.getType() == PacketType.MESSENGER_2) {
-            g.setColor(Color.GREEN);
-        } else if (p.getType() == PacketType.MESSENGER_3) {
-            g.setColor(Color.YELLOW);
+
+        switch (p.getType()) {
+            case MESSENGER_1 -> g.setColor(Color.WHITE);
+            case MESSENGER_2 -> g.setColor(Color.GREEN);
+            case MESSENGER_3 -> g.setColor(Color.YELLOW);
+            case PROTECTED -> g.setColor(Color.ORANGE);
+            case PRIVATE_4 -> g.setColor(Color.GRAY);
+            case PRIVATE_6 -> g.setColor(Color.BLUE);
+            case BULKY_8 -> g.setColor(Color.BLUE);
+            case BULKY_10 -> g.setColor(Color.GRAY);
         }
+
         g.fill(s);
     }
 }

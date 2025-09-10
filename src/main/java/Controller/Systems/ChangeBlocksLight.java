@@ -1,7 +1,7 @@
 package Controller.Systems;
 
 import Model.GameEntities.BlockSystem;
-import View.Render.GameShapes.GameShape;
+import View.Render.GameShapes.System.GameShape;
 
 import java.awt.*;
 import java.util.List;

@@ -4,10 +4,10 @@ import Controller.Wiring.WiringManager;
 import Model.Enums.WireType;
 import Model.GameEntities.Packet;
 import Model.GameEntities.Wire.*;
-import View.Render.GameShapes.GameShape;
+import View.Render.GameShapes.System.GameShape;
 import View.Main.MainFrame;
 import View.Render.GameShapes.Wire.WireShape;
-import View.Render.PacketRenderer;
+import View.Render.GameShapes.Packet.PacketRenderer;
 
 import java.awt.*;
 import java.awt.geom.Area;

@@ -1,4 +1,4 @@
-package View.Render.GameShapes;
+package View.Render.GameShapes.System;
 
 import Model.Enums.PortType;
 import Model.GameEntities.Packet;

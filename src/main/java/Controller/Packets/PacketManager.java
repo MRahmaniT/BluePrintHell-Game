@@ -6,9 +6,9 @@ import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Connection;
 import Model.GameEntities.Impact;
 import Model.GameEntities.Packet;
-import View.Render.GameShapes.GameShape;
+import View.Render.GameShapes.System.GameShape;
 import Model.Player.PlayerState;
-import View.Render.PacketRenderer;
+import View.Render.GameShapes.Packet.PacketRenderer;
 
 import javax.swing.*;
 import java.awt.*;

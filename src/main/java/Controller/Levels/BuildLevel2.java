@@ -5,12 +5,9 @@ import Model.Enums.PortRole;
 import Model.Enums.PortType;
 import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Port;
-import View.Render.GameShapes.TwoStairsSystem;
-import View.Render.GameShapes.EndSystem;
-import View.Render.GameShapes.StartSystem;
-import View.Render.GameShapes.GameShape;
+import View.Render.GameShapes.System.TwoStairsSystem;
+import View.Render.GameShapes.System.GameShape;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

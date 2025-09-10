@@ -6,7 +6,7 @@ import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Connection;
 import Model.GameEntities.Wire.Wire;
 import View.Main.MainFrame;
-import View.Render.GameShapes.GameShape;
+import View.Render.GameShapes.System.GameShape;
 import View.Render.GameShapes.Wire.WireShape;
 
 import java.awt.*;

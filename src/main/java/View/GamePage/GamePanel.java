@@ -20,12 +20,12 @@ import Controller.Levels.BuildLevel2;
 import View.GameEnvironment.Options.HUDPanel;
 import View.GameEnvironment.Options.ShopPanel;
 
-import View.Render.GameShapes.GameShape;
+import View.Render.GameShapes.System.GameShape;
 
 import View.Main.MainFrame;
 import Model.Player.PlayerState;
 import View.Render.GameShapes.Wire.WireShape;
-import View.Render.PacketRenderer;
+import View.Render.GameShapes.Packet.PacketRenderer;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -261,15 +261,15 @@ public class GamePanel extends JPanel {
                 if (e.getKeyChar() == 'p') {
                     isRunning = true;
                     for (int i = 0; i < 3; i++) {
-                        spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_2));
+                        spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.BULKY_8));
                         generatedPackets++;
                     }
                     for (int i = 3; i < 7; i++) {
-                        spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_3));
+                        spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.BULKY_10));
                         generatedPackets++;
                     }
                     for (int i = 7; i < 10; i++) {
-                        spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_1));
+                        spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.PRIVATE_6));
                         generatedPackets++;
                     }
                 }

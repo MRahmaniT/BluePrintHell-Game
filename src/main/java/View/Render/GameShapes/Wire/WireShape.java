@@ -2,7 +2,7 @@ package View.Render.GameShapes.Wire;
 
 import Model.Enums.WireType;
 import Model.GameEntities.Wire.*;
-import View.Render.GameShapes.GameShape;
+import View.Render.GameShapes.System.GameShape;
 
 import java.awt.*;
 import java.awt.geom.Path2D;
