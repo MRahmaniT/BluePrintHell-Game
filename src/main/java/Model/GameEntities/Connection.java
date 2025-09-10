@@ -8,16 +8,18 @@ public class Connection implements java.io.Serializable {
     private int fromPortId;
     private int toSystemId;
     private int toPortId;
+    private int wireId;
     private boolean packetOnLine;
 
     public Connection() {}
 
-    public Connection(int id, int fromSystemId, int fromPortId, int toSystemId, int toPortId) {
+    public Connection(int id, int fromSystemId, int fromPortId, int toSystemId, int toPortId, int wireId) {
         this.id = id;
         this.fromSystemId = fromSystemId;
         this.fromPortId = fromPortId;
         this.toSystemId = toSystemId;
         this.toPortId = toPortId;
+        this.wireId = wireId;
         this.packetOnLine = false;
     }
 

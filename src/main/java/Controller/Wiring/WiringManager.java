@@ -4,10 +4,10 @@ import Model.Enums.PortRole;
 import Model.Enums.WireType;
 import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Connection;
-import Model.GameEntities.Wire.OneFilletPath;
+import Model.GameEntities.Wire.Wire;
 import View.Main.MainFrame;
 import View.Render.GameShapes.GameShape;
-import View.Render.GameShapes.Wire.Wire;
+import View.Render.GameShapes.Wire.WireShape;
 
 import java.awt.*;
 import java.awt.geom.Path2D;
@@ -22,7 +22,7 @@ public class WiringManager {
     private boolean filleting = false;
 
     private Point startPoint;
-    private Wire filletingWire;
+    private int filletingWireId;
 
     private GameShape fromBlockShape;
     private BlockSystem fromBlockSystem;
@@ -34,6 +34,7 @@ public class WiringManager {
     private int connectionIdCounter = 0;
 
     private final List<Wire> wires = new ArrayList<>();
+    private final List<WireShape> wireShapes = new ArrayList<>();
 
     public void handleMousePress(List<GameShape> blockShapes, int mouseX, int mouseY) {
         for (GameShape block : blockShapes) {
@@ -52,14 +53,13 @@ public class WiringManager {
                 }
             }
         }
-        for (Wire wire : wires) {
-            if (wire.isNear(new Point2D.Float(mouseX,mouseY))) {
-                System.out.println("SSS");
-                Path2D.Float wirePath = wire.getWirePath();
+        for (WireShape wireShape : wireShapes) {
+            if (wireShape.isNear(new Point2D.Float(mouseX,mouseY))) {
+                Path2D.Float wirePath = wireShape.getWirePath();
                 filleting = true;
                 Rectangle2D bounds = wirePath.getBounds2D();
                 startPoint = new Point((int) bounds.getCenterX(), (int) bounds.getCenterY());
-                filletingWire = wire;
+                filletingWireId = wireShape.getWire().getId();
                 return;
             }
         }
@@ -104,15 +104,20 @@ public class WiringManager {
                             MainFrame.audioManager.playSoundEffect("Resources/connection.wav");
 
                             ArrayList<Point2D.Float> midPoints = new ArrayList<>();
-                            Wire wire = new Wire(WireType.STRAIGHT, midPoints, fromBlockShape, fromPortId, targetBlock, i, Color.CYAN);
-                            wires.add(wire);
 
                             connectionIdCounter++;
+
+                            Wire wire = new Wire(WireType.STRAIGHT, midPoints, fromBlockSystemId,
+                                    fromPortId, targetBlock.getBlockSystem().getId(), i, Color.CYAN, connectionIdCounter);
+                            WireShape wireShape = new WireShape(blockShapes, wire);
+                            wires.add(wire);
+                            wireShapes.add(wireShape);
+
                             Connection connection;
                             if (blockSystems.get(fromBlockSystemId).getPort(fromPortId).getRole() == PortRole.OUT) {
-                                connection = new Connection(connectionIdCounter, fromBlockSystemId, fromPortId, targetBlock.getBlockSystem().getId(), i);
+                                connection = new Connection(connectionIdCounter, fromBlockSystemId, fromPortId, targetBlock.getBlockSystem().getId(), i, connectionIdCounter);
                             } else {
-                                connection = new Connection(connectionIdCounter, targetBlock.getBlockSystem().getId(), i, fromBlockSystemId, fromPortId);
+                                connection = new Connection(connectionIdCounter, targetBlock.getBlockSystem().getId(), i, fromBlockSystemId, fromPortId, connectionIdCounter);
                             }
                             connections.add(connection);
 
@@ -125,8 +130,13 @@ public class WiringManager {
             }
             dragging = false;
         } else if (filleting) {
-            filletingWire.addMidPoint(new Point2D.Float(mouseX,mouseY));
-            filletingWire.setWireType(WireType.CURVE1);
+            for (WireShape wireShape : wireShapes) {
+                if (filletingWireId == wireShape.getWire().getId()) {
+                    wireShape.addMidPoint(new Point2D.Float(mouseX,mouseY));
+                    wireShape.setWireType(WireType.CURVE1);
+                    wireShape.getWire().setWireType(WireType.CURVE1);
+                }
+            }
             filleting = false;
         }
 
@@ -136,12 +146,14 @@ public class WiringManager {
         return blockSystems.get(id);
     }
     private void removeLine (GameShape blockSystem, int port){
-        for (Wire wire : wires) {
-            if ((wire.getBlockA() == blockSystem && wire.getPortA() == port) || (wire.getBlockB() == blockSystem && wire.getPortB() == port )){
-                wires.remove(wire);
+        for (WireShape wireShape : wireShapes) {
+            if ((wireShape.getBlockA() == blockSystem && wireShape.getPortA() == port) || (wireShape.getBlockB() == blockSystem && wireShape.getPortB() == port )){
+                wireShapes.remove(wireShape);
+                wires.remove(wireShape.getWire());
                 break;
             }
         }
+
     }
 
     public Point2D.Float getPortCenter(GameShape block, int portNumber) {
@@ -161,7 +173,7 @@ public class WiringManager {
 
     public double getUsedWireLength() {
         double total = 0;
-        for (Wire wire : wires) {
+        for (WireShape wire : wireShapes) {
             Path2D.Float pathA = wire.getBlockA().getPortPath(wire.getPortA());
             Path2D.Float pathB = wire.getBlockB().getPortPath(wire.getPortB());
             if (pathA != null && pathB != null) {
@@ -183,8 +195,8 @@ public class WiringManager {
         return connections;
     }
 
-    public List<Wire> getWires() {
-        return wires;
+    public List<WireShape> getWireShapes() {
+        return wireShapes;
     }
 
     public boolean isDragging() {

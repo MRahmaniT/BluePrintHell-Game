@@ -3,6 +3,7 @@ package View.Render.GameShapes.Wire;
 import Model.Enums.WireType;
 import Model.GameEntities.Wire.OneFilletPath;
 import Model.GameEntities.Wire.StraightPath;
+import Model.GameEntities.Wire.Wire;
 import View.Render.GameShapes.GameShape;
 
 import java.awt.*;
@@ -10,8 +11,10 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Wire {
+public class WireShape {
+    private Wire wire;
     private WireType wireType;
     private final ArrayList<Point2D.Float> midPoints;
     private final GameShape blockA;
@@ -20,14 +23,15 @@ public class Wire {
     private final int portB;
     private Color color;
 
-    public Wire(WireType wireType, ArrayList<Point2D.Float> midPoints, GameShape blockA, int portA, GameShape blockB, int portB, Color color) {
-        this.wireType = wireType;
-        this.midPoints = midPoints;
-        this.blockA = blockA;
-        this.portA = portA;
-        this.blockB = blockB;
-        this.portB = portB;
-        this.color = color;
+    public WireShape(List<GameShape> blockShapes, Wire wire) {
+        this.wire = wire;
+        this.wireType = wire.getWireType();
+        this.midPoints = wire.getMidPoints();
+        this.blockA = blockShapes.get(wire.getStartBlockId());
+        this.portA = wire.getStartPortId();
+        this.blockB = blockShapes.get(wire.getEndBlockId());
+        this.portB = wire.getEndPortId();
+        this.color = wire.getColor();
     }
 
 
@@ -59,13 +63,14 @@ public class Wire {
             Point2D.Float startPoint = new Point2D.Float((float) boundsA.getCenterX(), (float) boundsA.getCenterY());
             Point2D.Float endPoint = new Point2D.Float((float) boundsB.getCenterX(), (float) boundsB.getCenterY());
 
-            OneFilletPath oneFilletPath = new OneFilletPath(startPoint, midPoints.get(0), endPoint, 15);
+            OneFilletPath oneFilletPath = new OneFilletPath(startPoint, midPoints.get(0), endPoint);
             g.setColor(color);
             g.setStroke(new BasicStroke(4f));
             g.draw(oneFilletPath.toShape());
         }
     }
 
+    public Wire getWire () {return this.wire;}
     public Path2D.Float getWirePath () {
         Path2D.Float pathA = blockA.getPortPath(portA);
         Path2D.Float pathB = blockB.getPortPath(portB);
@@ -112,7 +117,7 @@ public class Wire {
 
         StraightPath straightPath = new StraightPath(startPoint, endPoint);
 
-        return straightPath.nearestTo(point).distance < 5;
+        return straightPath.nearestTo(point).distance < 3;
     }
 
     public Point2D.Float getStartPoint () {

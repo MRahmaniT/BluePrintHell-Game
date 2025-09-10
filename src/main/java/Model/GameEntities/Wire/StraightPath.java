@@ -48,14 +48,38 @@ public final class StraightPath implements WirePath {
     @Override public float length() { return length; }
 
     @Override public Nearest nearestTo(Point2D.Float point) {
+        Point2D.Float nearestPoint;
+        float t;
+        float distance;
 
-        float apx = point.x - startPoint.x, apy = point.y - startPoint.y;
-        float abx = endPoint.x - startPoint.x, aby = endPoint.y - startPoint.y;
-        float ab2 = abx*abx + aby*aby;
-        float t = (ab2 <= 1e-12f) ? 0f : (apx*abx + apy*aby) / ab2;
-        t = Math.max(0f, Math.min(1f, t));
-        Point2D.Float q = pointAt(t);
-        float d = (float)Math.hypot(q.x - point.x, q.y - point.y);
-        return new Nearest(q, t, d);
+        float a = endPoint.x - startPoint.x;
+        float b = endPoint.y - startPoint.y;
+        float c = endPoint.y - startPoint.y;
+        float d = startPoint.x - endPoint.x;
+
+        float determinant  = 1/(a*d - b*c);
+
+        float aPrime = determinant * d;
+        float bPrime = determinant * b * (-1);
+        float cPrime = determinant + c * (-1);
+        float dPrime = determinant * a;
+
+        float xPrime = point.x - startPoint.x;
+        float yPrime = point.y - startPoint.y;
+
+        float alpha = aPrime * xPrime + bPrime * yPrime;
+        float betta = cPrime * xPrime + dPrime * yPrime;
+
+        if (alpha <= 0) nearestPoint = startPoint;
+        else if (alpha >= 1) nearestPoint = endPoint;
+        else {
+            nearestPoint = new Point2D.Float(alpha * a + startPoint.x, alpha * c + startPoint.y);
+        }
+
+        t = (float) Math.hypot(nearestPoint.x - startPoint.x, nearestPoint.y - startPoint.y) / length;
+
+        distance = (float)Math.hypot(nearestPoint.x - point.x, nearestPoint.y - point.y);
+
+        return new Nearest(nearestPoint, t, distance);
     }
 }

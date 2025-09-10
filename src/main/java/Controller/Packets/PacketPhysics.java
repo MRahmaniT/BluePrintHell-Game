@@ -1,11 +1,14 @@
 package Controller.Packets;
 
 import Controller.Wiring.WiringManager;
+import Model.Enums.WireType;
 import Model.GameEntities.Packet;
+import Model.GameEntities.Wire.OneFilletPath;
 import Model.GameEntities.Wire.StraightPath;
 import Model.GameEntities.Wire.WirePath;
 import View.Render.GameShapes.GameShape;
 import View.Main.MainFrame;
+import View.Render.GameShapes.Wire.WireShape;
 import View.Render.PacketRenderer;
 
 import java.awt.*;
@@ -43,6 +46,16 @@ public class PacketPhysics {
 
             Point2D.Float startPoint = wiringManager.getPortCenter(fromBlock, packet.getFromPort());
             Point2D.Float destinationPoint = wiringManager.getPortCenter(toBlock,   packet.getToPort());
+            List<WireShape> wireShapes = wiringManager.getWireShapes();
+            WireShape packetWireShape = null;
+            for (WireShape wireShape : wireShapes) {
+                if (packet.getConnectionIdx() == wireShape.getWire().getId()) {
+                    packetWireShape = wireShape;
+                    break;
+                }
+            }
+
+
             if (startPoint == null || destinationPoint == null) continue;
 
             // Initialize x,y on first step for this segment
@@ -50,10 +63,21 @@ public class PacketPhysics {
                 packet.setX(startPoint.x); packet.setY(startPoint.y);
             }
 
+            // Path Type
+            WirePath wirePath;
+            if (packetWireShape.getWire().getWireType() == WireType.STRAIGHT) {
+                wirePath = new StraightPath(startPoint, destinationPoint);
+            } else if (packetWireShape.getWire().getWireType() == WireType.CURVE1) {
+                wirePath = new OneFilletPath(startPoint, packetWireShape.getWire().getMidPoints().get(0), destinationPoint);
+            } else {
+                wirePath = null;
+            }
+
             // Direction to target + deviation
-            StraightPath straightPath = new StraightPath(startPoint, destinationPoint);
-            packet.setXDirection(straightPath.tangentAt(packet.getProgress()).x + packet.getXImpactDirection());
-            packet.setYDirection(straightPath.tangentAt(packet.getProgress()).y + packet.getYImpactDirection());
+            assert wirePath != null;
+            packet.setXDirection(wirePath.tangentAt(packet.getProgress()).x + packet.getXImpactDirection());
+            packet.setYDirection(wirePath.tangentAt(packet.getProgress()).y + packet.getYImpactDirection());
+
 
             // speed (+ optional accel)
             packet.setAcceleration(packet.getAcceleration()+packet.getAccelerationChanger());
@@ -63,7 +87,7 @@ public class PacketPhysics {
             packet.setY(packet.getY() + packet.getYDirection() * speed * dt);
 
             // Update progress
-            WirePath.Nearest nearest = straightPath.nearestTo(new Point2D.Float(packet.getX(), packet.getY()));
+            WirePath.Nearest nearest = wirePath.nearestTo(new Point2D.Float(packet.getX(), packet.getY()));
             float newProgress = nearest.t;
             if (newProgress <= 0){
                 packet.setProgress(0);

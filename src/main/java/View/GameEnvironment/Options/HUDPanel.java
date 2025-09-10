@@ -34,7 +34,7 @@ public class HUDPanel extends JPanel {
     }
 
     public void update(double remainingWire, String time, int lostPackets, int totalPackets, int coins) {
-        wireLabel.setText("Wire Left: " + (int) remainingWire + " px");
+        wireLabel.setText("WireShape Left: " + (int) remainingWire + " px");
         timeLabel.setText("Time: " + time);
         lossLabel.setText("Packet Loss: " + lostPackets + "/" + totalPackets);
         coinLabel.setText("Coins: " + coins);
