@@ -1,5 +1,8 @@
 package Controller.Packets;
 
+import Controller.Packets.Arrival.ArrivedPackets;
+import Controller.Packets.Arrival.HandlePackets;
+import Controller.Packets.Spawning.SpawnPackets;
 import Controller.Wiring.WiringManager;
 import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Connection;
@@ -42,7 +45,7 @@ public class PacketManager {
     // handle arrived packets
     private final List<ArrivedPackets> arrivedPackets = new ArrayList<>();
     private final List<Packet> lostPackets = new ArrayList<>();
-    private final HandlePackets handlePackets = new HandlePackets(arrivedPackets, lostPackets);
+    private final HandlePackets handlePackets = new HandlePackets(packets, arrivedPackets, lostPackets);
 
     public PacketManager(List<BlockSystem> blockSystems,
                          List<GameShape> blockShapes,

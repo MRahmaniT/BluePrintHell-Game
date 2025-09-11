@@ -2,7 +2,7 @@ package View.GamePage;
 
 import Controller.*;
 import Controller.Packets.PacketManager;
-import Controller.Packets.SpawnPackets;
+import Controller.Packets.Spawning.SpawnPackets;
 import Controller.Wiring.WiringManager;
 import Controller.Systems.BlockManager;
 import Controller.Systems.ChangeBlocksLight;

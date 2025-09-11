@@ -16,18 +16,18 @@ public final class PacketRenderer {
         AffineTransform at = AffineTransform.getTranslateInstance(packet.getX(), packet.getY());
         at.rotate(angle);
 
-        if (packet.getType() == PacketType.MESSENGER_1) {
+        if (packet.getPacketType() == PacketType.MESSENGER_1) {
 
             // s shape
             Path2D.Float sShape = getSShape(size);
             return at.createTransformedShape(sShape);
 
-        } else if (packet.getType() == PacketType.MESSENGER_2) {
+        } else if (packet.getPacketType() == PacketType.MESSENGER_2) {
 
             // square shape
             return at.createTransformedShape(new Rectangle2D.Float(-size/2f, -size/2f, size, size));
 
-        } else if (packet.getType() == PacketType.MESSENGER_3){
+        } else if (packet.getPacketType() == PacketType.MESSENGER_3){
 
             // triangle shape
             Path2D.Float triangle = new Path2D.Float();
@@ -37,7 +37,7 @@ public final class PacketRenderer {
             triangle.closePath();
             return at.createTransformedShape(triangle);
 
-        } else if (packet.getType() == PacketType.PROTECTED) {
+        } else if (packet.getPacketType() == PacketType.PROTECTED) {
 
             // lock shape
             Shape body = new Rectangle2D.Float(-size/2f, -size/6f, size, size);
@@ -46,19 +46,19 @@ public final class PacketRenderer {
             lock.add(new Area(arc));
             return at.createTransformedShape(lock);
 
-        } else if (packet.getType() == PacketType.PRIVATE_4) {
+        } else if (packet.getPacketType() == PacketType.PRIVATE_4) {
 
             // circle shape
             int Size = (int) (1.2 * size);
             return at.createTransformedShape(new Ellipse2D.Double(-Size/2f, -Size/2f, Size, Size));
 
-        } else if (packet.getType() == PacketType.PRIVATE_6) {
+        } else if (packet.getPacketType() == PacketType.PRIVATE_6) {
 
             // circle shape
             int Size = (int) (1.2 * size);
             return at.createTransformedShape(new Ellipse2D.Double(-Size/2f, -Size/2f, Size, Size));
 
-        } else if (packet.getType() == PacketType.BULKY_8) {
+        } else if (packet.getPacketType() == PacketType.BULKY_8) {
 
             // hexagon shape
             int sides = 6;
@@ -73,7 +73,7 @@ public final class PacketRenderer {
 
             return at.createTransformedShape(new Polygon(xs, ys, sides));
 
-        } else if (packet.getType() == PacketType.BULKY_10) {
+        } else if (packet.getPacketType() == PacketType.BULKY_10) {
 
             // hexagon shape
             int sides = 8;
@@ -114,7 +114,7 @@ public final class PacketRenderer {
     public static void draw(Graphics2D g, Packet p) {
         Shape s = getShape(p);
 
-        switch (p.getType()) {
+        switch (p.getPacketType()) {
             case MESSENGER_1 -> g.setColor(Color.WHITE);
             case MESSENGER_2 -> g.setColor(Color.GREEN);
             case MESSENGER_3 -> g.setColor(Color.YELLOW);

@@ -11,6 +11,9 @@ public class Packet implements Serializable {
     // Identity
     private int id;
     private PacketType packetType;
+    private PacketType firstType;
+    private boolean doNotFindCompatible = false;
+    private int protectedBy = -1;
 
     // Where it is
     private Location location = Location.IN_BLOCK;
@@ -18,6 +21,7 @@ public class Packet implements Serializable {
     // When IN_BLOCK
     private int blockIdx = -1;
     private long enqueuedAt = 0;
+    private boolean isMoved = false;
 
     // When ON_WIRE
     // Index in WiringManager.getConnections()
@@ -87,7 +91,17 @@ public class Packet implements Serializable {
     /* ---------------- Getters / Setters ---------------- */
 
     public int getId() { return id; }
-    public PacketType getType() { return packetType; }
+    public PacketType getPacketType() { return packetType; }
+
+    public void setPacketType(PacketType packetType) {
+        this.packetType = packetType;
+    }
+
+    public void setFirstType(PacketType firstType) {
+        this.firstType = firstType;
+    }
+
+    public PacketType getFirstType () { return firstType; }
 
     public Location getLocation() { return location; }
     public boolean isOnWire()  { return location == Location.ON_WIRE; }
@@ -138,4 +152,28 @@ public class Packet implements Serializable {
     }
 
     public float getNoise() { return noise; }
+
+    public boolean isMoved() {
+        return isMoved;
+    }
+
+    public void setMoved(boolean moved) {
+        isMoved = moved;
+    }
+
+    public boolean isDoNotFindCompatible() {
+        return doNotFindCompatible;
+    }
+
+    public void setDoNotFindCompatible(boolean doNotFindCompatible) {
+        this.doNotFindCompatible = doNotFindCompatible;
+    }
+
+    public int getProtectedBy() {
+        return protectedBy;
+    }
+
+    public void setProtectedBy(int protectedBy) {
+        this.protectedBy = protectedBy;
+    }
 }

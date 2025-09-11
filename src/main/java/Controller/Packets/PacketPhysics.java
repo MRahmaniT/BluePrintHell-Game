@@ -1,5 +1,7 @@
 package Controller.Packets;
 
+import Controller.Packets.Arrival.ArrivedPackets;
+import Controller.Packets.Arrival.HandlePackets;
 import Controller.Wiring.WiringManager;
 import Model.Enums.WireType;
 import Model.GameEntities.Packet;

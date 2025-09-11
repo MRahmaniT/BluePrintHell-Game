@@ -1,4 +1,4 @@
-package Controller.Packets;
+package Controller.Packets.Arrival;
 
 import Model.GameEntities.Packet;
 

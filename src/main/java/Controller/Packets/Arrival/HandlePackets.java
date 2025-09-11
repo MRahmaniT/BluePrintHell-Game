@@ -1,4 +1,4 @@
-package Controller.Packets;
+package Controller.Packets.Arrival;
 
 import Model.Enums.PacketType;
 import Model.GameEntities.BlockSystem;
@@ -11,13 +11,15 @@ import java.util.List;
 
 public class HandlePackets {
 
+    private List<Packet> packets;
     private List<ArrivedPackets> arrivedPackets;
     private List<Packet> lostPackets;
 
     // thresholds
     private final float maxSpeed = 500f;
 
-    public HandlePackets(List<ArrivedPackets> arrivedPackets, List<Packet> lostPackets) {
+    public HandlePackets(List<Packet> packets, List<ArrivedPackets> arrivedPackets, List<Packet> lostPackets) {
+        this.packets = packets;
         this.arrivedPackets = arrivedPackets;
         this.lostPackets = lostPackets;
     }
@@ -30,6 +32,13 @@ public class HandlePackets {
             } else {
                 if (packet.getSpeed() >= maxSpeed) {
                     deActiveDestinationSystem(blockSystems, arrivedPacket.getDestinationBlockSystemId());
+                    for (Packet packet1 : packets) {
+                        if (packet1.getPacketType() == PacketType.PROTECTED) {
+                            if (packet1.getProtectedBy() == arrivedPacket.getDestinationBlockSystemId()) {
+                                packet1.setPacketType(packet1.getFirstType());
+                            }
+                        }
+                    }
                 }
                 freeLine(packet, connections);
 
@@ -38,10 +47,15 @@ public class HandlePackets {
                 blockSystems.get(arrivedPacket.getDestinationBlockSystemId()).addPacket(packet.getId());
 
                 // coin rules
-                if (packet.getType() == PacketType.MESSENGER_2) {
-                    PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount() + 1);
-                } else {
-                    PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount() + 2);
+                switch (packet.getPacketType()) {
+                    case MESSENGER_1 -> PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount() + 1);
+                    case MESSENGER_2 -> PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount() + 2);
+                    case MESSENGER_3 -> PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount() + 3);
+                    case PROTECTED -> PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount() + 5);
+                    case PRIVATE_4 -> PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount() + 3);
+                    case PRIVATE_6 -> PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount() + 4);
+                    case BULKY_8 -> PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount() + 8);
+                    case BULKY_10 -> PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount() + 10);
                 }
             }
         }
