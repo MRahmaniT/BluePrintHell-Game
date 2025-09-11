@@ -16,23 +16,19 @@ import java.util.List;
 
 public class PacketPhysics {
 
-    public static class ArrivedPackets {
-        public final Packet packet;
-        public final int destinationBlockSystemId;
-        public ArrivedPackets(Packet p, int destinationBlockSystemId) { this.packet = p; this.destinationBlockSystemId = destinationBlockSystemId; }
-    }
-
     private final List<GameShape> blockShapes;
-    private final WiringManager wiringManager;      // to compute port centers
+    private final WiringManager wiringManager;
+    private final HandlePackets handleArrivedPackets;
 
     public PacketPhysics(List<GameShape> blocks,
-                         WiringManager wiringManager) {
+                         WiringManager wiringManager,
+                         HandlePackets handleArrivedPackets) {
         this.blockShapes = blocks;
         this.wiringManager = wiringManager;
+        this.handleArrivedPackets = handleArrivedPackets;
     }
 
     public void update(List<Packet> packets, float dt,
-                       List<ArrivedPackets> arrivedPackets,
                        List<Packet> lostPackets) {
 
         for (Packet packet : packets) {
@@ -97,7 +93,7 @@ public class PacketPhysics {
 
             // Arrival / off-target after 100% progress
             if (!isLost(packet)) {
-                arrivedPackets.add(new ArrivedPackets(packet, packet.getToBlockIdx()));
+                handleArrivedPackets.getArrivedPackets().add(new ArrivedPackets(packet, packet.getToBlockIdx()));
             } else if (packet.getProgress() >= 1f) {
                 lostPackets.add(packet);
                 MainFrame.audioManager.playSoundEffect("Resources/lose.wav");

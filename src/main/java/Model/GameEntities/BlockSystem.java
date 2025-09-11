@@ -74,6 +74,10 @@ public class BlockSystem implements Serializable {
     public Integer pollNextPacketId() { return queueOfPackets.pollFirst(); }
     public int queueCount() { return queueOfPackets.size(); }
 
+    public Deque<Integer> getQueueOfPackets() {
+        return queueOfPackets;
+    }
+
     public int getCapacity() { return capacity; }
     public void setCapacity(int capacity) { this.capacity = capacity; }
 

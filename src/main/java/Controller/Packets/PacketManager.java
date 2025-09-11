@@ -1,13 +1,11 @@
 package Controller.Packets;
 
 import Controller.Wiring.WiringManager;
-import Model.Enums.PacketType;
 import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Connection;
 import Model.GameEntities.Impact;
 import Model.GameEntities.Packet;
 import View.Render.GameShapes.System.GameShape;
-import Model.Player.PlayerState;
 import View.Render.GameShapes.Packet.PacketRenderer;
 
 import javax.swing.*;
@@ -31,18 +29,20 @@ public class PacketManager {
     private boolean impactIsDisabled = false; // disable collision detection
     private boolean waveIsDisabled   = false; // disable outward impact wave
 
-    // thresholds
-    private final float maxSpeed = 500f;
-
     // counters
     private int lostPacketsCount = 0;
 
-    // constants (kept from your old logic)
+    // constants
     private static final float NOISE_PER_HIT = 5f;
 
     // impacts
-    private List<Impact> impacts = new ArrayList<>();
-    private List<Impact> managedImpacts = new ArrayList<>();
+    private final List<Impact> impacts = new ArrayList<>();
+    private final List<Impact> managedImpacts = new ArrayList<>();
+
+    // handle arrived packets
+    private final List<ArrivedPackets> arrivedPackets = new ArrayList<>();
+    private final List<Packet> lostPackets = new ArrayList<>();
+    private final HandlePackets handlePackets = new HandlePackets(arrivedPackets, lostPackets);
 
     public PacketManager(List<BlockSystem> blockSystems,
                          List<GameShape> blockShapes,
@@ -54,7 +54,7 @@ public class PacketManager {
         this.blockShapes = blockShapes;
         this.connections = connections;
         this.packets = packets;
-        this.physics = new PacketPhysics(blockShapes, wiringManager);
+        this.physics = new PacketPhysics(blockShapes, wiringManager, handlePackets);
         this.spawnPackets = spawnPackets;
     }
 
@@ -64,9 +64,8 @@ public class PacketManager {
         spawnPackets.spawnFromBlocks();
 
         // 1) move (physics update)
-        List<PacketPhysics.ArrivedPackets> arrivedPackets = new ArrayList<>();
         List<Packet> lostPackets = new ArrayList<>();
-        physics.update(packets, 0.01f, arrivedPackets, lostPackets);
+        physics.update(packets, 0.01f, lostPackets);
 
         // 2) find impacts
 
@@ -79,34 +78,7 @@ public class PacketManager {
         manageImpact(packets);
 
         // 4) handle arrivedPackets & lostPackets
-        for (PacketPhysics.ArrivedPackets arrivedPacket : arrivedPackets) {
-            Packet packet = arrivedPacket.packet;
-            if (!blockSystems.get(packet.getToBlockIdx()).isActive()) {
-                packet.startOnWire(packet.getConnectionIdx(), packet.getToBlockIdx(), packet.getToPort(), packet.getFromBlockIdx(), packet.getFromPort());
-            } else {
-                if (packet.getSpeed() >= maxSpeed) {
-                    deActiveDestinationSystem(arrivedPacket.destinationBlockSystemId);
-                }
-                freeLine(packet);
-
-                // enqueue to destination block
-                packet.parkInBlock(arrivedPacket.destinationBlockSystemId);
-                blockSystems.get(arrivedPacket.destinationBlockSystemId).addPacket(packet.getId());
-
-                // coin rules
-                if (packet.getType() == PacketType.MESSENGER_2) {
-                    PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount() + 1);
-                } else {
-                    PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount() + 2);
-                }
-            }
-        }
-
-        for (Packet packet : lostPackets) {
-            freeLine(packet);
-            packet.markLost();
-            lostPacketsCount++;
-        }
+        handlePackets.Handle(blockSystems, connections, lostPacketsCount);
 
     }
 
@@ -191,15 +163,6 @@ public class PacketManager {
         timer.start();
     }
     public boolean isWaveIsDisabled() { return waveIsDisabled; }
-
-    public void deActiveDestinationSystem(int blockSystemId) {
-        blockSystems.get(blockSystemId).setActive(false);
-        Timer timer = new Timer(5 * 1000, e -> {
-            blockSystems.get(blockSystemId).setActive(true);
-        });
-        timer.setRepeats(false);
-        timer.start();
-    }
 
     public int getLostPacketsCount() { return lostPacketsCount; }
 }
