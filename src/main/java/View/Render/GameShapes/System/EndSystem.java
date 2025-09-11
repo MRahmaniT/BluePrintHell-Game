@@ -37,16 +37,16 @@ public class EndSystem implements GameShape {
     public void draw(Graphics2D g) {
         //Draw base
         g.setColor(Color.lightGray);
-        g.fillRect((int)x, (int)y, (int)width, (int)height);
+        g.fillRect((int)x, (int)y, (int)width, (int) (0.6*height));
 
         //Draw mid
         g.setColor(Color.gray);
         g.fillRect((int)(x + 0.25*width), (int)(y+0.2*height),
-                   (int)(0.5*width), (int)(0.8*height));
+                   (int)(0.5*width), (int)(0.4*height));
 
         //Draw top
         g.setColor(Color.darkGray);
-        g.fillRect((int)x, (int)y, (int)width, (int)(height/3));
+        g.fillRect((int)x, (int)y, (int)width, (int)(0.2*height));
 
         //Draw light
         g.setColor(color);
@@ -58,17 +58,17 @@ public class EndSystem implements GameShape {
         if (portType.getFirst() == PortType.MESSENGER_2){
             g.setColor(Color.GREEN);
             port1 = new Path2D.Float();
-            port1.moveTo((int)(x - 0.08*width), (int)(y+2*height/3-0.08*width));
-            port1.lineTo((int)(x + 0.08*width), (int)(y+2*height/3-0.08*width));
-            port1.lineTo((int)(x + 0.08*width), (int)(y+2*height/3+0.08*width));
-            port1.lineTo((int)(x - 0.08*width), (int)(y+2*height/3+0.08*width));
+            port1.moveTo((int)(x - 0.08*width), (int)(y+0.4*height-0.08*width));
+            port1.lineTo((int)(x + 0.08*width), (int)(y+0.4*height-0.08*width));
+            port1.lineTo((int)(x + 0.08*width), (int)(y+0.4*height+0.08*width));
+            port1.lineTo((int)(x - 0.08*width), (int)(y+0.4*height+0.08*width));
             g.fill(port1);
         } else if (portType.getFirst() == PortType.MESSENGER_3){
             g.setColor(Color.YELLOW);
             port1 = new Path2D.Float();
-            port1.moveTo((int)(x - 0.08*width), (int)(y+2*height/3-0.08*width));
-            port1.lineTo((int)(x + 0.08*width), (int)(y+2*height/3));
-            port1.lineTo((int)(x - 0.08*width), (int)(y+2*height/3+0.08*width));
+            port1.moveTo((int)(x - 0.08*width), (int)(y+0.4*height-0.08*width));
+            port1.lineTo((int)(x + 0.08*width), (int)(y+0.4*height));
+            port1.lineTo((int)(x - 0.08*width), (int)(y+0.4*height+0.08*width));
             g.fill(port1);
         }
 
