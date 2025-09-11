@@ -106,7 +106,7 @@ public class SpawnConditions {
             case MESSENGER_1 -> {
                 packet.setAcceleration(0.1f);
                 if (portType != PortType.MESSENGER_1) {
-                    packet.setAccelerationChanger(-0.005f);
+                    packet.setAccelerationChanger(-0.0005f);
                 }
             }
             case MESSENGER_2 ->{

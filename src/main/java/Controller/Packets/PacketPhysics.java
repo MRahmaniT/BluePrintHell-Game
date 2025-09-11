@@ -70,6 +70,7 @@ public class PacketPhysics {
 
             // speed (+ optional accel)
             packet.setAcceleration(packet.getAcceleration()+packet.getAccelerationChanger());
+            if (packet.getAcceleration() <= 0) packet.setAcceleration(0);
             float speed = packet.getSpeed() + packet.getAcceleration();
             packet.setSpeed(speed);
             packet.setX(packet.getX() + packet.getXDirection() * speed * dt);
@@ -132,8 +133,8 @@ public class PacketPhysics {
         float attenuation = 1f - Math.min(1f, dist / 500f);
         if (attenuation <= 0f) return;
 
-        p.setXImpactDirection(p.getXImpactDirection() + (dx * attenuation) / 100f);
-        p.setYImpactDirection(p.getYImpactDirection() + (dy * attenuation) / 100f);
+        p.setXImpactDirection(p.getXImpactDirection() + (dx * attenuation) / 1000f);
+        p.setYImpactDirection(p.getYImpactDirection() + (dy * attenuation) / 1000f);
     }
 
     private GameShape findBlockShape(int id) {

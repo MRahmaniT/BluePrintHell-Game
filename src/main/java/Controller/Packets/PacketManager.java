@@ -45,7 +45,7 @@ public class PacketManager {
     // handle arrived packets
     private final List<ArrivedPackets> arrivedPackets = new ArrayList<>();
     private final List<Packet> lostPackets = new ArrayList<>();
-    private final HandlePackets handlePackets = new HandlePackets(packets, arrivedPackets, lostPackets);
+    private final HandlePackets handlePackets;
 
     public PacketManager(List<BlockSystem> blockSystems,
                          List<GameShape> blockShapes,
@@ -57,6 +57,7 @@ public class PacketManager {
         this.blockShapes = blockShapes;
         this.connections = connections;
         this.packets = packets;
+        handlePackets = new HandlePackets(packets, arrivedPackets, lostPackets);
         this.physics = new PacketPhysics(blockShapes, wiringManager, handlePackets);
         this.spawnPackets = spawnPackets;
     }
