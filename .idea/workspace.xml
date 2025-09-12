@@ -4,11 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="Phase 2&#10;Handle Packet types">
+    <list default="true" id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="Phase 2&#10;impact fine tune">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/Spawning/SpawnConditions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/Spawning/SpawnConditions.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +22,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "MRahmaniT"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/MRahmaniT/AP-Project-Phase-1.git",
+    "accountId": "06fd7ff1-1e50-4b9d-bbc3-60d8d57a543e"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 1
 }</component>
@@ -38,11 +47,12 @@
     "Application.Main.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "MVC__Branch",
+    "git-widget-placeholder": "development",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/mohammad/University/AP/Project/Phase-2",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+    "settings.editor.selected.configurable": "terminal"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -164,8 +174,43 @@
       <option name="project" value="LOCAL" />
       <updated>1757619450101</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Phase 2&#10;impact fine tune">
+      <option name="closed" value="true" />
+      <created>1757621239047</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1757621239047</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="OPEN_GENERIC_TABS">
+      <map>
+        <entry key="e03bbe73-d421-4bb1-ba4e-ec4a5b165f44" value="TOOL_WINDOW" />
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+        <entry key="e03bbe73-d421-4bb1-ba4e-ec4a5b165f44">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="false" />
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Phase 2&#10;impact" />
@@ -175,6 +220,7 @@
     <MESSAGE value="Phase 2&#10;Blocks" />
     <MESSAGE value="Phase 2&#10;Handle Packets" />
     <MESSAGE value="Phase 2&#10;Handle Packet types" />
-    <option name="LAST_COMMIT_MESSAGE" value="Phase 2&#10;Handle Packet types" />
+    <MESSAGE value="Phase 2&#10;impact fine tune" />
+    <option name="LAST_COMMIT_MESSAGE" value="Phase 2&#10;impact fine tune" />
   </component>
 </project>
