@@ -8,6 +8,7 @@ import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Connection;
 import Model.GameEntities.Impact;
 import Model.GameEntities.Packet;
+import Storage.Snapshots.PacketStorage;
 import View.Render.GameShapes.System.GameShape;
 import View.Render.GameShapes.Packet.PacketRenderer;
 
@@ -21,10 +22,7 @@ import java.util.List;
 public class PacketManager {
 
     // dependencies
-    private final List<BlockSystem> blockSystems;
-    private final List<GameShape> blockShapes;
-    private final List<Connection> connections;
-    private final List<Packet> packets;
+    private List<Packet> packets;
     private final PacketPhysics physics;
     private final SpawnPackets spawnPackets;
 
@@ -47,16 +45,10 @@ public class PacketManager {
     private final List<Packet> lostPackets = new ArrayList<>();
     private final HandlePackets handlePackets;
 
-    public PacketManager(List<BlockSystem> blockSystems,
-                         List<GameShape> blockShapes,
+    public PacketManager(List<GameShape> blockShapes,
                          WiringManager wiringManager,
-                         List<Connection> connections,
-                         List<Packet> packets,
                          SpawnPackets spawnPackets) {
-        this.blockSystems = blockSystems;
-        this.blockShapes = blockShapes;
-        this.connections = connections;
-        this.packets = packets;
+        packets = PacketStorage.LoadPackets();
         handlePackets = new HandlePackets(packets, arrivedPackets, lostPackets);
         this.physics = new PacketPhysics(blockShapes, wiringManager, handlePackets);
         this.spawnPackets = spawnPackets;
@@ -68,20 +60,21 @@ public class PacketManager {
 
         // 1) move (physics update)
         List<Packet> lostPackets = new ArrayList<>();
-        physics.update(packets, 0.01f, lostPackets);
+        physics.update(0.01f, lostPackets);
 
         // 2) find impacts
-
+        packets = PacketStorage.LoadPackets();
         for (Packet p : packets) {
             if (!p.isOnWire()) continue;
             findImpact(packets, p);
         }
 
         //3) apply impacts
+        packets = PacketStorage.LoadPackets();
         manageImpact(packets);
 
         // 4) handle arrivedPackets & lostPackets
-        handlePackets.Handle(blockSystems, connections, lostPacketsCount);
+        handlePackets.Handle(lostPacketsCount);
 
     }
 
@@ -139,6 +132,7 @@ public class PacketManager {
             managedImpacts.add(impact);
         }
         impacts.clear();
+        PacketStorage.SavePackets(packets);
     }
 
     public void disableImpactForSeconds(int seconds) {

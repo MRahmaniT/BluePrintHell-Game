@@ -1,6 +1,7 @@
 package Controller.Systems;
 
 import Model.GameEntities.BlockSystem;
+import Storage.BlockSystemStorage;
 import View.Render.GameShapes.System.GameShape;
 
 import java.awt.*;
@@ -36,6 +37,8 @@ public class BlockManager {
         sourceBlock.setPosition(move);
         blockSystems.get(blockId).setX(move.x);
         blockSystems.get(blockId).setY(move.y);
+
+        BlockSystemStorage.SaveBlockSystems(blockSystems);
     }
 
     public void drawDrag(int mouseX, int mouseY) {

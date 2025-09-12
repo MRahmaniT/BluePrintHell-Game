@@ -5,6 +5,9 @@ import Model.Enums.WireType;
 import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Connection;
 import Model.GameEntities.Wire.Wire;
+import Storage.BlockSystemStorage;
+import Storage.ConnectionStorage;
+import Storage.WireStorage;
 import View.Main.MainFrame;
 import View.Render.GameShapes.System.GameShape;
 import View.Render.GameShapes.Wire.WireShape;
@@ -151,6 +154,9 @@ public class WiringManager {
             filleting = false;
         }
 
+        BlockSystemStorage.SaveBlockSystems(blockSystems);
+        ConnectionStorage.SaveConnections(connections);
+        WireStorage.SaveWires(wires);
     }
 
     private BlockSystem getBlockSystem (List<BlockSystem> blockSystems, int id) {

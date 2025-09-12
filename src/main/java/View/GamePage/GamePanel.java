@@ -210,16 +210,8 @@ public class GamePanel extends JPanel {
         setComponentZOrder(winPanel, 0);
 
         //
-        spawnPacket = new SpawnPackets(blockSystems, wiringManager.getConnections(), packets);
-        packetManager = new PacketManager(blockSystems, blockShapes, wiringManager, wiringManager.getConnections(), packets, spawnPacket);
-
-        //Saving
-        Timer gameSaver = new Timer(10, _ -> {
-            BlockSystemStorage.SaveBlockSystems(blockSystems);
-            ConnectionStorage.SaveConnections(wiringManager.getConnections());
-            WireStorage.SaveWires(wiringManager.getWires());
-        });
-        gameSaver.start();
+        spawnPacket = new SpawnPackets();
+        packetManager = new PacketManager(blockShapes, wiringManager, spawnPacket);
 
         //Timing
         gameTimer = new Timer(10, _ -> {
@@ -228,7 +220,7 @@ public class GamePanel extends JPanel {
             gameEngine.update();
 
             if (!packets.isEmpty()) {
-                PacketStorage.SaveBlockSystems(packets);
+                PacketStorage.SavePackets(packets);
             }
 
             packetManager.manageMovement();
@@ -289,7 +281,6 @@ public class GamePanel extends JPanel {
             @Override
             public void keyTyped(KeyEvent e) {
                 if (e.getKeyChar() == 'p') {
-                    isRunning = true;
                     if (packets.isEmpty()) {
                         for (int i = 0; i < 3; i++) {
                             spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_2));
@@ -304,6 +295,7 @@ public class GamePanel extends JPanel {
                             generatedPackets++;
                         }
                     }
+                    isRunning = true;
                 }
             }
 
@@ -344,6 +336,7 @@ public class GamePanel extends JPanel {
             }
             @Override
             public void mouseReleased(MouseEvent e) {
+
                 wiringManager.handleMouseRelease(blockSystems, blockShapes, mousePointX, mousePointY, wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH));
                 blockManager.handleMouseRelease(blockSystems, mousePointX, mousePointY);
                 repaint();

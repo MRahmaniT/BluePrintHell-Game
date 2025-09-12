@@ -4,24 +4,22 @@ import Model.Enums.PortType;
 import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Connection;
 import Model.GameEntities.Packet;
+import Storage.BlockSystemStorage;
+import Storage.ConnectionStorage;
+import Storage.Snapshots.PacketStorage;
 
 import java.util.*;
 
 public class SpawnPackets {
 
-    private final List<BlockSystem> blockSystems;
-    private final List<Connection> connections;
-    private final List<Packet> packets;
-
-    public SpawnPackets(List<BlockSystem> blockSystems,
-                        List<Connection> connections,
-                        List<Packet> packets) {
-        this.blockSystems = blockSystems;
-        this.connections = connections;
-        this.packets = packets;
-    }
+    public SpawnPackets() {}
 
     public void spawnFromBlocks() {
+
+        List<BlockSystem> blockSystems = BlockSystemStorage.LoadBlockSystems();
+        List<Connection> connections = ConnectionStorage.LoadConnections();
+        List<Packet> packets = PacketStorage.LoadPackets();
+
         Packet firstPacketInQueue;
 
         for (BlockSystem blockSystem : blockSystems) {
@@ -57,14 +55,25 @@ public class SpawnPackets {
             connectionChoice.setPacketOnLine(true);
             blockSystem.pollNextPacketId();
         }
+
+        BlockSystemStorage.SaveBlockSystems(blockSystems);
+        ConnectionStorage.SaveConnections(connections);
+        PacketStorage.SavePackets(packets);
     }
 
     public void addPacketToBlock(int blockId, Packet packet) {
+
+        List<BlockSystem> blockSystems = BlockSystemStorage.LoadBlockSystems();
+        List<Packet> packets = PacketStorage.LoadPackets();
+
         packet.parkInBlock(blockId);
         blockSystems.get(blockId).addPacket(packet.getId());
 
         if (!packets.contains(packet)) {
             packets.add(packet);
         }
+
+        BlockSystemStorage.SaveBlockSystems(blockSystems);
+        PacketStorage.SavePackets(packets);
     }
 }

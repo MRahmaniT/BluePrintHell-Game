@@ -6,6 +6,7 @@ import Controller.Wiring.WiringManager;
 import Model.Enums.WireType;
 import Model.GameEntities.Packet;
 import Model.GameEntities.Wire.*;
+import Storage.Snapshots.PacketStorage;
 import View.Render.GameShapes.System.GameShape;
 import View.Main.MainFrame;
 import View.Render.GameShapes.Wire.WireShape;
@@ -30,8 +31,9 @@ public class PacketPhysics {
         this.handleArrivedPackets = handleArrivedPackets;
     }
 
-    public void update(List<Packet> packets, float dt,
-                       List<Packet> lostPackets) {
+    public void update(float dt, List<Packet> lostPackets) {
+
+        List<Packet> packets = PacketStorage.LoadPackets();
 
         for (Packet packet : packets) {
             if (!packet.isOnWire()) continue;
@@ -102,6 +104,8 @@ public class PacketPhysics {
                 MainFrame.audioManager.playSoundEffect("Resources/lose.wav");
             }
         }
+
+        PacketStorage.SavePackets(packets);
     }
 
     private static WirePath getWirePath(WireShape packetWireShape, Point2D.Float startPoint, Point2D.Float destinationPoint) {

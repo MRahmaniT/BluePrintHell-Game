@@ -5,6 +5,8 @@ import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Connection;
 import Model.GameEntities.Packet;
 import Model.Player.PlayerState;
+import Storage.BlockSystemStorage;
+import Storage.ConnectionStorage;
 
 import javax.swing.*;
 import java.util.List;
@@ -24,7 +26,11 @@ public class HandlePackets {
         this.lostPackets = lostPackets;
     }
 
-    public void Handle (List<BlockSystem> blockSystems, List<Connection> connections, int lostPacketsCount) {
+    public void Handle (int lostPacketsCount) {
+
+        List<BlockSystem> blockSystems = BlockSystemStorage.LoadBlockSystems();
+        List<Connection> connections = ConnectionStorage.LoadConnections();
+
         for (ArrivedPackets arrivedPacket : arrivedPackets) {
             Packet packet = arrivedPacket.getPacket();
             if (!blockSystems.get(packet.getToBlockIdx()).isActive()) {
@@ -66,6 +72,9 @@ public class HandlePackets {
             packet.markLost();
             lostPacketsCount++;
         }
+
+        BlockSystemStorage.SaveBlockSystems(blockSystems);
+        ConnectionStorage.SaveConnections(connections);
     }
 
     public void deActiveDestinationSystem(List<BlockSystem> blockSystems, int blockSystemId) {

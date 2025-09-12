@@ -1,6 +1,5 @@
 package Storage.Snapshots;
 
-import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Packet;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,7 +26,7 @@ public class PacketStorage {
         }
     }
 
-    public static void SaveBlockSystems(List<Packet> packets) {
+    public static void SavePackets(List<Packet> packets) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(PACKETS_FILE), packets);

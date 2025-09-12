@@ -1,6 +1,7 @@
 package Controller.Systems;
 
 import Model.GameEntities.BlockSystem;
+import Storage.BlockSystemStorage;
 import View.Render.GameShapes.System.GameShape;
 
 import java.awt.*;
@@ -18,5 +19,6 @@ public class ChangeBlocksLight {
             }
             blockShapes.get(i).setColor(allConnected ? Color.CYAN : Color.RED);
         }
+        BlockSystemStorage.SaveBlockSystems(blockSystems);
     }
 }

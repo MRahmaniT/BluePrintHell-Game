@@ -4,16 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="Phase 2&#10;Saving Packets">
+    <list default="true" id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="Phase 2&#10;Debug Saving Packets">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/players.json" beforeDir="false" afterPath="$PROJECT_DIR$/Resources/Saves/players.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resources/Saves/blockSystem.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resources/Saves/connection.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resources/Saves/packet.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resources/Saves/wire.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/Arrival/HandlePackets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/Arrival/HandlePackets.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/Spawning/SpawnPackets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/Spawning/SpawnPackets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Systems/BlockManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Systems/BlockManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Systems/ChangeBlocksLight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Systems/ChangeBlocksLight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Wiring/WiringManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Wiring/WiringManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Storage/BlockSystemStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Storage/BlockSystemStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Storage/ConnectionStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Storage/ConnectionStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Storage/PlayerStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Storage/PlayerStorage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Storage/Snapshots/PacketStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Storage/Snapshots/PacketStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Storage/WireStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Storage/WireStorage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -227,7 +232,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757702997603</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Phase 2&#10;Debug Saving Packets">
+      <option name="closed" value="true" />
+      <created>1757704329934</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1757704329934</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -269,6 +282,7 @@
     <MESSAGE value="Phase 2&#10;Saving Connections" />
     <MESSAGE value="Phase 2&#10;Saving Wires" />
     <MESSAGE value="Phase 2&#10;Saving Packets" />
-    <option name="LAST_COMMIT_MESSAGE" value="Phase 2&#10;Saving Packets" />
+    <MESSAGE value="Phase 2&#10;Debug Saving Packets" />
+    <option name="LAST_COMMIT_MESSAGE" value="Phase 2&#10;Debug Saving Packets" />
   </component>
 </project>

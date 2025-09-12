@@ -12,7 +12,7 @@ import java.util.List;
 public class BlockSystemStorage {
     private static final String BLOCK_SYSTEMS_FILE = "Resources/Saves/blockSystem.json";
 
-    public static List<BlockSystem> LoadBlockSystems() {
+    public static synchronized List<BlockSystem> LoadBlockSystems() {
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File(BLOCK_SYSTEMS_FILE);
 
@@ -26,7 +26,7 @@ public class BlockSystemStorage {
         }
     }
 
-    public static void SaveBlockSystems(List<BlockSystem> blockSystems) {
+    public static synchronized void SaveBlockSystems(List<BlockSystem> blockSystems) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(BLOCK_SYSTEMS_FILE), blockSystems);
