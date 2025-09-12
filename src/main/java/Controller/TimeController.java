@@ -9,9 +9,9 @@ public class TimeController {
 
     public void update(boolean leftPressed, boolean rightPressed) {
         if (leftPressed && !rightPressed) {
-            time = Math.max(0, time - 0.1);
+            time = Math.max(0, time - 0.01);
         } else if (rightPressed && !leftPressed) {
-            time += 0.1;
+            time += 0.01;
         }
     }
 

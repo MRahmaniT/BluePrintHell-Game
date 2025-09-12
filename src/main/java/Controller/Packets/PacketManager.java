@@ -63,7 +63,6 @@ public class PacketManager {
     }
 
     public void manageMovement() {
-
         // 0) spawn from blocks
         spawnPackets.spawnFromBlocks();
 
@@ -140,16 +139,6 @@ public class PacketManager {
             managedImpacts.add(impact);
         }
         impacts.clear();
-    }
-
-    private void freeLine(Packet p) {
-        int idx = p.getConnectionIdx();
-        for (Connection connection : connections) {
-            if (connection.getId() == idx) {
-                connection.setPacketOnLine(false);
-            }
-        }
-        p.setConnectionIdx(-1);
     }
 
     public void disableImpactForSeconds(int seconds) {

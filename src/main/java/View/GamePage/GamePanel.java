@@ -14,6 +14,7 @@ import Model.GameEntities.Packet;
 import Model.GameEntities.Wire.Wire;
 import Storage.BlockSystemStorage;
 import Storage.ConnectionStorage;
+import Storage.Snapshots.PacketStorage;
 import Storage.WireStorage;
 import View.GameEnvironment.Background.BuildBackground;
 import View.GamePage.State.GameOverPanel;
@@ -80,7 +81,7 @@ public class GamePanel extends JPanel {
     //For Packet
     private PacketManager packetManager;
     private SpawnPackets spawnPacket;
-    private final List<Packet> packets = new ArrayList<>();
+    private List<Packet> packets = new ArrayList<>();
     private final int totalPackets = 10;
     private int generatedPackets = 0;
     private int lostPackets = 0;
@@ -136,6 +137,7 @@ public class GamePanel extends JPanel {
             wireShapes.add(wireShape);
         }
         wiringManager.setWireShapes(wireShapes);
+        packets = PacketStorage.LoadPackets();
 
         //Add Shop Button
         JButton shopButton = new JButton("Shop");
@@ -221,7 +223,13 @@ public class GamePanel extends JPanel {
 
         //Timing
         gameTimer = new Timer(10, _ -> {
+
+            timeController.update(false,true);
             gameEngine.update();
+
+            if (!packets.isEmpty()) {
+                PacketStorage.SaveBlockSystems(packets);
+            }
 
             packetManager.manageMovement();
 
@@ -258,8 +266,6 @@ public class GamePanel extends JPanel {
                 winPanel.setVisible(true);
             }
 
-
-
             if (packetManager.getLostPacketsCount() >= totalPackets / 2) {
                 gameTimer.stop();
                 gameOverPanel.updateStats(
@@ -284,18 +290,6 @@ public class GamePanel extends JPanel {
             public void keyTyped(KeyEvent e) {
                 if (e.getKeyChar() == 'p') {
                     isRunning = true;
-                    for (int i = 0; i < 3; i++) {
-                        spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_2));
-                        generatedPackets++;
-                    }
-                    for (int i = 3; i < 7; i++) {
-                        spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_3));
-                        generatedPackets++;
-                    }
-                    for (int i = 7; i < 10; i++) {
-                        spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_1));
-                        generatedPackets++;
-                    }
                 }
             }
 

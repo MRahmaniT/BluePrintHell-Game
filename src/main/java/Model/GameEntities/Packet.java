@@ -1,6 +1,7 @@
 package Model.GameEntities;
 
 import Model.Enums.PacketType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.io.Serializable;
 
@@ -104,9 +105,9 @@ public class Packet implements Serializable {
     public PacketType getFirstType () { return firstType; }
 
     public Location getLocation() { return location; }
-    public boolean isOnWire()  { return location == Location.ON_WIRE; }
-    public boolean isInBlock() { return location == Location.IN_BLOCK; }
-    public boolean isLost()    { return location == Location.LOST; }
+    @JsonIgnore public boolean isOnWire()  { return location == Location.ON_WIRE; }
+    @JsonIgnore public boolean isInBlock() { return location == Location.IN_BLOCK; }
+    @JsonIgnore public boolean isLost()    { return location == Location.LOST; }
 
     public int  getBlockIdx()   { return blockIdx; }
     public long getEnqueuedAt() { return enqueuedAt; }
