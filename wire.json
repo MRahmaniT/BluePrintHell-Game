@@ -1,0 +1,17 @@
+[ {
+  "wireType" : "STRAIGHT",
+  "midPoints" : [ ],
+  "startBlockId" : 0,
+  "startPortId" : 3,
+  "endBlockId" : 1,
+  "endPortId" : 1,
+  "id" : 1
+}, {
+  "wireType" : "STRAIGHT",
+  "midPoints" : [ ],
+  "startBlockId" : 1,
+  "startPortId" : 4,
+  "endBlockId" : 2,
+  "endPortId" : 2,
+  "id" : 2
+} ]

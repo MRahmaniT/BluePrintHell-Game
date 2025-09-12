@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WireStorage {
-    private static final String WIRES_FILE = "wire.json";
+    private static final String WIRES_FILE = "Resources/Saves/wire.json";
 
     public static List<Wire> LoadWires() {
         ObjectMapper objectMapper = new ObjectMapper();

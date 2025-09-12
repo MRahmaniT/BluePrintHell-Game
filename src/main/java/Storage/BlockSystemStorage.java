@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BlockSystemStorage {
-    private static final String BLOCK_SYSTEMS_FILE = "blockSystem.json";
+    private static final String BLOCK_SYSTEMS_FILE = "Resources/Saves/blockSystem.json";
 
     public static List<BlockSystem> LoadBlockSystems() {
         ObjectMapper objectMapper = new ObjectMapper();

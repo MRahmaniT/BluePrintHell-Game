@@ -290,6 +290,20 @@ public class GamePanel extends JPanel {
             public void keyTyped(KeyEvent e) {
                 if (e.getKeyChar() == 'p') {
                     isRunning = true;
+                    if (packets.isEmpty()) {
+                        for (int i = 0; i < 3; i++) {
+                            spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_2));
+                            generatedPackets++;
+                        }
+                        for (int i = 3; i < 7; i++) {
+                            spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_3));
+                            generatedPackets++;
+                        }
+                        for (int i = 7; i < 10; i++) {
+                            spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_1));
+                            generatedPackets++;
+                        }
+                    }
                 }
             }
 

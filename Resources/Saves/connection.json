@@ -1,0 +1,8 @@
+[ {
+  "id" : 1,
+  "fromSystemId" : 0,
+  "fromPortId" : 3,
+  "toSystemId" : 1,
+  "toPortId" : 1,
+  "packetOnLine" : false
+} ]

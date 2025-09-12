@@ -22,7 +22,6 @@ public class SpawnPackets {
     }
 
     public void spawnFromBlocks() {
-
         Packet firstPacketInQueue;
 
         for (BlockSystem blockSystem : blockSystems) {

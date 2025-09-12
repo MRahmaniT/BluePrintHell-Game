@@ -11,7 +11,7 @@ import java.util.List;
 
 public class PlayerStorage {
 
-    private static final String PLAYERS_FILE = "players.json";
+    private static final String PLAYERS_FILE = "Resources/Saves/players.json";
 
     public static List<Player> loadAllPlayers() {
         ObjectMapper mapper = new ObjectMapper();

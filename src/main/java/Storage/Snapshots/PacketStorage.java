@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PacketStorage {
-    private static String PACKETS_FILE = "packet.json";
+    private static String PACKETS_FILE = "Resources/Saves/packet.json";
 
     public static List<Packet> LoadPackets() {
         ObjectMapper objectMapper = new ObjectMapper();

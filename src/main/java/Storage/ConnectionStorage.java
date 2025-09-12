@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConnectionStorage {
-    private static final String CONNECTIONS_FILE = "connection.json";
+    private static final String CONNECTIONS_FILE = "Resources/Saves/connection.json";
 
     public static List<Connection> LoadConnections() {
         ObjectMapper objectMapper = new ObjectMapper();
