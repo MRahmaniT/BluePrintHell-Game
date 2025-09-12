@@ -1,8 +1,8 @@
 [ {
   "id" : 0,
   "type" : "START",
-  "x" : -300.0,
-  "y" : -100.0,
+  "x" : -127.0,
+  "y" : 166.0,
   "capacity" : 5,
   "ports" : [ {
     "id" : 1,
@@ -31,8 +31,8 @@
   } ],
   "queueOfPackets" : [ ],
   "active" : true,
-  "portsType" : [ null, null, "MESSENGER_2", null ],
-  "portsConnection" : [ true, true, true, true ]
+  "portsConnection" : [ true, true, true, true ],
+  "portsType" : [ null, null, "MESSENGER_2", null ]
 }, {
   "id" : 1,
   "type" : "PROCESSOR",
@@ -62,12 +62,12 @@
     "systemId" : 1,
     "role" : "OUT",
     "type" : "MESSENGER_2",
-    "connected" : false
+    "connected" : true
   } ],
   "queueOfPackets" : [ ],
   "active" : true,
-  "portsType" : [ "MESSENGER_2", null, "MESSENGER_3", "MESSENGER_2" ],
-  "portsConnection" : [ true, true, false, false ]
+  "portsConnection" : [ true, true, false, true ],
+  "portsType" : [ "MESSENGER_2", null, "MESSENGER_3", "MESSENGER_2" ]
 }, {
   "id" : 2,
   "type" : "PROCESSOR",
@@ -85,7 +85,7 @@
     "systemId" : 2,
     "role" : "IN",
     "type" : "MESSENGER_2",
-    "connected" : false
+    "connected" : true
   }, {
     "id" : 3,
     "systemId" : 2,
@@ -97,24 +97,24 @@
     "systemId" : 2,
     "role" : "OUT",
     "type" : "MESSENGER_2",
-    "connected" : false
+    "connected" : true
   } ],
   "queueOfPackets" : [ ],
   "active" : true,
-  "portsType" : [ "MESSENGER_3", "MESSENGER_2", null, "MESSENGER_2" ],
-  "portsConnection" : [ false, false, true, false ]
+  "portsConnection" : [ false, true, true, true ],
+  "portsType" : [ "MESSENGER_3", "MESSENGER_2", null, "MESSENGER_2" ]
 }, {
   "id" : 3,
   "type" : "START",
-  "x" : 300.0,
-  "y" : 100.0,
+  "x" : 320.0,
+  "y" : 163.0,
   "capacity" : 5,
   "ports" : [ {
     "id" : 1,
     "systemId" : 3,
     "role" : "IN",
     "type" : "MESSENGER_2",
-    "connected" : false
+    "connected" : true
   }, {
     "id" : 2,
     "systemId" : 3,
@@ -136,6 +136,6 @@
   } ],
   "queueOfPackets" : [ ],
   "active" : true,
-  "portsType" : [ "MESSENGER_2", null, null, null ],
-  "portsConnection" : [ false, true, true, true ]
+  "portsConnection" : [ true, true, true, true ],
+  "portsType" : [ "MESSENGER_2", null, null, null ]
 } ]

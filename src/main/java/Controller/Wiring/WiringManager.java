@@ -31,7 +31,7 @@ public class WiringManager {
     private int fromPortId;
     private boolean sourceIsEntrance;
 
-    private final List<Connection> connections = new ArrayList<>();
+    private List<Connection> connections = new ArrayList<>();
     private int connectionIdCounter = 0;
 
     private final List<Wire> wires = new ArrayList<>();
@@ -213,6 +213,8 @@ public class WiringManager {
     public List<Connection> getConnections() {
         return connections;
     }
+
+    public void setConnections(List<Connection> connections) { this.connections = connections; }
 
     public List<WireShape> getWireShapes() {
         return wireShapes;

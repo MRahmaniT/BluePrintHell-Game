@@ -12,6 +12,7 @@ import Model.GameEntities.Impact;
 import Model.GameEntities.Packet;
 
 import Storage.BlockSystemStorage;
+import Storage.ConnectionStorage;
 import View.GameEnvironment.Background.BuildBackground;
 import View.GamePage.State.GameOverPanel;
 import View.GamePage.State.PausePanel;
@@ -110,8 +111,9 @@ public class GamePanel extends JPanel {
         }
         BuildBackground.buildBackground(screenSizeX, screenSizeY, shapes);
 
-        // Loading Systems
+        // Loading
         blockSystems = BlockSystemStorage.LoadBlockSystems();
+        wiringManager.setConnections(ConnectionStorage.LoadConnections());
 
         //Build Level
         int levelOnGoing = PlayerState.getPlayer().getLevelNumber();
@@ -123,9 +125,6 @@ public class GamePanel extends JPanel {
                 BuildLevel2.buildLevel2(screenSizeX, blockSystems, blockShapes);
             }
         }
-
-        //Saving Systems
-        BlockSystemStorage.SaveBlockSystems(blockSystems);
 
         //Add Shop Button
         JButton shopButton = new JButton("Shop");
@@ -204,6 +203,7 @@ public class GamePanel extends JPanel {
         //Saving
         Timer gameSaver = new Timer(10, _ -> {
             BlockSystemStorage.SaveBlockSystems(blockSystems);
+            ConnectionStorage.SaveConnections(wiringManager.getConnections());
         });
         gameSaver.start();
 
@@ -334,7 +334,6 @@ public class GamePanel extends JPanel {
             public void mouseMoved(MouseEvent e) {
                 mousePointX = e.getX() - getWidth() / 2;
                 mousePointY = e.getY() - getHeight() / 2;
-                //repaint();
             }
 
             @Override
