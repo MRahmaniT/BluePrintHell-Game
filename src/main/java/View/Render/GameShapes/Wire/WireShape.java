@@ -29,7 +29,7 @@ public class WireShape {
         this.portA = wire.getStartPortId();
         this.blockB = blockShapes.get(wire.getEndBlockId());
         this.portB = wire.getEndPortId();
-        this.color = wire.getColor();
+        this.color = Color.cyan;
     }
 
 

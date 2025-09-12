@@ -4,12 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="Phase 2&#10;Saving Systems">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Storage/ConnectionStorage.java" afterDir="false" />
+    <list default="true" id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="Phase 2&#10;Saving Connections">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Storage/WireStorage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/blockSystem.json" beforeDir="false" afterPath="$PROJECT_DIR$/blockSystem.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/blockSystem.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/connection.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Wiring/WiringManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Wiring/WiringManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/Wire.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/Wire.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Storage/ConnectionStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Storage/ConnectionStorage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Wire/WireShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Wire/WireShape.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,6 +65,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="Storage" />
       <recent name="Controller.Packets.Spawning" />
       <recent name="Model.GameEntities.Wire" />
     </key>
@@ -194,7 +199,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757695936429</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Phase 2&#10;Saving Connections">
+      <option name="closed" value="true" />
+      <created>1757696744208</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1757696744208</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -233,6 +246,7 @@
     <MESSAGE value="Phase 2&#10;Handle Packet types" />
     <MESSAGE value="Phase 2&#10;impact fine tune" />
     <MESSAGE value="Phase 2&#10;Saving Systems" />
-    <option name="LAST_COMMIT_MESSAGE" value="Phase 2&#10;Saving Systems" />
+    <MESSAGE value="Phase 2&#10;Saving Connections" />
+    <option name="LAST_COMMIT_MESSAGE" value="Phase 2&#10;Saving Connections" />
   </component>
 </project>

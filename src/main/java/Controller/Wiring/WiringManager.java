@@ -34,8 +34,8 @@ public class WiringManager {
     private List<Connection> connections = new ArrayList<>();
     private int connectionIdCounter = 0;
 
-    private final List<Wire> wires = new ArrayList<>();
-    private final List<WireShape> wireShapes = new ArrayList<>();
+    private List<Wire> wires = new ArrayList<>();
+    private List<WireShape> wireShapes = new ArrayList<>();
 
     public void handleMousePress(List<GameShape> blockShapes, int mouseX, int mouseY) {
         for (GameShape block : blockShapes) {
@@ -126,7 +126,7 @@ public class WiringManager {
                             connectionIdCounter++;
 
                             Wire wire = new Wire(WireType.STRAIGHT, midPoints, fromBlockSystemId,
-                                    fromPortId, targetBlock.getBlockSystem().getId(), i, Color.CYAN, connectionIdCounter);
+                                    fromPortId, targetBlock.getBlockSystem().getId(), i, connectionIdCounter);
                             WireShape wireShape = new WireShape(blockShapes, wire);
                             wires.add(wire);
                             wireShapes.add(wireShape);
@@ -220,6 +220,10 @@ public class WiringManager {
         return wireShapes;
     }
 
+    public void setWireShapes(List<WireShape> wireShapes) {
+        this.wireShapes = wireShapes;
+    }
+
     public boolean isDragging() {
         return dragging;
     }
@@ -227,4 +231,14 @@ public class WiringManager {
     public boolean isFilleting() {
         return filleting;
     }
+
+    public List<Wire> getWires() {
+        return wires;
+    }
+
+    public void setWires(List<Wire> wires) {
+        this.wires = wires;
+    }
+
+
 }

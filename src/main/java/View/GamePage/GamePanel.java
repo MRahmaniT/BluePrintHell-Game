@@ -11,8 +11,10 @@ import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Impact;
 import Model.GameEntities.Packet;
 
+import Model.GameEntities.Wire.Wire;
 import Storage.BlockSystemStorage;
 import Storage.ConnectionStorage;
+import Storage.WireStorage;
 import View.GameEnvironment.Background.BuildBackground;
 import View.GamePage.State.GameOverPanel;
 import View.GamePage.State.PausePanel;
@@ -111,9 +113,10 @@ public class GamePanel extends JPanel {
         }
         BuildBackground.buildBackground(screenSizeX, screenSizeY, shapes);
 
-        // Loading
+        // PreLoading
         blockSystems = BlockSystemStorage.LoadBlockSystems();
         wiringManager.setConnections(ConnectionStorage.LoadConnections());
+        wiringManager.setWires(WireStorage.LoadWires());
 
         //Build Level
         int levelOnGoing = PlayerState.getPlayer().getLevelNumber();
@@ -125,6 +128,14 @@ public class GamePanel extends JPanel {
                 BuildLevel2.buildLevel2(screenSizeX, blockSystems, blockShapes);
             }
         }
+
+        // Loading
+        List<WireShape> wireShapes = new ArrayList<>();
+        for (Wire wire : wiringManager.getWires()) {
+            WireShape wireShape = new WireShape(blockShapes, wire);
+            wireShapes.add(wireShape);
+        }
+        wiringManager.setWireShapes(wireShapes);
 
         //Add Shop Button
         JButton shopButton = new JButton("Shop");
@@ -204,6 +215,7 @@ public class GamePanel extends JPanel {
         Timer gameSaver = new Timer(10, _ -> {
             BlockSystemStorage.SaveBlockSystems(blockSystems);
             ConnectionStorage.SaveConnections(wiringManager.getConnections());
+            WireStorage.SaveWires(wiringManager.getWires());
         });
         gameSaver.start();
 
