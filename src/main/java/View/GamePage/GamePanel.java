@@ -11,6 +11,7 @@ import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Impact;
 import Model.GameEntities.Packet;
 
+import Storage.BlockSystemStorage;
 import View.GameEnvironment.Background.BuildBackground;
 import View.GamePage.State.GameOverPanel;
 import View.GamePage.State.PausePanel;
@@ -52,7 +53,7 @@ public class GamePanel extends JPanel {
     private final List<GameShape> shapes = new ArrayList<>();
 
     //For Blocks
-    private final List<BlockSystem> blockSystems = new ArrayList<>();
+    private List<BlockSystem> blockSystems = new ArrayList<>();
     private final List<GameShape> blockShapes = new ArrayList<>();
     private final BlockManager blockManager = new BlockManager();
 
@@ -109,6 +110,9 @@ public class GamePanel extends JPanel {
         }
         BuildBackground.buildBackground(screenSizeX, screenSizeY, shapes);
 
+        // Loading Systems
+        blockSystems = BlockSystemStorage.LoadBlockSystems();
+
         //Build Level
         int levelOnGoing = PlayerState.getPlayer().getLevelNumber();
         switch (levelOnGoing) {
@@ -120,6 +124,8 @@ public class GamePanel extends JPanel {
             }
         }
 
+        //Saving Systems
+        BlockSystemStorage.SaveBlockSystems(blockSystems);
 
         //Add Shop Button
         JButton shopButton = new JButton("Shop");
@@ -194,6 +200,12 @@ public class GamePanel extends JPanel {
         //
         spawnPacket = new SpawnPackets(blockSystems, wiringManager.getConnections(), packets);
         packetManager = new PacketManager(blockSystems, blockShapes, wiringManager, wiringManager.getConnections(), packets, spawnPacket);
+
+        //Saving
+        Timer gameSaver = new Timer(10, _ -> {
+            BlockSystemStorage.SaveBlockSystems(blockSystems);
+        });
+        gameSaver.start();
 
         //Timing
         gameTimer = new Timer(10, _ -> {
@@ -313,7 +325,7 @@ public class GamePanel extends JPanel {
             @Override
             public void mouseReleased(MouseEvent e) {
                 wiringManager.handleMouseRelease(blockSystems, blockShapes, mousePointX, mousePointY, wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH));
-                blockManager.handleMouseRelease(mousePointX, mousePointY);
+                blockManager.handleMouseRelease(blockSystems, mousePointX, mousePointY);
                 repaint();
             }
         });

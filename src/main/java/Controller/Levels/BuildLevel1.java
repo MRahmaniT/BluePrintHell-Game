@@ -23,62 +23,86 @@ public class BuildLevel1 {
         ArrayList<Port> ports;
         int blockSystemId = blockSystems.size();
 
-        //Block Start
-        port1 = new Port(1, blockSystemId);
-        port2 = new Port(2, blockSystemId);
-        port3 = new Port(3, blockSystemId, PortRole.OUT, PortType.MESSENGER_2);
-        port4 = new Port(4, blockSystemId);
-        ports = new ArrayList<>(Arrays.asList(port1, port2, port3, port4));
+        if (!blockSystems.isEmpty()) {
+            //Block Start
+            blockSystem = blockSystems.get(0);
+            block = new StartSystem(blockSystem,0.1f * screenSizeX, 0.1f * screenSizeX);
+            blockShapes.add(block);
 
-        blockSystem = new BlockSystem(blockSystemId, BlockSystemType.START, ports, -300, -100);
-        blockSystems.add(blockSystem);
+            //Block 1
+            blockSystem = blockSystems.get(1);
+            block = new TwoStairsSystem(blockSystem,0.1f * screenSizeX, 0.1f * screenSizeX);
+            blockShapes.add(block);
 
-        block = new StartSystem(blockSystem,0.1f * screenSizeX, 0.1f * screenSizeX);
-        blockShapes.add(block);
+            //Block 2
+            blockSystem = blockSystems.get(2);
+            block = new TwoStairsSystem(blockSystem,0.1f * screenSizeX, 0.1f * screenSizeX);
+            blockShapes.add(block);
 
-        blockSystemId++;
+            //Block End
+            blockSystem = blockSystems.get(3);
+            block = new EndSystem(blockSystem,0.1f * screenSizeX, 0.1f * screenSizeX);
+            blockShapes.add(block);
+        } else {
+            //Block Start
+            port1 = new Port(1, blockSystemId);
+            port2 = new Port(2, blockSystemId);
+            port3 = new Port(3, blockSystemId, PortRole.OUT, PortType.MESSENGER_2);
+            port4 = new Port(4, blockSystemId);
+            ports = new ArrayList<>(Arrays.asList(port1, port2, port3, port4));
 
-        //Block 1
-        port1 = new Port(1, blockSystemId, PortRole.IN, PortType.MESSENGER_2);
-        port2 = new Port(2, blockSystemId);
-        port3 = new Port(3, blockSystemId, PortRole.OUT, PortType.MESSENGER_3);
-        port4 = new Port(4, blockSystemId, PortRole.OUT, PortType.MESSENGER_2);
-        ports = new ArrayList<>(Arrays.asList(port1, port2, port3, port4));
+            blockSystem = new BlockSystem(blockSystemId, BlockSystemType.START, ports, -300, -100);
+            blockSystems.add(blockSystem);
 
-        blockSystem = new BlockSystem(blockSystemId, BlockSystemType.PROCESSOR, ports, -100, -100);
-        blockSystems.add(blockSystem);
+            block = new StartSystem(blockSystem,0.1f * screenSizeX, 0.1f * screenSizeX);
+            blockShapes.add(block);
 
-        block = new TwoStairsSystem(blockSystem,0.1f * screenSizeX, 0.1f * screenSizeX);
-        blockShapes.add(block);
+            blockSystemId++;
 
-        blockSystemId++;
+            //Block 1
+            port1 = new Port(1, blockSystemId, PortRole.IN, PortType.MESSENGER_2);
+            port2 = new Port(2, blockSystemId);
+            port3 = new Port(3, blockSystemId, PortRole.OUT, PortType.MESSENGER_3);
+            port4 = new Port(4, blockSystemId, PortRole.OUT, PortType.MESSENGER_2);
+            ports = new ArrayList<>(Arrays.asList(port1, port2, port3, port4));
 
-        //Block 2
-        port1 = new Port(1, blockSystemId, PortRole.IN, PortType.MESSENGER_3);
-        port2 = new Port(2, blockSystemId, PortRole.IN, PortType.MESSENGER_2);
-        port3 = new Port(3, blockSystemId);
-        port4 = new Port(4, blockSystemId, PortRole.OUT, PortType.MESSENGER_2);
-        ports = new ArrayList<>(Arrays.asList(port1, port2, port3, port4));
+            blockSystem = new BlockSystem(blockSystemId, BlockSystemType.PROCESSOR, ports, -100, -100);
+            blockSystems.add(blockSystem);
 
-        blockSystem = new BlockSystem(blockSystemId, BlockSystemType.PROCESSOR, ports, 100, 100);
-        blockSystems.add(blockSystem);
+            block = new TwoStairsSystem(blockSystem,0.1f * screenSizeX, 0.1f * screenSizeX);
+            blockShapes.add(block);
 
-        block = new TwoStairsSystem(blockSystem,0.1f * screenSizeX, 0.1f * screenSizeX);
-        blockShapes.add(block);
+            blockSystemId++;
 
-        blockSystemId++;
+            //Block 2
+            port1 = new Port(1, blockSystemId, PortRole.IN, PortType.MESSENGER_3);
+            port2 = new Port(2, blockSystemId, PortRole.IN, PortType.MESSENGER_2);
+            port3 = new Port(3, blockSystemId);
+            port4 = new Port(4, blockSystemId, PortRole.OUT, PortType.MESSENGER_2);
+            ports = new ArrayList<>(Arrays.asList(port1, port2, port3, port4));
 
-        //Block End
-        port1 = new Port(1, blockSystemId, PortRole.IN, PortType.MESSENGER_2);
-        port2 = new Port(2, blockSystemId);
-        port3 = new Port(3, blockSystemId);
-        port4 = new Port(4, blockSystemId);
-        ports = new ArrayList<>(Arrays.asList(port1, port2, port3, port4));
+            blockSystem = new BlockSystem(blockSystemId, BlockSystemType.PROCESSOR, ports, 100, 100);
+            blockSystems.add(blockSystem);
 
-        blockSystem = new BlockSystem(blockSystemId, BlockSystemType.START, ports, 300, 100);
-        blockSystems.add(blockSystem);
+            block = new TwoStairsSystem(blockSystem,0.1f * screenSizeX, 0.1f * screenSizeX);
+            blockShapes.add(block);
 
-        block = new EndSystem(blockSystem,0.1f * screenSizeX, 0.1f * screenSizeX);
-        blockShapes.add(block);
+            blockSystemId++;
+
+            //Block End
+            port1 = new Port(1, blockSystemId, PortRole.IN, PortType.MESSENGER_2);
+            port2 = new Port(2, blockSystemId);
+            port3 = new Port(3, blockSystemId);
+            port4 = new Port(4, blockSystemId);
+            ports = new ArrayList<>(Arrays.asList(port1, port2, port3, port4));
+
+            blockSystem = new BlockSystem(blockSystemId, BlockSystemType.START, ports, 300, 100);
+            blockSystems.add(blockSystem);
+
+            block = new EndSystem(blockSystem,0.1f * screenSizeX, 0.1f * screenSizeX);
+            blockShapes.add(block);
+        }
+
+
     }
 }
