@@ -31,4 +31,11 @@ public class GameEngine {
         rightPressed = false;
     }
 
+    public boolean isLeftPressed() {
+        return leftPressed;
+    }
+
+    public boolean isRightPressed() {
+        return rightPressed;
+    }
 }

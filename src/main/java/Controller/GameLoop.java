@@ -8,6 +8,7 @@ import Model.GameEntities.BlockSystem;
 import Model.Player.PlayerState;
 import Storage.BlockSystemStorage;
 import View.GameEnvironment.Options.HUDPanel;
+import View.GamePage.GamePanel;
 import View.GamePage.State.GameOverPanel;
 import View.GamePage.State.WinPanel;
 import View.Main.MainFrame;
@@ -23,13 +24,19 @@ public class GameLoop {
                               PacketManager packetManager, WiringManager wiringManager,
                               TimeController timeController, GameEngine gameEngine,
                               List<GameShape> blockShapes,
-                              double MAX_WIRE_LENGTH, int totalPackets) {
+                              double MAX_WIRE_LENGTH, int totalPackets,
+                              boolean isRunning) {
         //start
-
-        timeController.update(false,true);
+        if (gameEngine.isLeftPressed() || gameEngine.isRightPressed()) GamePanel.interrupted = true;
+        if (isRunning && !GamePanel.interrupted){
+            timeController.update(false,true);
+        }
         gameEngine.update();
 
-        packetManager.manageMovement();
+        if (!GamePanel.interrupted){
+            packetManager.manageMovement();
+        }
+
 
         int lostPackets = packetManager.getLostPacketsCount();
         int coins = PlayerState.getPlayer().getGoldCount();

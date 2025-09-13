@@ -16,6 +16,7 @@ import Model.GameEntities.Wire.Wire;
 import Storage.ConnectionStorage;
 import Storage.PacketStorage;
 import Storage.Snapshots.PacketSnapshots;
+import Storage.Snapshots.SnapshotUtils;
 import Storage.WireStorage;
 import View.GameEnvironment.Background.BuildBackground;
 import View.GamePage.State.GameOverPanel;
@@ -74,6 +75,7 @@ public class GamePanel extends JPanel {
     Timer gameTimer;
     private final TimeController timeController = new TimeController();
     private boolean isRunning = false;
+    public static boolean interrupted = false;
 
     //For Engine
     private final GameEngine gameEngine = new GameEngine(timeController);
@@ -213,20 +215,23 @@ public class GamePanel extends JPanel {
         //Timing
         gameTimer = new Timer(10, _ -> {
 
+            if (isRunning && !interrupted) {
+                PacketSnapshots.SavePacketSnapshot(PacketStorage.LoadPackets(), timeController.getTime());
+            }
+
             GameLoop.Start(gameTimer, hudPanel, winPanel, gameOverPanel,
                     packetManager, wiringManager,
                     timeController, gameEngine,
                     blockShapes,
-                    MAX_WIRE_LENGTH, totalPackets);
+                    MAX_WIRE_LENGTH, totalPackets,
+                    isRunning);
 
             lostPackets = packetManager.getLostPacketsCount();
             coins = PlayerState.getPlayer().getGoldCount();
 
-            if (isRunning) {
-                PacketSnapshots.SavePacketSnapshot(PacketStorage.LoadPackets(), timeController.getTime());
-            }
             repaint();
         });
+        SnapshotUtils.clearSnapshotFolder("Resources/Saves/Snapshot");
         gameTimer.start();
 
         shopButton.addActionListener(_ -> {
@@ -394,10 +399,18 @@ public class GamePanel extends JPanel {
         }
 
         //Packet
-        List<Packet> packets = PacketStorage.LoadPackets();
-        for (Packet p : packets) {
-            if (!p.isOnWire()) continue;
-            PacketRenderer.draw(g2d,p);
+        if (!interrupted) {
+            List<Packet> packets = PacketStorage.LoadPackets();
+            for (Packet p : packets) {
+                if (!p.isOnWire()) continue;
+                PacketRenderer.draw(g2d, p);
+            }
+        } else {
+            List<Packet> packets = PacketSnapshots.LoadPacketSnapshots(timeController.getTime());
+            for (Packet p : packets) {
+                if (!p.isOnWire()) continue;
+                PacketRenderer.draw(g2d, p);
+            }
         }
 
         g2d.dispose();

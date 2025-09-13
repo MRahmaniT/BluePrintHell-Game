@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PacketSnapshots {
-    private static final String PACKETS_SNAPSHOTS_FILE = "Resources/Saves/Snapshot/packets@.json";
+    private static final String PACKETS_SNAPSHOTS_FILE = "Resources/Saves/Snapshot/packets@";
 
     public static List<Packet> LoadPacketSnapshots(double time) {
         synchronized (StorageLocks.IOLock) {
             ObjectMapper objectMapper = new ObjectMapper();
-            File file = new File(PACKETS_SNAPSHOTS_FILE + Math.round(time * 100.0) / 100.0);
+            File file = new File(PACKETS_SNAPSHOTS_FILE + Math.round(time * 100.0) / 100.0 + ".json");
 
             if (!file.exists()) return new ArrayList<>();
 
@@ -33,7 +33,7 @@ public class PacketSnapshots {
         synchronized (StorageLocks.IOLock) {
             ObjectMapper objectMapper = new ObjectMapper();
             try {
-                objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(PACKETS_SNAPSHOTS_FILE + Math.round(time * 100.0) / 100.0), packets);
+                objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(PACKETS_SNAPSHOTS_FILE + Math.round(time * 100.0) / 100.0 + ".json"), packets);
                 //System.out.println("All Packets saved.");
             } catch (IOException e) {
                 e.printStackTrace();
