@@ -12,7 +12,7 @@ import java.util.List;
 public class PacketStorage {
     private static String PACKETS_FILE = "Resources/Saves/packet.json";
 
-    public static List<Packet> LoadPackets() {
+    public static synchronized List<Packet> LoadPackets() {
         ObjectMapper objectMapper = new ObjectMapper();
         File file = new File(PACKETS_FILE);
 
@@ -26,7 +26,7 @@ public class PacketStorage {
         }
     }
 
-    public static void SavePackets(List<Packet> packets) {
+    public static synchronized void SavePackets(List<Packet> packets) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(PACKETS_FILE), packets);

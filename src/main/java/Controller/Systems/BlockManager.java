@@ -29,7 +29,8 @@ public class BlockManager {
         }
     }
 
-    public void handleMouseRelease(List<BlockSystem> blockSystems, int mouseX, int mouseY) {
+    public void handleMouseRelease(int mouseX, int mouseY) {
+        List<BlockSystem> blockSystems = BlockSystemStorage.LoadBlockSystems();
         if (!dragging) return;
         dragging = false;
         Point move = new Point(mouseX - startPoint.x + sourcePosition.x,

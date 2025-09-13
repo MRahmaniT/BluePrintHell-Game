@@ -1,4 +1,4 @@
-package Controller;
+package Controller.Timing;
 
 public class TimeController {
     private double time;

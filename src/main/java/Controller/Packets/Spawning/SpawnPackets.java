@@ -45,7 +45,7 @@ public class SpawnPackets {
             spawnConditions.CheckSpawnCondition();
 
             // put the packet on the wire
-            firstPacketInQueue.startOnWire(connectionChoice.getId(),
+            packets.get(blockSystem.peekNextPacketId()).startOnWire(connectionChoice.getId(),
                     connectionChoice.getFromSystemId(),connectionChoice.getFromPortId(),
                     connectionChoice.getToSystemId(), connectionChoice.getToPortId());
 
@@ -54,11 +54,12 @@ public class SpawnPackets {
 
             connectionChoice.setPacketOnLine(true);
             blockSystem.pollNextPacketId();
-        }
 
-        BlockSystemStorage.SaveBlockSystems(blockSystems);
-        ConnectionStorage.SaveConnections(connections);
-        PacketStorage.SavePackets(packets);
+            //save
+            BlockSystemStorage.SaveBlockSystems(blockSystems);
+            ConnectionStorage.SaveConnections(connections);
+            PacketStorage.SavePackets(packets);
+        }
     }
 
     public void addPacketToBlock(int blockId, Packet packet) {
@@ -68,12 +69,11 @@ public class SpawnPackets {
 
         packet.parkInBlock(blockId);
         blockSystems.get(blockId).addPacket(packet.getId());
+        BlockSystemStorage.SaveBlockSystems(blockSystems);
 
         if (!packets.contains(packet)) {
             packets.add(packet);
+            PacketStorage.SavePackets(packets);
         }
-
-        BlockSystemStorage.SaveBlockSystems(blockSystems);
-        PacketStorage.SavePackets(packets);
     }
 }

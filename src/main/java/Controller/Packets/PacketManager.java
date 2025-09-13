@@ -4,8 +4,6 @@ import Controller.Packets.Arrival.ArrivedPackets;
 import Controller.Packets.Arrival.HandlePackets;
 import Controller.Packets.Spawning.SpawnPackets;
 import Controller.Wiring.WiringManager;
-import Model.GameEntities.BlockSystem;
-import Model.GameEntities.Connection;
 import Model.GameEntities.Impact;
 import Model.GameEntities.Packet;
 import Storage.Snapshots.PacketStorage;
@@ -125,14 +123,15 @@ public class PacketManager {
 
                 if (p == impact.packet1 || p == impact.packet2) {
                     p.addNoise(NOISE_PER_HIT);
+                    PacketStorage.SavePackets(packets);
                 } else if (!waveIsDisabled) {
                     physics.applyImpact(p, impact.point.x, impact.point.y);
+                    PacketStorage.SavePackets(packets);
                 }
             }
             managedImpacts.add(impact);
         }
         impacts.clear();
-        PacketStorage.SavePackets(packets);
     }
 
     public void disableImpactForSeconds(int seconds) {

@@ -1,18 +1,18 @@
 package View.GamePage;
 
-import Controller.*;
+import Controller.GameLoop;
 import Controller.Packets.PacketManager;
 import Controller.Packets.Spawning.SpawnPackets;
+import Controller.Timing.GameEngine;
+import Controller.Timing.TimeController;
 import Controller.Wiring.WiringManager;
 import Controller.Systems.BlockManager;
 import Controller.Systems.ChangeBlocksLight;
 import Model.Enums.PacketType;
-import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Impact;
 import Model.GameEntities.Packet;
 
 import Model.GameEntities.Wire.Wire;
-import Storage.BlockSystemStorage;
 import Storage.ConnectionStorage;
 import Storage.Snapshots.PacketStorage;
 import Storage.WireStorage;
@@ -57,7 +57,6 @@ public class GamePanel extends JPanel {
     private final List<GameShape> shapes = new ArrayList<>();
 
     //For Blocks
-    private List<BlockSystem> blockSystems = new ArrayList<>();
     private final List<GameShape> blockShapes = new ArrayList<>();
     private final BlockManager blockManager = new BlockManager();
 
@@ -81,7 +80,6 @@ public class GamePanel extends JPanel {
     //For Packet
     private PacketManager packetManager;
     private SpawnPackets spawnPacket;
-    private List<Packet> packets = new ArrayList<>();
     private final int totalPackets = 10;
     private int generatedPackets = 0;
     private int lostPackets = 0;
@@ -115,7 +113,6 @@ public class GamePanel extends JPanel {
         BuildBackground.buildBackground(screenSizeX, screenSizeY, shapes);
 
         // PreLoading
-        blockSystems = BlockSystemStorage.LoadBlockSystems();
         wiringManager.setConnections(ConnectionStorage.LoadConnections());
         wiringManager.setWires(WireStorage.LoadWires());
 
@@ -123,10 +120,10 @@ public class GamePanel extends JPanel {
         int levelOnGoing = PlayerState.getPlayer().getLevelNumber();
         switch (levelOnGoing) {
             case 1 -> {
-                BuildLevel1.buildLevel1(screenSizeX, blockSystems, blockShapes);
+                BuildLevel1.buildLevel1(screenSizeX, blockShapes);
             }
             case 2 ->{
-                BuildLevel2.buildLevel2(screenSizeX, blockSystems, blockShapes);
+                BuildLevel2.buildLevel2(screenSizeX, blockShapes);
             }
         }
 
@@ -137,7 +134,6 @@ public class GamePanel extends JPanel {
             wireShapes.add(wireShape);
         }
         wiringManager.setWireShapes(wireShapes);
-        packets = PacketStorage.LoadPackets();
 
         //Add Shop Button
         JButton shopButton = new JButton("Shop");
@@ -216,57 +212,14 @@ public class GamePanel extends JPanel {
         //Timing
         gameTimer = new Timer(10, _ -> {
 
-            timeController.update(false,true);
-            gameEngine.update();
-
-            if (!packets.isEmpty()) {
-                PacketStorage.SavePackets(packets);
-            }
-
-            packetManager.manageMovement();
+            GameLoop.Start(gameTimer, hudPanel, winPanel, gameOverPanel,
+                    packetManager, wiringManager,
+                    timeController, gameEngine,
+                    blockShapes,
+                    MAX_WIRE_LENGTH, totalPackets);
 
             lostPackets = packetManager.getLostPacketsCount();
             coins = PlayerState.getPlayer().getGoldCount();
-
-            hudPanel.update(
-                    Math.max(0, wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH)),
-                    timeController.getFormattedTime(),
-                    lostPackets,
-                    totalPackets,
-                    coins
-            );
-
-            if(wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH) < 0){
-                for (WireShape line : wiringManager.getWireShapes()) {
-                    line.setColor(Color.RED);
-                }
-            }else {
-                for (WireShape line : wiringManager.getWireShapes()) {
-                    line.setColor(Color.CYAN);
-                }
-            }
-
-            if (!blockShapes.isEmpty() && totalPackets == blockSystems.getLast().queueCount()) {
-                gameTimer.stop();
-                MainFrame.audioManager.playSoundEffect("Resources/win.wav");
-                winPanel.updateStats(
-                        blockSystems.getLast().queueCount(),
-                        totalPackets,
-                        timeController.getFormattedTime(),
-                        coins
-                );
-                winPanel.setVisible(true);
-            }
-
-            if (packetManager.getLostPacketsCount() >= totalPackets / 2) {
-                gameTimer.stop();
-                gameOverPanel.updateStats(
-                        packetManager.getLostPacketsCount(),
-                        totalPackets,
-                        timeController.getFormattedTime()
-                );
-                gameOverPanel.setVisible(true);
-            }
 
             repaint();
         });
@@ -281,6 +234,7 @@ public class GamePanel extends JPanel {
             @Override
             public void keyTyped(KeyEvent e) {
                 if (e.getKeyChar() == 'p') {
+                    List<Packet> packets = PacketStorage.LoadPackets();
                     if (packets.isEmpty()) {
                         for (int i = 0; i < 3; i++) {
                             spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_2));
@@ -337,8 +291,8 @@ public class GamePanel extends JPanel {
             @Override
             public void mouseReleased(MouseEvent e) {
 
-                wiringManager.handleMouseRelease(blockSystems, blockShapes, mousePointX, mousePointY, wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH));
-                blockManager.handleMouseRelease(blockSystems, mousePointX, mousePointY);
+                wiringManager.handleMouseRelease(blockShapes, mousePointX, mousePointY, wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH));
+                blockManager.handleMouseRelease(mousePointX, mousePointY);
                 repaint();
             }
         });
@@ -361,8 +315,6 @@ public class GamePanel extends JPanel {
 
     public void spendCoins(int amount) { PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount() - amount); }
 
-    public List<Packet> getPackets() { return packets; }
-
     public void disableImpactWaves(int seconds) {
         packetManager.disableWaveForSeconds(seconds);
     }
@@ -372,8 +324,10 @@ public class GamePanel extends JPanel {
     }
 
     public void resetAllNoise() {
+        List<Packet> packets = PacketStorage.LoadPackets();
         for (Packet packet : packets){
             packet.resetNoise();
+            PacketStorage.SavePackets(packets);
         }
     }
 
@@ -415,7 +369,7 @@ public class GamePanel extends JPanel {
         }
 
         //Block Shapes
-        ChangeBlocksLight.changeBlocksLight(blockSystems, blockShapes);
+        ChangeBlocksLight.changeBlocksLight(blockShapes);
         for(GameShape gameShape : blockShapes){
             gameShape.draw(g2d);
         }
@@ -436,6 +390,7 @@ public class GamePanel extends JPanel {
         }
 
         //Packet
+        List<Packet> packets = PacketStorage.LoadPackets();
         for (Packet p : packets) {
             if (!p.isOnWire()) continue;
             PacketRenderer.draw(g2d,p);

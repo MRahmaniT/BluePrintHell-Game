@@ -86,7 +86,8 @@ public class WiringManager {
         }
     }
 
-    public void handleMouseRelease(List<BlockSystem> blockSystems, List<GameShape> blockShapes,int mouseX, int mouseY, double remainingWireLength) {
+    public void handleMouseRelease(List<GameShape> blockShapes,int mouseX, int mouseY, double remainingWireLength) {
+        List<BlockSystem> blockSystems = BlockSystemStorage.LoadBlockSystems();
         if (dragging) {
             for (GameShape targetBlock : blockShapes) {
                 for (int i = 1; i <= 4; i++) {

@@ -1,4 +1,4 @@
-package Controller;
+package Controller.Timing;
 
 public class GameEngine {
     private final TimeController timeController;

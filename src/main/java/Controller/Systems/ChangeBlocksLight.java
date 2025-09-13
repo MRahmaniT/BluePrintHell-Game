@@ -8,7 +8,8 @@ import java.awt.*;
 import java.util.List;
 
 public class ChangeBlocksLight {
-    public static void changeBlocksLight (List<BlockSystem> blockSystems, List<GameShape> blockShapes) {
+    public static void changeBlocksLight (List<GameShape> blockShapes) {
+        List<BlockSystem> blockSystems = BlockSystemStorage.LoadBlockSystems();
         for (int i = 0; i < blockSystems.size(); i++){
             boolean allConnected = true;
             for (int j = 1; j <= 4; j++) {

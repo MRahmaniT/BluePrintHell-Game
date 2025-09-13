@@ -105,7 +105,9 @@ public class PacketPhysics {
             }
         }
 
-        PacketStorage.SavePackets(packets);
+        if (!packets.isEmpty()) {
+            PacketStorage.SavePackets(packets);
+        }
     }
 
     private static WirePath getWirePath(WireShape packetWireShape, Point2D.Float startPoint, Point2D.Float destinationPoint) {
