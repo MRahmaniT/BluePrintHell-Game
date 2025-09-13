@@ -99,6 +99,7 @@ public class BuildLevel1 {
             ports = new ArrayList<>(Arrays.asList(port1, port2, port3, port4));
 
             blockSystem = new BlockSystem(blockSystemId, BlockSystemType.START, ports, 300, 100);
+            blockSystem.setCapacity(100);
             blockSystems.add(blockSystem);
 
             block = new EndSystem(blockSystem,0.1f * screenSizeX, 0.1f * screenSizeX);

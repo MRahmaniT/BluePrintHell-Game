@@ -1,6 +1,6 @@
 package Storage;
 
-import Model.GameEntities.Connection;
+import Model.GameEntities.Packet;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -9,19 +9,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ConnectionStorage {
-    private static final String CONNECTIONS_FILE = "Resources/Saves/connection.json";
+public class PacketStorage {
+    private static String PACKETS_FILE = "Resources/Saves/packet.json";
 
-    public static List<Connection> LoadConnections() {
+    public static List<Packet> LoadPackets() {
         synchronized (StorageLocks.IOLock) {
             ObjectMapper objectMapper = new ObjectMapper();
-            File file = new File(CONNECTIONS_FILE);
+            File file = new File(PACKETS_FILE);
 
             if (!file.exists()) return new ArrayList<>();
 
             try {
-                return objectMapper.readValue(file, new TypeReference<List<Connection>>() {
-                });
+                return objectMapper.readValue(file, new TypeReference<List<Packet>>() {});
             } catch (IOException e) {
                 e.printStackTrace();
                 return new ArrayList<>();
@@ -29,12 +28,12 @@ public class ConnectionStorage {
         }
     }
 
-    public static void SaveConnections(List<Connection> connections) {
+    public static synchronized void SavePackets(List<Packet> packets) {
         synchronized (StorageLocks.IOLock) {
             ObjectMapper objectMapper = new ObjectMapper();
             try {
-                objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(CONNECTIONS_FILE), connections);
-                //System.out.println("All Connections saved.");
+                objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(PACKETS_FILE), packets);
+                //System.out.println("All Packets saved.");
             } catch (IOException e) {
                 e.printStackTrace();
             }

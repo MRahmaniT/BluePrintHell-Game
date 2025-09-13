@@ -7,7 +7,7 @@ import Model.GameEntities.Packet;
 import Model.Player.PlayerState;
 import Storage.BlockSystemStorage;
 import Storage.ConnectionStorage;
-import Storage.Snapshots.PacketStorage;
+import Storage.PacketStorage;
 
 import javax.swing.*;
 import java.util.List;
@@ -94,9 +94,16 @@ public class HandlePackets {
         }
         arrivedPackets.clear();
 
+        List<Packet> packets = PacketStorage.LoadPackets();
         for (Packet packet : lostPackets) {
             freeLine(packet);
-            packet.markLost();
+            for (Packet packet1 : packets) {
+                if (packet1.getId() == packet.getId()) {
+                    packet1.markLost();
+                    packet.markLost();
+                    PacketStorage.SavePackets(packets);
+                }
+            }
             lostPacketsCount++;
         }
 

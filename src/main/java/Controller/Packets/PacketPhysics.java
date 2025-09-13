@@ -5,7 +5,7 @@ import Controller.Wiring.WiringManager;
 import Model.Enums.WireType;
 import Model.GameEntities.Packet;
 import Model.GameEntities.Wire.*;
-import Storage.Snapshots.PacketStorage;
+import Storage.PacketStorage;
 import View.Render.GameShapes.System.GameShape;
 import View.Main.MainFrame;
 import View.Render.GameShapes.Wire.WireShape;
@@ -16,22 +16,27 @@ import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.util.List;
 
-public class PacketPhysics {
+public class PacketPhysics implements Runnable {
 
     private final List<GameShape> blockShapes;
     private final WiringManager wiringManager;
     private final List<ArrivedPackets> arrivedPackets;
+    private final List<Packet> lostPackets;
 
     public PacketPhysics(List<GameShape> blocks,
                          WiringManager wiringManager,
-                         List<ArrivedPackets> arrivedPackets) {
+                         List<ArrivedPackets> arrivedPackets,
+                         List<Packet> lostPackets) {
         this.blockShapes = blocks;
         this.wiringManager = wiringManager;
         this.arrivedPackets = arrivedPackets;
+        this.lostPackets = lostPackets;
     }
 
-    public void update(float dt, List<Packet> lostPackets) {
+    @Override
+    public void run() {
 
+        float dt = 0.01f;
         List<Packet> packets = PacketStorage.LoadPackets();
 
         for (Packet packet : packets) {

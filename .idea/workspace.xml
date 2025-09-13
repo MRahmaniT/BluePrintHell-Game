@@ -5,11 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="Phase 2&#10;Debug Saving Packets">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Storage/PacketStorage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Storage/Snapshots/PacketSnapshots.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Storage/StorageLocks.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/Arrival/ArrivedPackets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/Arrival/ArrivedPackets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/GameLoop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/GameLoop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Levels/BuildLevel1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Levels/BuildLevel1.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/Arrival/HandlePackets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/Arrival/HandlePackets.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/Spawning/SpawnPackets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/Spawning/SpawnPackets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Storage/BlockSystemStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Storage/BlockSystemStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Storage/ConnectionStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Storage/ConnectionStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Storage/Snapshots/PacketStorage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Storage/WireStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Storage/WireStorage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,22 +57,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;development&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/mohammad/University/AP/Project/Phase-2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "development",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/mohammad/University/AP/Project/Phase-2",
+    "settings.editor.selected.configurable": "terminal"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/Resources/Saves" />
+    </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="Controller.Packets" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="Storage" />
@@ -246,7 +260,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757764088483</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Phase 2&#10;Debug Saving Packets">
+      <option name="closed" value="true" />
+      <created>1757772626324</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1757772626324</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -290,5 +312,15 @@
     <MESSAGE value="Phase 2&#10;Saving Packets" />
     <MESSAGE value="Phase 2&#10;Debug Saving Packets" />
     <option name="LAST_COMMIT_MESSAGE" value="Phase 2&#10;Debug Saving Packets" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.IllegalThreadStateException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

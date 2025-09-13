@@ -6,16 +6,16 @@ import Model.GameEntities.Connection;
 import Model.GameEntities.Packet;
 import Storage.BlockSystemStorage;
 import Storage.ConnectionStorage;
-import Storage.Snapshots.PacketStorage;
+import Storage.PacketStorage;
 
 import java.util.*;
 
-public class SpawnPackets {
+public class SpawnPackets implements Runnable{
 
     public SpawnPackets() {}
 
-    public void spawnFromBlocks() {
-
+    @Override
+    public void run(){
         List<BlockSystem> blockSystems = BlockSystemStorage.LoadBlockSystems();
         List<Connection> connections = ConnectionStorage.LoadConnections();
         List<Packet> packets = PacketStorage.LoadPackets();

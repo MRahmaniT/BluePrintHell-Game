@@ -14,7 +14,8 @@ import Model.GameEntities.Packet;
 
 import Model.GameEntities.Wire.Wire;
 import Storage.ConnectionStorage;
-import Storage.Snapshots.PacketStorage;
+import Storage.PacketStorage;
+import Storage.Snapshots.PacketSnapshots;
 import Storage.WireStorage;
 import View.GameEnvironment.Background.BuildBackground;
 import View.GamePage.State.GameOverPanel;
@@ -221,6 +222,9 @@ public class GamePanel extends JPanel {
             lostPackets = packetManager.getLostPacketsCount();
             coins = PlayerState.getPlayer().getGoldCount();
 
+            if (isRunning) {
+                PacketSnapshots.SavePacketSnapshot(PacketStorage.LoadPackets(), timeController.getTime());
+            }
             repaint();
         });
         gameTimer.start();

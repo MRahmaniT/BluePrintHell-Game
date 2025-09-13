@@ -6,7 +6,7 @@ import Controller.Packets.Spawning.SpawnPackets;
 import Controller.Wiring.WiringManager;
 import Model.GameEntities.Impact;
 import Model.GameEntities.Packet;
-import Storage.Snapshots.PacketStorage;
+import Storage.PacketStorage;
 import View.Render.GameShapes.System.GameShape;
 import View.Render.GameShapes.Packet.PacketRenderer;
 
@@ -42,22 +42,24 @@ public class PacketManager {
     private final List<ArrivedPackets> arrivedPackets = new ArrayList<>();
     private final List<Packet> lostPackets = new ArrayList<>();
     private final HandlePackets handlePackets;
+    private Thread spawnThread;
 
     public PacketManager(List<GameShape> blockShapes,
                          WiringManager wiringManager,
                          SpawnPackets spawnPackets) {
         packets = PacketStorage.LoadPackets();
         this.handlePackets = new HandlePackets();
-        this.physics = new PacketPhysics(blockShapes, wiringManager, arrivedPackets);
+        this.physics = new PacketPhysics(blockShapes, wiringManager, arrivedPackets, lostPackets);
         this.spawnPackets = spawnPackets;
+        spawnThread = new Thread(spawnPackets);
     }
 
     public void manageMovement() {
         // 0) spawn from blocks
-        spawnPackets.spawnFromBlocks();
+        spawnThread.run();
 
         // 1) move (physics update)
-        physics.update(0.01f, lostPackets);
+        physics.run();
 
         // 2) find impacts
         packets = PacketStorage.LoadPackets();
