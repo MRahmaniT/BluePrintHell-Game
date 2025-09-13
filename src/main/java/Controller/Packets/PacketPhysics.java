@@ -1,7 +1,6 @@
 package Controller.Packets;
 
 import Controller.Packets.Arrival.ArrivedPackets;
-import Controller.Packets.Arrival.HandlePackets;
 import Controller.Wiring.WiringManager;
 import Model.Enums.WireType;
 import Model.GameEntities.Packet;
@@ -21,14 +20,14 @@ public class PacketPhysics {
 
     private final List<GameShape> blockShapes;
     private final WiringManager wiringManager;
-    private final HandlePackets handleArrivedPackets;
+    private final List<ArrivedPackets> arrivedPackets;
 
     public PacketPhysics(List<GameShape> blocks,
                          WiringManager wiringManager,
-                         HandlePackets handleArrivedPackets) {
+                         List<ArrivedPackets> arrivedPackets) {
         this.blockShapes = blocks;
         this.wiringManager = wiringManager;
-        this.handleArrivedPackets = handleArrivedPackets;
+        this.arrivedPackets = arrivedPackets;
     }
 
     public void update(float dt, List<Packet> lostPackets) {
@@ -97,8 +96,8 @@ public class PacketPhysics {
             }
 
             // Arrival / off-target after 100% progress
-            if (!isLost(packet)) {
-                handleArrivedPackets.getArrivedPackets().add(new ArrivedPackets(packet, packet.getToBlockIdx()));
+            if (isDelivered(packet)) {
+                arrivedPackets.add(new ArrivedPackets(packet.getId(), packet.getToBlockIdx()));
             } else if (packet.getProgress() >= 1f) {
                 lostPackets.add(packet);
                 MainFrame.audioManager.playSoundEffect("Resources/lose.wav");
@@ -148,7 +147,7 @@ public class PacketPhysics {
         return blockShapes.get(id);
     }
 
-    private boolean isLost (Packet packet) {
+    private boolean isDelivered(Packet packet) {
         Shape shape1 = PacketRenderer.getShape(packet);
         Shape shape2 = blockShapes.get(packet.getToBlockIdx()).getPortPath(packet.getToPort());
 
@@ -156,6 +155,6 @@ public class PacketPhysics {
         Area a1 = new Area(shape1);
         a1.intersect(new Area(shape2));
 
-        return a1.isEmpty();
+        return !a1.isEmpty();
     }
 }

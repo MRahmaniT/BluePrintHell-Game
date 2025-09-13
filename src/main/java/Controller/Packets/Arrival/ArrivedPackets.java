@@ -4,16 +4,16 @@ import Model.GameEntities.Packet;
 
 public class ArrivedPackets {
 
-    private final Packet packet;
+    private final int packetId;
     private final int destinationBlockSystemId;
 
-    public ArrivedPackets(Packet p, int destinationBlockSystemId) {
-        this.packet = p;
+    public ArrivedPackets(int packetId, int destinationBlockSystemId) {
+        this.packetId = packetId;
         this.destinationBlockSystemId = destinationBlockSystemId;
     }
 
-    public Packet getPacket() {
-        return packet;
+    public int getPacketId() {
+        return packetId;
     }
 
     public int getDestinationBlockSystemId() {

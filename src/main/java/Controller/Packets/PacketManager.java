@@ -47,8 +47,8 @@ public class PacketManager {
                          WiringManager wiringManager,
                          SpawnPackets spawnPackets) {
         packets = PacketStorage.LoadPackets();
-        handlePackets = new HandlePackets(packets, arrivedPackets, lostPackets);
-        this.physics = new PacketPhysics(blockShapes, wiringManager, handlePackets);
+        this.handlePackets = new HandlePackets();
+        this.physics = new PacketPhysics(blockShapes, wiringManager, arrivedPackets);
         this.spawnPackets = spawnPackets;
     }
 
@@ -57,7 +57,6 @@ public class PacketManager {
         spawnPackets.spawnFromBlocks();
 
         // 1) move (physics update)
-        List<Packet> lostPackets = new ArrayList<>();
         physics.update(0.01f, lostPackets);
 
         // 2) find impacts
@@ -72,7 +71,7 @@ public class PacketManager {
         manageImpact(packets);
 
         // 4) handle arrivedPackets & lostPackets
-        handlePackets.Handle(lostPacketsCount);
+        handlePackets.Handle(arrivedPackets, lostPackets, lostPacketsCount);
 
     }
 
@@ -151,4 +150,8 @@ public class PacketManager {
     public boolean isWaveIsDisabled() { return waveIsDisabled; }
 
     public int getLostPacketsCount() { return lostPacketsCount; }
+
+    public List<ArrivedPackets> getArrivedPackets () {
+        return arrivedPackets;
+    }
 }
