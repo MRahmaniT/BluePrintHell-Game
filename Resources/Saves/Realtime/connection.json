@@ -1,0 +1,29 @@
+[ {
+  "id" : 1,
+  "fromSystemId" : 0,
+  "fromPortId" : 3,
+  "toSystemId" : 1,
+  "toPortId" : 1,
+  "packetOnLine" : false
+}, {
+  "id" : 2,
+  "fromSystemId" : 1,
+  "fromPortId" : 4,
+  "toSystemId" : 2,
+  "toPortId" : 2,
+  "packetOnLine" : false
+}, {
+  "id" : 3,
+  "fromSystemId" : 1,
+  "fromPortId" : 3,
+  "toSystemId" : 2,
+  "toPortId" : 1,
+  "packetOnLine" : false
+}, {
+  "id" : 4,
+  "fromSystemId" : 2,
+  "fromPortId" : 4,
+  "toSystemId" : 3,
+  "toPortId" : 1,
+  "packetOnLine" : false
+} ]

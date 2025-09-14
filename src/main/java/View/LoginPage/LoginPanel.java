@@ -3,7 +3,7 @@ package View.LoginPage;
 import View.Main.MainFrame;
 import Model.Player.PlayerState;
 import Model.Player.Player;
-import Storage.PlayerStorage;
+import Storage.Player.PlayerStorage;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

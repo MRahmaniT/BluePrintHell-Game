@@ -2,7 +2,7 @@ package View.MenuPage;
 
 import View.Main.MainFrame;
 import Model.Player.PlayerState;
-import Storage.PlayerStorage;
+import Storage.Player.PlayerStorage;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

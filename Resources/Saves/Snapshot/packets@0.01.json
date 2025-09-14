@@ -12,19 +12,19 @@
   "fromPort" : 3,
   "toBlockIdx" : 1,
   "toPort" : 1,
-  "x" : -128.00108,
-  "y" : -31.03285,
-  "progress" : 0.0041063093,
+  "x" : -128.0,
+  "y" : -31.0,
+  "progress" : 0.01724138,
   "speed" : 50.0,
   "acceleration" : 0.0,
   "accelerationChanger" : 0.0,
   "noise" : 0.0,
   "baseSpeed" : 50.0,
+  "moved" : false,
+  "xdirection" : 1.0,
+  "ydirection" : 0.0,
   "ximpactDirection" : 0.0,
-  "yimpactDirection" : 0.0,
-  "xdirection" : 0.99783933,
-  "ydirection" : -0.06570135,
-  "moved" : false
+  "yimpactDirection" : 0.0
 }, {
   "id" : 1,
   "packetType" : "MESSENGER_2",
@@ -47,11 +47,11 @@
   "accelerationChanger" : 0.0,
   "noise" : 0.0,
   "baseSpeed" : 50.0,
-  "ximpactDirection" : 0.0,
-  "yimpactDirection" : 0.0,
+  "moved" : false,
   "xdirection" : 0.0,
   "ydirection" : 0.0,
-  "moved" : false
+  "ximpactDirection" : 0.0,
+  "yimpactDirection" : 0.0
 }, {
   "id" : 2,
   "packetType" : "MESSENGER_2",
@@ -74,11 +74,11 @@
   "accelerationChanger" : 0.0,
   "noise" : 0.0,
   "baseSpeed" : 50.0,
-  "ximpactDirection" : 0.0,
-  "yimpactDirection" : 0.0,
+  "moved" : false,
   "xdirection" : 0.0,
   "ydirection" : 0.0,
-  "moved" : false
+  "ximpactDirection" : 0.0,
+  "yimpactDirection" : 0.0
 }, {
   "id" : 3,
   "packetType" : "MESSENGER_3",
@@ -101,11 +101,11 @@
   "accelerationChanger" : 0.0,
   "noise" : 0.0,
   "baseSpeed" : 50.0,
-  "ximpactDirection" : 0.0,
-  "yimpactDirection" : 0.0,
+  "moved" : false,
   "xdirection" : 0.0,
   "ydirection" : 0.0,
-  "moved" : false
+  "ximpactDirection" : 0.0,
+  "yimpactDirection" : 0.0
 }, {
   "id" : 4,
   "packetType" : "MESSENGER_3",
@@ -128,11 +128,11 @@
   "accelerationChanger" : 0.0,
   "noise" : 0.0,
   "baseSpeed" : 50.0,
-  "ximpactDirection" : 0.0,
-  "yimpactDirection" : 0.0,
+  "moved" : false,
   "xdirection" : 0.0,
   "ydirection" : 0.0,
-  "moved" : false
+  "ximpactDirection" : 0.0,
+  "yimpactDirection" : 0.0
 }, {
   "id" : 5,
   "packetType" : "MESSENGER_3",
@@ -155,11 +155,11 @@
   "accelerationChanger" : 0.0,
   "noise" : 0.0,
   "baseSpeed" : 50.0,
-  "ximpactDirection" : 0.0,
-  "yimpactDirection" : 0.0,
+  "moved" : false,
   "xdirection" : 0.0,
   "ydirection" : 0.0,
-  "moved" : false
+  "ximpactDirection" : 0.0,
+  "yimpactDirection" : 0.0
 }, {
   "id" : 6,
   "packetType" : "MESSENGER_3",
@@ -182,11 +182,11 @@
   "accelerationChanger" : 0.0,
   "noise" : 0.0,
   "baseSpeed" : 50.0,
-  "ximpactDirection" : 0.0,
-  "yimpactDirection" : 0.0,
+  "moved" : false,
   "xdirection" : 0.0,
   "ydirection" : 0.0,
-  "moved" : false
+  "ximpactDirection" : 0.0,
+  "yimpactDirection" : 0.0
 }, {
   "id" : 7,
   "packetType" : "MESSENGER_1",
@@ -209,11 +209,11 @@
   "accelerationChanger" : 0.0,
   "noise" : 0.0,
   "baseSpeed" : 50.0,
-  "ximpactDirection" : 0.0,
-  "yimpactDirection" : 0.0,
+  "moved" : false,
   "xdirection" : 0.0,
   "ydirection" : 0.0,
-  "moved" : false
+  "ximpactDirection" : 0.0,
+  "yimpactDirection" : 0.0
 }, {
   "id" : 8,
   "packetType" : "MESSENGER_1",
@@ -236,11 +236,11 @@
   "accelerationChanger" : 0.0,
   "noise" : 0.0,
   "baseSpeed" : 50.0,
-  "ximpactDirection" : 0.0,
-  "yimpactDirection" : 0.0,
+  "moved" : false,
   "xdirection" : 0.0,
   "ydirection" : 0.0,
-  "moved" : false
+  "ximpactDirection" : 0.0,
+  "yimpactDirection" : 0.0
 }, {
   "id" : 9,
   "packetType" : "MESSENGER_1",
@@ -263,9 +263,9 @@
   "accelerationChanger" : 0.0,
   "noise" : 0.0,
   "baseSpeed" : 50.0,
-  "ximpactDirection" : 0.0,
-  "yimpactDirection" : 0.0,
+  "moved" : false,
   "xdirection" : 0.0,
   "ydirection" : 0.0,
-  "moved" : false
+  "ximpactDirection" : 0.0,
+  "yimpactDirection" : 0.0
 } ]

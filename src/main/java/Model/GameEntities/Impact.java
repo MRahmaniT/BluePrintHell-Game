@@ -16,6 +16,7 @@ public class Impact {
     }
 
     public boolean contains(Packet packet11, Packet packet22) {
-        return ((packet1 == packet11) && (packet2 == packet22)) || ((packet2 == packet11) && (packet1 == packet22));
+        return ((packet1.getId() == packet11.getId()) && (packet2.getId() == packet22.getId())) ||
+                ((packet2.getId() == packet11.getId()) && (packet1.getId() == packet22.getId()));
     }
 }

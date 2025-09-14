@@ -5,7 +5,7 @@ import Controller.Wiring.WiringManager;
 import Model.Enums.WireType;
 import Model.GameEntities.Packet;
 import Model.GameEntities.Wire.*;
-import Storage.PacketStorage;
+import Storage.RealTime.GameEnvironment.PacketStorage;
 import View.Render.GameShapes.System.GameShape;
 import View.Main.MainFrame;
 import View.Render.GameShapes.Wire.WireShape;

@@ -6,7 +6,7 @@ import Controller.Packets.Spawning.SpawnPackets;
 import Controller.Wiring.WiringManager;
 import Model.GameEntities.Impact;
 import Model.GameEntities.Packet;
-import Storage.PacketStorage;
+import Storage.RealTime.GameEnvironment.PacketStorage;
 import View.Render.GameShapes.System.GameShape;
 import View.Render.GameShapes.Packet.PacketRenderer;
 
@@ -81,7 +81,7 @@ public class PacketManager {
         if (impactIsDisabled) return;
 
         for (Packet packet2 : packets) {
-            if (packet2 == packet1) continue;
+            if (packet2.getId() == packet1.getId()) continue;
             if (!packet1.isOnWire() || !packet2.isOnWire()) continue;
 
             Shape s1 = PacketRenderer.getShape(packet1);
@@ -119,10 +119,11 @@ public class PacketManager {
 
     private void manageImpact(List<Packet> packets) {
         for (Impact impact : impacts) {
+            managedImpacts.add(impact);
             for (Packet p : packets) {
                 if (!p.isOnWire()) continue;
 
-                if (p == impact.packet1 || p == impact.packet2) {
+                if (p.getId() == impact.packet1.getId() || p.getId() == impact.packet2.getId()) {
                     p.addNoise(NOISE_PER_HIT);
                     PacketStorage.SavePackets(packets);
                 } else if (!waveIsDisabled) {
@@ -130,7 +131,6 @@ public class PacketManager {
                     PacketStorage.SavePackets(packets);
                 }
             }
-            managedImpacts.add(impact);
         }
         impacts.clear();
     }
@@ -156,4 +156,6 @@ public class PacketManager {
     public List<ArrivedPackets> getArrivedPackets () {
         return arrivedPackets;
     }
+
+
 }

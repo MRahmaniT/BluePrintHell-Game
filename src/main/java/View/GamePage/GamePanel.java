@@ -13,11 +13,12 @@ import Model.GameEntities.Impact;
 import Model.GameEntities.Packet;
 
 import Model.GameEntities.Wire.Wire;
-import Storage.ConnectionStorage;
-import Storage.PacketStorage;
-import Storage.Snapshots.PacketSnapshots;
-import Storage.Snapshots.SnapshotUtils;
-import Storage.WireStorage;
+import Storage.RealTime.GameEnvironment.ClearSaves;
+import Storage.RealTime.GameEnvironment.ConnectionStorage;
+import Storage.RealTime.GameEnvironment.PacketStorage;
+import Storage.RealTime.Snapshots.PacketSnapshots;
+import Storage.RealTime.Snapshots.ClearSnapshots;
+import Storage.RealTime.GameEnvironment.WireStorage;
 import View.GameEnvironment.Background.BuildBackground;
 import View.GamePage.State.GameOverPanel;
 import View.GamePage.State.PausePanel;
@@ -231,7 +232,6 @@ public class GamePanel extends JPanel {
 
             repaint();
         });
-        SnapshotUtils.clearSnapshotFolder("Resources/Saves/Snapshot");
         gameTimer.start();
 
         shopButton.addActionListener(_ -> {
@@ -353,10 +353,13 @@ public class GamePanel extends JPanel {
     }
 
     private void retryLevel() {
+        ClearSaves.clearSnapshotFolder("Resources/Saves/Realtime");
+        ClearSnapshots.clearSnapshotFolder("Resources/Saves/Snapshot");
         MainFrame.startGame();
         pausePanel.setVisible(false);
         isRunning = true;
         isPause = false;
+        interrupted = false;
     }
 
     private void returnToMenu() {
@@ -402,7 +405,7 @@ public class GamePanel extends JPanel {
         if (!interrupted) {
             List<Packet> packets = PacketStorage.LoadPackets();
             for (Packet p : packets) {
-                if (!p.isOnWire()) continue;
+                //if (!p.isOnWire()) continue;
                 PacketRenderer.draw(g2d, p);
             }
         } else {

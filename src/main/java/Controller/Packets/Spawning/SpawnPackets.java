@@ -4,9 +4,9 @@ import Model.Enums.PortType;
 import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Connection;
 import Model.GameEntities.Packet;
-import Storage.BlockSystemStorage;
-import Storage.ConnectionStorage;
-import Storage.PacketStorage;
+import Storage.RealTime.GameEnvironment.BlockSystemStorage;
+import Storage.RealTime.GameEnvironment.ConnectionStorage;
+import Storage.RealTime.GameEnvironment.PacketStorage;
 
 import java.util.*;
 
@@ -45,6 +45,8 @@ public class SpawnPackets implements Runnable{
             spawnConditions.CheckSpawnCondition();
 
             // put the packet on the wire
+            //packets.get(blockSystem.peekNextPacketId()).setX(100000000);
+            //packets.get(blockSystem.peekNextPacketId()).setY(100000000);
             packets.get(blockSystem.peekNextPacketId()).startOnWire(connectionChoice.getId(),
                     connectionChoice.getFromSystemId(),connectionChoice.getFromPortId(),
                     connectionChoice.getToSystemId(), connectionChoice.getToPortId());

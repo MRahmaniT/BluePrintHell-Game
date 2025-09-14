@@ -6,7 +6,7 @@ import Controller.Timing.TimeController;
 import Controller.Wiring.WiringManager;
 import Model.GameEntities.BlockSystem;
 import Model.Player.PlayerState;
-import Storage.BlockSystemStorage;
+import Storage.RealTime.GameEnvironment.BlockSystemStorage;
 import View.GameEnvironment.Options.HUDPanel;
 import View.GamePage.GamePanel;
 import View.GamePage.State.GameOverPanel;

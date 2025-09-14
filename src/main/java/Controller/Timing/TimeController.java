@@ -2,6 +2,7 @@ package Controller.Timing;
 
 public class TimeController {
     private double time;
+    private static double t;
 
     public TimeController() {
         this.time = 0.0;
@@ -13,12 +14,16 @@ public class TimeController {
         } else if (rightPressed && !leftPressed) {
             time += 0.01;
         }
+        t = time;
     }
 
     public double getTime() {
         return time;
     }
 
+    public static double giveTime () {
+        return t;
+    }
     public String getFormattedTime() {
         return String.format("Time: %.1f", time);
     }

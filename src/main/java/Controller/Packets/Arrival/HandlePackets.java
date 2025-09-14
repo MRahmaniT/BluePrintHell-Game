@@ -5,9 +5,9 @@ import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Connection;
 import Model.GameEntities.Packet;
 import Model.Player.PlayerState;
-import Storage.BlockSystemStorage;
-import Storage.ConnectionStorage;
-import Storage.PacketStorage;
+import Storage.RealTime.GameEnvironment.BlockSystemStorage;
+import Storage.RealTime.GameEnvironment.ConnectionStorage;
+import Storage.RealTime.GameEnvironment.PacketStorage;
 
 import javax.swing.*;
 import java.util.List;
