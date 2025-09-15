@@ -511,7 +511,7 @@ public class GamePanel extends JPanel {
         if (!interrupted) {
             List<Packet> packets = PacketStorage.LoadPackets();
             for (Packet p : packets) {
-                //if (!p.isOnWire()) continue;
+                if (!p.isOnWire()) continue;
                 PacketRenderer.draw(g2d, p);
             }
         } else {

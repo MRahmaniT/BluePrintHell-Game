@@ -128,7 +128,7 @@ public class Packet implements Serializable {
     @JsonIgnore public boolean isInBlock() { return location == Location.IN_BLOCK; }
     @JsonIgnore public boolean isLost()    { return location == Location.LOST; }
     @JsonIgnore public boolean isDistributed () { return location == Location.DISTRIBUTED; }
-    @JsonIgnore public void setLocation(Location location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 
