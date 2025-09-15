@@ -31,7 +31,7 @@ public class PlayerStorage {
         ObjectMapper mapper = new ObjectMapper();
         try {
             mapper.writerWithDefaultPrettyPrinter().writeValue(new File(PLAYERS_FILE), players);
-            System.out.println("All players saved.");
+            //System.out.println("All players saved.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -41,7 +41,7 @@ public class PlayerStorage {
         List<Player> all = loadAllPlayers();
         for (Player p : all) {
             if (p.getUsername().equalsIgnoreCase(newPlayer.getUsername())) {
-                System.out.println("Player already exists. Skipping save.");
+                //System.out.println("Player already exists. Skipping save.");
                 return;
             }
         }

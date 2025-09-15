@@ -21,6 +21,10 @@ public class TimeController {
         return time;
     }
 
+    public void setTime(double time) {
+        this.time = time;
+    }
+
     public static double giveTime () {
         return t;
     }

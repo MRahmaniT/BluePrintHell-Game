@@ -15,11 +15,11 @@ import java.util.Objects;
 public class LoginPanel extends JPanel {
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    private final int screenSizeX = screenSize.width;
-    private final int screenSizeY = screenSize.height;
-    int buttonsWidth = screenSizeX / 8;
-    int buttonsHeight = screenSizeY / 20;
-    int buttonSpace = screenSizeY / 180;
+    private final int screenSizeX = screenSize.width/2;
+    private final int screenSizeY = screenSize.height/2;
+    int buttonsWidth = screenSizeX / 4;
+    int buttonsHeight = screenSizeY / 10;
+    int buttonSpace = screenSizeY / 90;
 
     private Image backgroundImage;
 
@@ -38,7 +38,7 @@ public class LoginPanel extends JPanel {
         error.setBounds(screenSizeX / 2 - buttonsWidth , screenSizeY / 2 - 2*(buttonsHeight + buttonSpace), 2*buttonsWidth, buttonsHeight);
         error.setHorizontalAlignment(SwingConstants.CENTER);
         error.setForeground(Color.RED);
-        int fontSize = screenSizeX / 100;
+        int fontSize = screenSizeX / 50;
         error.setFont(new Font("Arial", Font.BOLD, (int)(1.2* fontSize)));
         add(error);
 
@@ -58,12 +58,12 @@ public class LoginPanel extends JPanel {
         password.setFont(new Font("Arial", Font.BOLD, fontSize));
         add(password);
 
-        //Add Username Textfield
+        //Add Username Text field
         JTextField usernameField = new JTextField(10);
         usernameField.setBounds(screenSizeX / 2, screenSizeY / 2 - buttonsHeight - buttonSpace, buttonsWidth, buttonsHeight);
         add(usernameField);
 
-        //Add Password Textfield
+        //Add Password Text field
         JPasswordField passwordField = new JPasswordField(10);
         passwordField.setBounds(screenSizeX / 2, screenSizeY / 2, buttonsWidth, buttonsHeight);
         add(passwordField);
@@ -73,7 +73,7 @@ public class LoginPanel extends JPanel {
         registerButton.setBounds(screenSizeX / 2 - buttonsWidth, screenSizeY / 2 + buttonsHeight + buttonSpace, (int)(0.99*buttonsWidth), buttonsHeight);
         registerButton.setFont(new Font("Arial", Font.BOLD, fontSize));
         registerButton.setBackground(Color.DARK_GRAY);
-        registerButton.setForeground(Color.WHITE);
+        registerButton.setForeground(Color.BLACK);
         registerButton.setFocusPainted(false);
         add(registerButton);
 
@@ -88,7 +88,7 @@ public class LoginPanel extends JPanel {
 
             Player existing = PlayerStorage.findPlayer(usernameText);
             if (existing != null) {
-                error.setText("Please log in.");
+                error.setText("You have an account. Please log in.");
                 return;
             } else {
                 Player newPlayer = new Player(usernameText, passwordText);
@@ -104,7 +104,7 @@ public class LoginPanel extends JPanel {
         loginButton.setBounds(screenSizeX / 2 , screenSizeY / 2 + buttonsHeight + buttonSpace, (int)(0.99*buttonsWidth), buttonsHeight);
         loginButton.setFont(new Font("Arial", Font.BOLD, fontSize));
         loginButton.setBackground(Color.DARK_GRAY);
-        loginButton.setForeground(Color.WHITE);
+        loginButton.setForeground(Color.BLACK);
         loginButton.setFocusPainted(false);
         add(loginButton);
 

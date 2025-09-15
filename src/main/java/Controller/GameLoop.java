@@ -39,7 +39,10 @@ public class GameLoop {
 
 
         int lostPackets = packetManager.getLostPacketsCount();
-        int coins = PlayerState.getPlayer().getGoldCount();
+        int coins = 0;
+        if (PlayerState.getPlayer() != null) {
+            coins = PlayerState.getPlayer().getGoldCount();
+        }
 
         hudPanel.update(
                 Math.max(0, wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH)),
@@ -60,7 +63,7 @@ public class GameLoop {
         }
 
         List<BlockSystem> blockSystems = BlockSystemStorage.LoadBlockSystems();
-        if (!blockShapes.isEmpty() && totalPackets == blockSystems.getLast().queueCount()) {
+        if (!blockShapes.isEmpty() && !blockSystems.isEmpty() && totalPackets == blockSystems.getLast().queueCount()) {
             gameTimer.stop();
             MainFrame.audioManager.playSoundEffect("Resources/win.wav");
             winPanel.updateStats(

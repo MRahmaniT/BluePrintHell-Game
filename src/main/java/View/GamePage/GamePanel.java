@@ -13,6 +13,8 @@ import Model.GameEntities.Impact;
 import Model.GameEntities.Packet;
 
 import Model.GameEntities.Wire.Wire;
+import Model.Player.Player;
+import Storage.Player.PlayerStorage;
 import Storage.RealTime.GameEnvironment.ClearSaves;
 import Storage.RealTime.GameEnvironment.ConnectionStorage;
 import Storage.RealTime.GameEnvironment.PacketStorage;
@@ -20,9 +22,7 @@ import Storage.RealTime.Snapshots.PacketSnapshots;
 import Storage.RealTime.Snapshots.ClearSnapshots;
 import Storage.RealTime.GameEnvironment.WireStorage;
 import View.GameEnvironment.Background.BuildBackground;
-import View.GamePage.State.GameOverPanel;
-import View.GamePage.State.PausePanel;
-import View.GamePage.State.WinPanel;
+import View.GamePage.State.*;
 import Controller.Levels.BuildLevel1;
 import Controller.Levels.BuildLevel2;
 import View.GameEnvironment.Options.HUDPanel;
@@ -43,6 +43,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GamePanel extends JPanel {
 
@@ -93,7 +94,6 @@ public class GamePanel extends JPanel {
 
     //For Shop
     private final ShopPanel shopPanel;
-    private int coins;
 
     //For Pause
     private PausePanel pausePanel;
@@ -105,8 +105,58 @@ public class GamePanel extends JPanel {
     //For Win
     private final WinPanel winPanel;
 
+    //For Save and Load
+    private SavePanel savePanel;
+    private LoadPanel loadPanel;
+
+    //Player Data
+    private int levelOnGoing = 1;
+    private int coins = 0;
+    private boolean madeDecision;
+
     public GamePanel(){
         setLayout(null);
+
+        //Player Data
+        madeDecision = false;
+        if (PlayerState.getPlayer() != null) {
+            levelOnGoing = PlayerState.getPlayer().getLevelNumber();
+            coins = PlayerState.getPlayer().getGoldCount();
+            timeController.setTime(PlayerState.getPlayer().getTimePlayed());
+            madeDecision = PlayerState.getPlayer().isMadeDecision();
+        }
+
+        //Add Save and Load
+        savePanel = new SavePanel(
+                this::saveGame,
+                this::returnToMenu,
+                () -> {
+                    savePanel.setVisible(false);
+                    gameTimer.start();
+                    isPause = false;
+                    isRunning = true; }
+        );
+        savePanel.setBounds(0, 0, screenSizeX, screenSizeY);
+        savePanel.setVisible(false);
+        add(savePanel);
+        setComponentZOrder(savePanel, 0);
+
+        loadPanel = new LoadPanel(
+                () -> {
+                    loadPanel.setVisible(false);
+                },
+                this::retryLevel,
+                this::returnToMenu
+        );
+        loadPanel.setBounds(0, 0, screenSizeX, screenSizeY);
+        loadPanel.setVisible(false);
+        add(loadPanel);
+        setComponentZOrder(loadPanel, 0);
+
+
+        if (!madeDecision) {
+            loadPanel.setVisible(true);
+        }
 
         //Add Background
         try {
@@ -121,7 +171,6 @@ public class GamePanel extends JPanel {
         wiringManager.setWires(WireStorage.LoadWires());
 
         //Build Level
-        int levelOnGoing = PlayerState.getPlayer().getLevelNumber();
         switch (levelOnGoing) {
             case 1 -> {
                 BuildLevel1.buildLevel1(screenSizeX, blockShapes);
@@ -181,7 +230,7 @@ public class GamePanel extends JPanel {
                     isPause = false;
                     isRunning = true; },
                 this::retryLevel,
-                this::returnToMenu
+                this::showSavePanel
         );
         pausePanel.setBounds(0, 0, screenSizeX, screenSizeY);
         pausePanel.setVisible(false);
@@ -228,9 +277,30 @@ public class GamePanel extends JPanel {
                     isRunning);
 
             lostPackets = packetManager.getLostPacketsCount();
-            coins = PlayerState.getPlayer().getGoldCount();
+            if (PlayerState.getPlayer() != null) {
+                coins = PlayerState.getPlayer().getGoldCount();
+                PlayerState.getPlayer().setTimePlayed(timeController.getTime());
+
+                 if (madeDecision && MainFrame.gamePanel.isVisible()){
+                    madeDecision = false;
+                    assert PlayerState.getPlayer() != null;
+                    PlayerState.getPlayer().setMadeDecision(false);
+                }
+
+                List<Player> players = PlayerStorage.loadAllPlayers();
+                for (Player player : players) {
+                    if (Objects.equals(player.getUsername(), PlayerState.getPlayer().getUsername())) {
+                        player.setMadeDecision(PlayerState.getPlayer().isMadeDecision());
+                        player.setGoldCount(coins);
+                        player.setTimePlayed(timeController.getTime());
+                        PlayerStorage.saveAllPlayers(players);
+                    }
+                }
+
+            }
 
             repaint();
+
         });
         gameTimer.start();
 
@@ -355,6 +425,8 @@ public class GamePanel extends JPanel {
     private void retryLevel() {
         ClearSaves.clearSnapshotFolder("Resources/Saves/Realtime");
         ClearSnapshots.clearSnapshotFolder("Resources/Saves/Snapshot");
+        madeDecision = true;
+        PlayerState.getPlayer().setMadeDecision(true);
         MainFrame.startGame();
         pausePanel.setVisible(false);
         isRunning = true;
@@ -362,7 +434,41 @@ public class GamePanel extends JPanel {
         interrupted = false;
     }
 
+    private void showSavePanel() {
+        pausePanel.setVisible(false);
+        savePanel.setVisible(true);
+    }
+
+    private void saveGame() {
+        ClearSnapshots.clearSnapshotFolder("Resources/Saves/Snapshot");
+        madeDecision = true;
+        PlayerState.getPlayer().setMadeDecision(madeDecision);
+        List<Player> players = PlayerStorage.loadAllPlayers();
+        for (Player player : players) {
+            if (Objects.equals(player.getUsername(), PlayerState.getPlayer().getUsername())) {
+                player.setMadeDecision(PlayerState.getPlayer().isMadeDecision());
+                player.setGoldCount(coins);
+                player.setTimePlayed(timeController.getTime());
+                PlayerStorage.saveAllPlayers(players);
+            }
+        }
+        MainFrame.showMenu();
+    }
+
     private void returnToMenu() {
+        ClearSaves.clearSnapshotFolder("Resources/Saves/Realtime");
+        ClearSnapshots.clearSnapshotFolder("Resources/Saves/Snapshot");
+        madeDecision = true;
+        PlayerState.getPlayer().setMadeDecision(madeDecision);
+        List<Player> players = PlayerStorage.loadAllPlayers();
+        for (Player player : players) {
+            if (Objects.equals(player.getUsername(), PlayerState.getPlayer().getUsername())) {
+                player.setMadeDecision(PlayerState.getPlayer().isMadeDecision());
+                player.setGoldCount(coins);
+                player.setTimePlayed(timeController.getTime());
+                PlayerStorage.saveAllPlayers(players);
+            }
+        }
         MainFrame.showMenu();
     }
 

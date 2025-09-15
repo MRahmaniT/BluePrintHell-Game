@@ -4,7 +4,10 @@ public class Player {
     private String username;
     private String password;
     private int goldCount, levelNumber;
+    private double timePlayed;
     private boolean isLogin;
+    private boolean madeDecision;
+
 
     public Player() {
         //For Jackson
@@ -14,7 +17,9 @@ public class Player {
         this.password = password;
         this.goldCount = 0;
         this.isLogin = false;
+        this.timePlayed = 0;
         this.levelNumber = 1;
+        this.madeDecision = false;
     }
 
     //Getters
@@ -31,6 +36,14 @@ public class Player {
     public int getLevelNumber(){return levelNumber;}
 
     public boolean isLogin(){return isLogin;}
+
+    public double getTimePlayed() {
+        return timePlayed;
+    }
+
+    public boolean isMadeDecision() {
+        return madeDecision;
+    }
 
     //Setters
     public void setUsername(String username) {
@@ -51,6 +64,14 @@ public class Player {
 
     public void setLogin(boolean login) {
         isLogin = login;
+    }
+
+    public void setTimePlayed(double timePlayed) {
+        this.timePlayed = timePlayed;
+    }
+
+    public void setMadeDecision(boolean madeDecision) {
+        this.madeDecision = madeDecision;
     }
 
     @Override
