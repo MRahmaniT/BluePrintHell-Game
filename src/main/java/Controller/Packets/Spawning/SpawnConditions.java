@@ -179,6 +179,19 @@ public class SpawnConditions {
         }
         switch (packetType) {
             case BULKY_8, BULKY_10 -> {
+                Random rand = new Random();
+                PortType[] values = new PortType[]{
+                        PortType.MESSENGER_1,
+                        PortType.MESSENGER_2,
+                        PortType.MESSENGER_3
+                };
+                PortType portType = values[rand.nextInt(values.length)];
+                while (portType == blockSystems.get(packet.getFromBlockIdx()).getPort(packet.getFromPort()).getType()) {
+                    portType = values[rand.nextInt(values.length)];
+                }
+                blockSystems.get(packet.getFromBlockIdx()).getPort(packet.getFromPort()).setType(portType);
+                blockSystems.get(packet.getToBlockIdx()).getPort(packet.getToPort()).setType(portType);
+
                 List<Connection> connections = ConnectionStorage.LoadConnections();
                 Connection connection = null;
                 for (Connection connection1 : connections) {

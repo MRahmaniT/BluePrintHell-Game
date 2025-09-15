@@ -33,6 +33,11 @@ public class Port implements Serializable {
     public int getSystemId() { return systemId; }
     public PortRole getRole() { return role; }
     public PortType getType() { return type; }
+
+    public void setType(PortType type) {
+        this.type = type;
+    }
+
     public boolean isConnected() { return connected; }
     public void setConnected(boolean connected) { this.connected = connected; }
 

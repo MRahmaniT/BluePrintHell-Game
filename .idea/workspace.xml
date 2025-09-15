@@ -4,14 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="Phase 2&#10;Save on exit">
+    <list default="true" id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="Phase 2&#10;Bulky">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/Spawning/SpawnConditions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/Spawning/SpawnConditions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/Spawning/SpawnPackets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Controller/Packets/Spawning/SpawnPackets.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Connection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Packet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Packet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/Wire.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/Wire.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Port.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Port.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -297,7 +293,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757944268483</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Phase 2&#10;Bulky">
+      <option name="closed" value="true" />
+      <created>1757948099924</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1757948099924</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -343,7 +347,8 @@
     <MESSAGE value="Phase 2&#10;Packet Snapshot" />
     <MESSAGE value="Phase 2&#10;Impact" />
     <MESSAGE value="Phase 2&#10;Save on exit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Phase 2&#10;Save on exit" />
+    <MESSAGE value="Phase 2&#10;Bulky" />
+    <option name="LAST_COMMIT_MESSAGE" value="Phase 2&#10;Bulky" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
