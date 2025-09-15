@@ -45,8 +45,6 @@ public class SpawnPackets implements Runnable{
             spawnConditions.CheckSpawnCondition();
 
             // put the packet on the wire
-            //packets.get(blockSystem.peekNextPacketId()).setX(100000000);
-            //packets.get(blockSystem.peekNextPacketId()).setY(100000000);
             packets.get(blockSystem.peekNextPacketId()).startOnWire(connectionChoice.getId(),
                     connectionChoice.getFromSystemId(),connectionChoice.getFromPortId(),
                     connectionChoice.getToSystemId(), connectionChoice.getToPortId());

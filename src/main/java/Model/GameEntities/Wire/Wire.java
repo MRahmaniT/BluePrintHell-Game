@@ -14,6 +14,8 @@ public class Wire {
     private int endBlockId;
     private int endPortId;
     private int id;
+    private boolean isLost = false;
+    private int bulkyPassed= 0;
 
     public Wire () {}
 
@@ -61,5 +63,21 @@ public class Wire {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isLost() {
+        return isLost;
+    }
+
+    public void setLost(boolean lost) {
+        isLost = lost;
+    }
+
+    public int getBulkyPassed() {
+        return bulkyPassed;
+    }
+
+    public void setBulkyPassed(int bulkyPassed) {
+        this.bulkyPassed = bulkyPassed;
     }
 }

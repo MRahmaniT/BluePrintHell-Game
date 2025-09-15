@@ -7,10 +7,29 @@ import java.io.Serializable;
 
 public class Packet implements Serializable {
 
-    public enum Location { IN_BLOCK, ON_WIRE, LOST }
+    public int getDistributeVolume() {
+        return distributeVolume;
+    }
+
+    public void setDistributeVolume(int distributeVolume) {
+        this.distributeVolume = distributeVolume;
+    }
+
+    public int getMergeVolume() {
+        return mergeVolume;
+    }
+
+    public void setMergeVolume(int mergeVolume) {
+        this.mergeVolume = mergeVolume;
+    }
+
+    public enum Location { IN_BLOCK, ON_WIRE, LOST, DISTRIBUTED }
 
     // Identity
     private int id;
+    private int bulkId = -1;
+    private int distributeVolume = -1;
+    private int mergeVolume = -1;
     private PacketType packetType;
     private PacketType firstType;
     private boolean doNotFindCompatible = false;
@@ -108,6 +127,10 @@ public class Packet implements Serializable {
     @JsonIgnore public boolean isOnWire()  { return location == Location.ON_WIRE; }
     @JsonIgnore public boolean isInBlock() { return location == Location.IN_BLOCK; }
     @JsonIgnore public boolean isLost()    { return location == Location.LOST; }
+    @JsonIgnore public boolean isDistributed () { return location == Location.DISTRIBUTED; }
+    @JsonIgnore public void setLocation(Location location) {
+        this.location = location;
+    }
 
     public int  getBlockIdx()   { return blockIdx; }
     public long getEnqueuedAt() { return enqueuedAt; }
@@ -176,5 +199,13 @@ public class Packet implements Serializable {
 
     public void setProtectedBy(int protectedBy) {
         this.protectedBy = protectedBy;
+    }
+
+    public int getBulkId() {
+        return bulkId;
+    }
+
+    public void setBulkId(int bulkId) {
+        this.bulkId = bulkId;
     }
 }

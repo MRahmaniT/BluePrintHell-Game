@@ -52,4 +52,12 @@ public class Connection implements java.io.Serializable {
     public void setPacketOnLine(boolean packetOnLine) {
         this.packetOnLine = packetOnLine;
     }
+
+    public int getWireId() {
+        return wireId;
+    }
+
+    public void setWireId(int wireId) {
+        this.wireId = wireId;
+    }
 }

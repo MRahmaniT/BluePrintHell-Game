@@ -86,7 +86,7 @@ public class GamePanel extends JPanel {
     private PacketManager packetManager;
     private SpawnPackets spawnPacket;
     private final int totalPackets = 10;
-    private int generatedPackets = 0;
+    public static int generatedPackets = 0;
     private int lostPackets = 0;
 
     //For Impact

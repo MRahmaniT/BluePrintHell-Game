@@ -4,7 +4,13 @@ import Model.Enums.BlockSystemType;
 import Model.Enums.PacketType;
 import Model.Enums.PortType;
 import Model.GameEntities.BlockSystem;
+import Model.GameEntities.Connection;
 import Model.GameEntities.Packet;
+import Model.GameEntities.Wire.Wire;
+import Storage.RealTime.GameEnvironment.ConnectionStorage;
+import Storage.RealTime.GameEnvironment.PacketStorage;
+import Storage.RealTime.GameEnvironment.WireStorage;
+import View.GamePage.GamePanel;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -87,8 +93,111 @@ public class SpawnConditions {
                     timer.start();
                 }
             }
-            case DISTRIBUTE -> {}
-            case MERGE -> {}
+            case DISTRIBUTE -> {
+                switch (packetType){
+                    case BULKY_8 -> {
+                        List<Packet> packets = PacketStorage.LoadPackets();
+                        for (int packetId : blockSystems.get(packet.getBlockIdx()).getQueueOfPackets()) {
+                            for (Packet packet1 : packets) {
+                                if (packet1.getId() == packetId && packetId != packet.getId()) {
+                                    blockSystems.get(packet.getBlockIdx()).getQueueOfPackets().remove(packetId);
+                                    packet1.markLost();
+                                    PacketStorage.SavePackets(packets);
+                                } else if (packetId == packet.getId()){
+                                    blockSystems.get(packet.getBlockIdx()).getQueueOfPackets().remove(packetId);
+                                    packet.setLocation(Packet.Location.DISTRIBUTED);
+                                    PacketStorage.SavePackets(packets);
+                                }
+
+                            }
+                        }
+                        SpawnPackets spawnPackets = new SpawnPackets();
+                        for (int i = 1; i <= 8; i++) {
+                            Packet newPacket = new Packet(GamePanel.generatedPackets, PacketType.MESSENGER_1);
+                            newPacket.setBulkId(packet.getId());
+                            newPacket.setDistributeVolume(8);
+                            newPacket.setMergeVolume(1);
+                            spawnPackets.addPacketToBlock(packet.getBlockIdx(), newPacket);
+                            GamePanel.generatedPackets++;
+                        }
+                    }
+                    case BULKY_10 -> {
+                        List<Packet> packets = PacketStorage.LoadPackets();
+                        for (int packetId : blockSystems.get(packet.getBlockIdx()).getQueueOfPackets()) {
+                            for (Packet packet1 : packets) {
+                                if (packet1.getId() == packetId && packetId != packet.getId()) {
+                                    blockSystems.get(packet.getBlockIdx()).getQueueOfPackets().remove(packetId);
+                                    packet1.markLost();
+                                    PacketStorage.SavePackets(packets);
+                                } else if (packetId == packet.getId()){
+                                    blockSystems.get(packet.getBlockIdx()).getQueueOfPackets().remove(packetId);
+                                    packet.setLocation(Packet.Location.DISTRIBUTED);
+                                    PacketStorage.SavePackets(packets);
+                                }
+
+                            }
+                        }
+                        SpawnPackets spawnPackets = new SpawnPackets();
+                        for (int i = 1; i <= 10; i++) {
+                            Packet newPacket = new Packet(GamePanel.generatedPackets, PacketType.MESSENGER_1);
+                            newPacket.setBulkId(packet.getId());
+                            newPacket.setDistributeVolume(10);
+                            newPacket.setMergeVolume(1);
+                            spawnPackets.addPacketToBlock(packet.getBlockIdx(), newPacket);
+                            GamePanel.generatedPackets++;
+                        }
+                    }
+                }
+            }
+            case MERGE -> {
+                switch (packetType) {
+                    case MESSENGER_1 -> {
+                        if (packet.getBulkId() >= 0) {
+                            int volume = 0;
+                            List<Packet> packets = PacketStorage.LoadPackets();
+                            for (int packetId : blockSystems.get(packet.getBlockIdx()).getQueueOfPackets()) {
+                                for (Packet packet1 : packets) {
+                                    if (packet1.getId() == packetId && packet1.getBulkId() == packet.getBulkId()) {
+                                        blockSystems.get(packet.getBlockIdx()).getQueueOfPackets().remove(packet1.getId());
+                                        packet1.setLocation(Packet.Location.DISTRIBUTED);
+                                        volume = volume + packet1.getMergeVolume();
+                                        PacketStorage.SavePackets(packets);
+                                    }
+                                }
+                            }
+                            SpawnPackets spawnPackets = new SpawnPackets();
+                            Packet newPacket = new Packet(GamePanel.generatedPackets, PacketType.MESSENGER_1);
+                            newPacket.setBulkId(packet.getBulkId());
+                            newPacket.setDistributeVolume(packet.getDistributeVolume());
+                            newPacket.setMergeVolume(volume);
+                            spawnPackets.addPacketToBlock(packet.getBlockIdx(), newPacket);
+                            GamePanel.generatedPackets++;
+                        }
+                    }
+                }
+            }
+        }
+        switch (packetType) {
+            case BULKY_8, BULKY_10 -> {
+                List<Connection> connections = ConnectionStorage.LoadConnections();
+                Connection connection = null;
+                for (Connection connection1 : connections) {
+                    if (packet.getConnectionIdx() == connection1.getId()) {
+                        connection = connection1;
+                    }
+                }
+                List<Wire> wires = WireStorage.LoadWires();
+                for (Wire wire : wires) {
+                    assert connection != null;
+                    if (wire.getId() == connection.getWireId()) {
+                        wire.setBulkyPassed(wire.getBulkyPassed() + 1);
+                        if (wire.getBulkyPassed() == 3) {
+                            wire.setLost(true);
+                        }
+                        WireStorage.SaveWires(wires);
+                    }
+                }
+            }
         }
     }
     public void CheckSpeedConditions(){
