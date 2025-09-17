@@ -3,18 +3,35 @@ package Server;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
+import java.security.SecureRandom;
+import java.util.Base64;
+import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class TcpInfernoServer {
 
+    static class Session {
+        final String keyBase64;
+        final long createdAt;
+        final LinkedHashSet<String> recentNonces = new LinkedHashSet<String>() {
+            private boolean removeEldestEntry(Map.Entry<String, Boolean> eldest) { return size() > 1024; }
+        };
+        Session(String keyBase64) { this.keyBase64 = keyBase64; this.createdAt = System.currentTimeMillis(); }
+    }
+    private static final ConcurrentHashMap<String, Session> SESSIONS = new ConcurrentHashMap<>();
+    private static final SecureRandom RNG = new SecureRandom();
+
     private static final int PORT = Integer.parseInt(System.getProperty("PORT", "5050"));
     private static final Path ROOT = Paths.get(System.getProperty("DATA_DIR", "server_data")).toAbsolutePath();
-    private static final ObjectMapper M = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     static class PlayerStore {
         volatile String blockSystems = "[]";
@@ -22,7 +39,7 @@ public class TcpInfernoServer {
         volatile String wires        = "[]";
         volatile String packets      = "[]";
     }
-    private static final ConcurrentHashMap<String, PlayerStore> DB = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, PlayerStore> DataBase = new ConcurrentHashMap<>();
 
     public static void main(String[] args) throws Exception {
         Files.createDirectories(ROOT);
@@ -36,37 +53,98 @@ public class TcpInfernoServer {
     }
 
     private static void handle(Socket s) {
+
         try (s; DataInputStream in = new DataInputStream(new BufferedInputStream(s.getInputStream()));
              DataOutputStream out = new DataOutputStream(new BufferedOutputStream(s.getOutputStream()))) {
 
             while (true) {
-                String reqStr = readFrame(in);
-                if (reqStr == null) break;
-                JsonNode req = M.readTree(reqStr);
+                String requestString = readFrame(in);
+                if (requestString == null) break;
+                JsonNode request = objectMapper.readTree(requestString);
 
-                String op = text(req, "op");
-                String entity = text(req, "entity");
-                String playerId = text(req, "playerId");
-                if (op == null || entity == null || playerId == null) {
+                //Security
+                String op = text(request, "op");
+                String entity = text(request, "entity"); // may be null for hello
+                String playerId = text(request, "playerId");
+                if (op == null || playerId == null) {
                     writeFrame(out, "{\"ok\":false,\"error\":\"missing fields\"}");
-                    continue;
+                    return;
                 }
-                PlayerStore ps = DB.computeIfAbsent(playerId, TcpInfernoServer::loadFromDisk);
+                if ("hello".equals(op)) {
+                    Session session = new Session(newSessionKeyBase64());
+                    SESSIONS.put(playerId, session);
+                    String res = "{\"ok\":true,\"key\":\"" + session.keyBase64 + "\",\"ts\":" + System.currentTimeMillis() + "}";
+                    writeFrame(out, res);
+                    return;
+                }
+
+                Session session = SESSIONS.get(playerId);
+                if (session == null) {
+                    writeFrame(out, "{\"ok\":false,\"error\":\"no session - call hello first\"}");
+                    return;
+                }
+
+                long ts = request.path("ts").asLong(0L);
+                String nonce = text(request, "nonce");
+                String sig = text(request, "sig");
+                if (nonce == null || sig == null || ts == 0L) {
+                    writeFrame(out, "{\"ok\":false,\"error\":\"missing ts/nonce/sig\"}");
+                    return;
+                }
+                long now = System.currentTimeMillis();
+                if (Math.abs(now - ts) > 60_000) {
+                    writeFrame(out, "{\"ok\":false,\"error\":\"ts skew\"}");
+                    return;
+                }
+                synchronized (session.recentNonces) {
+                    if (session.recentNonces.contains(nonce)) {
+                        writeFrame(out, "{\"ok\":false,\"error\":\"replayed nonce\"}");
+                        return;
+                    }
+                    session.recentNonces.add(nonce);
+                    if (session.recentNonces.size() > 2048) {
+                        // drop oldest
+                        var it = session.recentNonces.iterator();
+                        it.next(); it.remove();
+                    }
+                }
+
+                String bodyForSig;
+                if ("put".equals(op)) {
+                    JsonNode data = request.get("data");
+                    if (data == null || !data.isArray()) {
+                        writeFrame(out, "{\"ok\":false,\"error\":\"data must be array\"}");
+                        return;
+                    }
+                    bodyForSig = data.toString();
+                } else {
+                    bodyForSig = "";
+                }
+
+                if (!verifyHmac(session.keyBase64, op, entity, playerId, bodyForSig, ts, nonce, sig)) {
+                    writeFrame(out, "{\"ok\":false,\"error\":\"bad signature\"}");
+                    return;
+                }
+                // -------------------------------------------
+
+                PlayerStore ps = DataBase.computeIfAbsent(playerId, TcpInfernoServer::loadFromDisk);
 
                 switch (op) {
                     case "get": {
+                        assert entity != null;
                         String data = getEntity(ps, entity);
                         String res = "{\"ok\":true,\"data\":" + data + "}";
                         writeFrame(out, res);
                         break;
                     }
                     case "put": {
-                        JsonNode data = req.get("data");
+                        JsonNode data = request.get("data");
                         if (data == null || !data.isArray()) {
                             writeFrame(out, "{\"ok\":false,\"error\":\"data must be array\"}");
                             break;
                         }
-                        String json = M.writeValueAsString(data);
+                        String json = objectMapper.writeValueAsString(data);
+                        assert entity != null;
                         setEntity(ps, entity, json);
                         saveToDisk(playerId, fileName(entity), json);
                         writeFrame(out, "{\"ok\":true}");
@@ -85,13 +163,13 @@ public class TcpInfernoServer {
     private static String text(JsonNode n, String f) { return (n.get(f) != null && n.get(f).isTextual()) ? n.get(f).asText() : null; }
 
     private static String getEntity(PlayerStore ps, String entity) {
-        switch (entity) {
-            case "block-systems": return ps.blockSystems;
-            case "connections":   return ps.connections;
-            case "wires":         return ps.wires;
-            case "packets":       return ps.packets;
-            default: return "[]";
-        }
+        return switch (entity) {
+            case "block-systems" -> ps.blockSystems;
+            case "connections" -> ps.connections;
+            case "wires" -> ps.wires;
+            case "packets" -> ps.packets;
+            default -> "[]";
+        };
     }
     private static void setEntity(PlayerStore ps, String entity, String json) {
         switch (entity) {
@@ -103,13 +181,13 @@ public class TcpInfernoServer {
         }
     }
     private static String fileName(String entity) {
-        switch (entity) {
-            case "block-systems": return "BlockSystems.json";
-            case "connections":   return "Connections.json";
-            case "wires":         return "Wires.json";
-            case "packets":       return "Packets.json";
-            default: return "Unknown.json";
-        }
+        return switch (entity) {
+            case "block-systems" -> "BlockSystems.json";
+            case "connections" -> "Connections.json";
+            case "wires" -> "Wires.json";
+            case "packets" -> "Packets.json";
+            default -> "Unknown.json";
+        };
     }
 
     private static PlayerStore loadFromDisk(String playerId) {
@@ -150,4 +228,35 @@ public class TcpInfernoServer {
         out.write(b);
         out.flush();
     }
+
+    //security
+    private static String newSessionKeyBase64() {
+        byte[] key = new byte[32];
+        RNG.nextBytes(key);
+        return Base64.getEncoder().encodeToString(key);
+    }
+
+    private static boolean verifyHmac(String keyBase64, String op, String entity, String playerId, String body, long ts, String nonce, String sigBase64) {
+        try {
+            String canonical = op + "\n" + entity + "\n" + playerId + "\n" + (body == null ? "" : body) + "\n" + ts + "\n" + nonce;
+            byte[] expect = hmacSha256(Base64.getDecoder().decode(keyBase64), canonical.getBytes(StandardCharsets.UTF_8));
+            byte[] got = Base64.getDecoder().decode(sigBase64);
+            return slowEquals(expect, got);
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    private static byte[] hmacSha256(byte[] key, byte[] msg) throws Exception {
+        Mac mac = Mac.getInstance("HmacSHA256");
+        mac.init(new SecretKeySpec(key, "HmacSHA256"));
+        return mac.doFinal(msg);
+    }
+    private static boolean slowEquals(byte[] a, byte[] b) {
+        if (a == null || b == null || a.length != b.length) return false;
+        int r = 0;
+        for (int i = 0; i < a.length; i++) r |= (a[i] ^ b[i]);
+        return r == 0;
+    }
+
+
 }

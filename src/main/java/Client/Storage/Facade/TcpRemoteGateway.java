@@ -21,6 +21,8 @@ public final class TcpRemoteGateway implements RemoteGateway {
     private final ObjectMapper M = new ObjectMapper();
     private final int timeoutMs;
 
+    private String sessionKeyBase64;
+
     public TcpRemoteGateway(String host, int port, String playerId) {
         this(host, port, playerId, 5000);
     }
@@ -29,6 +31,23 @@ public final class TcpRemoteGateway implements RemoteGateway {
         this.port = port;
         this.playerId = playerId;
         this.timeoutMs = timeoutMs;
+        // handshake
+        JsonNode helloReq = M.createObjectNode()
+                .put("op", "hello")
+                .put("playerId", playerId);
+        JsonNode helloRes;
+        try {
+            helloRes = send(helloReq);
+        } catch (IOException e) {
+            throw new RuntimeException("Handshake failed (hello): " + e.getMessage(), e);
+        }
+        if (!helloRes.path("ok").asBoolean(false)) {
+            throw new RuntimeException("Handshake rejected: " + helloRes.path("error").asText());
+        }
+        this.sessionKeyBase64 = helloRes.path("key").asText(null);
+        if (this.sessionKeyBase64 == null || this.sessionKeyBase64.isBlank()) {
+            throw new RuntimeException("Handshake missing session key");
+        }
     }
 
     // -------- Loads --------
@@ -44,13 +63,34 @@ public final class TcpRemoteGateway implements RemoteGateway {
     @Override public void savePackets(List<Packet> v)           { putList("packets",       v); }
 
     // -------- Helpers --------
+    private JsonNode sendSigned(String op, String entity, String bodyOrNull) throws IOException {
+        long ts = System.currentTimeMillis();
+        String nonce = Client.Security.HmacSigner.randomNonce();
+        String sig = Client.Security.HmacSigner.signBase64(sessionKeyBase64, op, entity, playerId, bodyOrNull, ts, nonce);
+
+        var node = M.createObjectNode()
+                .put("op", op)
+                .put("entity", entity)
+                .put("playerId", playerId)
+                .put("ts", ts)
+                .put("nonce", nonce)
+                .put("sig", sig);
+
+        if (bodyOrNull != null) {
+            // body is a JSON array string; attach as parsed JSON
+            try {
+                node.set("data", M.readTree(bodyOrNull));
+            } catch (Exception e) {
+                // should not happen; bodyOrNull comes from mapper.writeValueAsString(list)
+                node.put("data_raw", bodyOrNull);
+            }
+        }
+        return send(node);
+    }
+
     private <T> List<T> getList(String entity, TypeReference<List<T>> tr) {
         try {
-            JsonNode req = M.createObjectNode()
-                    .put("op", "get")
-                    .put("entity", entity)
-                    .put("playerId", playerId);
-            JsonNode res = send(req);
+            JsonNode res = sendSigned("get", entity, null);
             if (!res.path("ok").asBoolean(false)) {
                 throw new RuntimeException("Server error: " + res.path("error").asText());
             }
@@ -63,12 +103,8 @@ public final class TcpRemoteGateway implements RemoteGateway {
 
     private <T> void putList(String entity, List<T> list) {
         try {
-            JsonNode req = M.createObjectNode()
-                    .put("op", "put")
-                    .put("entity", entity)
-                    .put("playerId", playerId)
-                    .set("data", M.valueToTree(list));
-            JsonNode res = send(req);
+            String body = M.writeValueAsString(list);
+            JsonNode res = sendSigned("put", entity, body);
             if (!res.path("ok").asBoolean(false)) {
                 throw new RuntimeException("Server error: " + res.path("error").asText());
             }
@@ -76,6 +112,7 @@ public final class TcpRemoteGateway implements RemoteGateway {
             throw new RuntimeException("PUT " + entity + " error", e);
         }
     }
+
 
     private JsonNode send(JsonNode req) throws IOException {
         try (Socket socket = new Socket()) {

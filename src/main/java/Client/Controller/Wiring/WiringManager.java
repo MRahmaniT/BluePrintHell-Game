@@ -198,15 +198,7 @@ public class WiringManager {
     public double getUsedWireLength() {
         double total = 0;
         for (WireShape wire : wireShapes) {
-            Path2D.Float pathA = wire.getBlockA().getPortPath(wire.getPortA());
-            Path2D.Float pathB = wire.getBlockB().getPortPath(wire.getPortB());
-            if (pathA != null && pathB != null) {
-                Rectangle2D boundsA = pathA.getBounds2D();
-                Rectangle2D boundsB = pathB.getBounds2D();
-                double dx = boundsA.getCenterX() - boundsB.getCenterX();
-                double dy = boundsA.getCenterY() - boundsB.getCenterY();
-                total += Math.sqrt(dx * dx + dy * dy);
-            }
+            total += wire.getWireLength();
         }
         return total;
     }

@@ -260,6 +260,9 @@ public class GamePanel extends JPanel {
         spawnPacket = new SpawnPackets();
         packetManager = new PacketManager(blockShapes, wiringManager, spawnPacket);
 
+        //
+        Thread paint = new Thread(this::repaint);
+
         //Timing
         gameTimer = new Timer(10, _ -> {
 
@@ -297,7 +300,7 @@ public class GamePanel extends JPanel {
 
             }
 
-            repaint();
+            paint.run();
 
         });
         gameTimer.start();
@@ -430,6 +433,7 @@ public class GamePanel extends JPanel {
         isRunning = true;
         isPause = false;
         interrupted = false;
+        generatedPackets = 0;
     }
 
     private void showSavePanel() {

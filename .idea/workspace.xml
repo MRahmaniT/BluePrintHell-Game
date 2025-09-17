@@ -4,79 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="Phase 3&#10;Update Save and Load">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Client/Storage/Facade/TcpRemoteGateway.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Client/View/ModeSelect/ModeSelect.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Server/TcpInfernoServer.java" afterDir="false" />
+    <list default="true" id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="Phase 3&#10;add server">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Client/Security/HmacSigner.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Client/Services/OnlineBootstrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Client/Storage/LocalSnapshotReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resources/Saves/Realtime/blockSystem.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Resources/Saves/players.json" beforeDir="false" afterPath="$PROJECT_DIR$/Resources/Saves/players.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/GameLoop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Controller/GameLoop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Levels/BuildLevel1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Controller/Levels/BuildLevel1.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Levels/BuildLevel2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Controller/Levels/BuildLevel2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/Arrival/ArrivedPackets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Controller/Packets/Arrival/ArrivedPackets.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/Arrival/HandlePackets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Controller/Packets/Arrival/HandlePackets.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Controller/Packets/PacketManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/PacketPhysics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Controller/Packets/PacketPhysics.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/Spawning/FindWire.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Controller/Packets/Spawning/FindWire.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/Spawning/SpawnConditions.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Controller/Packets/Spawning/SpawnConditions.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Packets/Spawning/SpawnPackets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Controller/Packets/Spawning/SpawnPackets.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Systems/BlockManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Controller/Systems/BlockManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Systems/ChangeBlocksLight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Controller/Systems/ChangeBlocksLight.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Timing/GameEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Controller/Timing/GameEngine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Timing/TimeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Controller/Timing/TimeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Controller/Wiring/WiringManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Controller/Wiring/WiringManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/Enums/BlockSystemType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Model/Enums/BlockSystemType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/Enums/PacketType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Model/Enums/PacketType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/Enums/PortRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Model/Enums/PortRole.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/Enums/PortType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Model/Enums/PortType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/Enums/WireType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Model/Enums/WireType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/BlockSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Model/GameEntities/BlockSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Connection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Model/GameEntities/Connection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Impact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Model/GameEntities/Impact.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Packet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Model/GameEntities/Packet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Port.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Model/GameEntities/Port.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/OneFilletPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Model/GameEntities/Wire/OneFilletPath.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/StraightPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Model/GameEntities/Wire/StraightPath.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/ThreeFilletPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Model/GameEntities/Wire/ThreeFilletPath.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/TwoFilletPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Model/GameEntities/Wire/TwoFilletPath.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/Wire.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Model/GameEntities/Wire/Wire.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/GameEntities/Wire/WirePath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Model/GameEntities/Wire/WirePath.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Model/Player/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Model/Player/PlayerState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Model/Player/PlayerState.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Services/AudioManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Services/AudioManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Storage/Facade/RemoteGateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Storage/Facade/RemoteGateway.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Storage/Facade/StorageFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Storage/Facade/StorageFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Storage/Player/PlayerStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Storage/Player/PlayerStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Storage/RealTime/GameEnvironment/BlockSystemStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Storage/RealTime/GameEnvironment/BlockSystemStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Storage/RealTime/GameEnvironment/ClearSaves.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Storage/RealTime/GameEnvironment/ClearSaves.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Storage/RealTime/GameEnvironment/ConnectionStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Storage/RealTime/GameEnvironment/ConnectionStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Storage/RealTime/GameEnvironment/PacketStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Storage/RealTime/GameEnvironment/PacketStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Storage/RealTime/GameEnvironment/WireStorage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Storage/RealTime/GameEnvironment/WireStorage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Storage/RealTime/Snapshots/ClearSnapshots.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Storage/RealTime/Snapshots/ClearSnapshots.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Storage/RealTime/Snapshots/PacketSnapshots.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Storage/RealTime/Snapshots/PacketSnapshots.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Storage/RealTime/StorageLocks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Storage/RealTime/StorageLocks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/GameEnvironment/Background/BuildBackground.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/GameEnvironment/Background/BuildBackground.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/GameEnvironment/Options/HUDPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/GameEnvironment/Options/HUDPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/GameEnvironment/Options/ShopPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/GameEnvironment/Options/ShopPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/GamePage/GamePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/State/GameOverPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/GamePage/State/GameOverPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/State/LoadPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/GamePage/State/LoadPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/State/PausePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/GamePage/State/PausePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/State/SavePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/GamePage/State/SavePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/GamePage/State/WinPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/GamePage/State/WinPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/LevelPage/LevelPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/LevelPage/LevelPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/LoginPage/LoginPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/LoginPage/LoginPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/Main/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/Main/MainFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/MenuPage/MenuPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/MenuPage/MenuPanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Packet/PacketRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/Packet/PacketRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/System/EndSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/System/EndSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/System/GameShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/System/GameShape.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/System/RectangleShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/System/RectangleShape.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/System/StartSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/System/StartSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/System/TwoStairsSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/System/TwoStairsSystem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/Render/GameShapes/Wire/WireShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/Wire/WireShape.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/View/SettingsPage/SettingsPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/SettingsPage/SettingsPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_data/mohammad/BlockSystems.json" beforeDir="false" afterPath="$PROJECT_DIR$/server_data/mohammad/BlockSystems.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server_data/mohammad/Packets.json" beforeDir="false" afterPath="$PROJECT_DIR$/server_data/mohammad/Packets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Client/Controller/Wiring/WiringManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Controller/Wiring/WiringManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Client/Storage/Facade/TcpRemoteGateway.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Storage/Facade/TcpRemoteGateway.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Client/View/GamePage/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/GamePage/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Client/View/ModeSelect/ModeSelect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/ModeSelect/ModeSelect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/Wire/WireShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/Wire/WireShape.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Server/TcpInfernoServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Server/TcpInfernoServer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,21 +60,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.InfernoServer.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.TcpInfernoServer.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/mohammad/University/AP/Project/Phase-3",
-    "settings.editor.selected.configurable": "terminal"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.InfernoServer.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TcpInfernoServer.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/mohammad/University/AP/Project/Phase-3&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/Resources" />
@@ -403,7 +345,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758103904690</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="Phase 3&#10;add server">
+      <option name="closed" value="true" />
+      <created>1758107250607</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1758107250607</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -464,7 +414,8 @@
     <MESSAGE value="Phase 2&#10;Bulky" />
     <MESSAGE value="Phase 2 Deadline Version" />
     <MESSAGE value="Phase 3&#10;Update Save and Load" />
-    <option name="LAST_COMMIT_MESSAGE" value="Phase 3&#10;Update Save and Load" />
+    <MESSAGE value="Phase 3&#10;add server" />
+    <option name="LAST_COMMIT_MESSAGE" value="Phase 3&#10;add server" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

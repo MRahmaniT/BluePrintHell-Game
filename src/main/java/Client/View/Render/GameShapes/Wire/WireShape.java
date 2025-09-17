@@ -126,6 +126,31 @@ public class WireShape {
         }
     }
 
+    public double getWireLength () {
+        Path2D.Float pathA = blockA.getPortPath(portA);
+        Path2D.Float pathB = blockB.getPortPath(portB);
+        if (pathA == null || pathB == null) return 0;
+
+        Rectangle2D boundsA = pathA.getBounds2D();
+        Rectangle2D boundsB = pathB.getBounds2D();
+
+        Point2D.Float startPoint = new Point2D.Float((float) boundsA.getCenterX(), (float) boundsA.getCenterY());
+        Point2D.Float endPoint = new Point2D.Float((float) boundsB.getCenterX(), (float) boundsB.getCenterY());
+        WirePath wirePath;
+        if (wireType == WireType.STRAIGHT) {
+            wirePath = new StraightPath(startPoint, endPoint);
+        } else if (wireType == WireType.CURVE1) {
+            wirePath = new OneFilletPath(startPoint, midPoints.get(0), endPoint);
+        } else if (wireType == WireType.CURVE2) {
+            wirePath = new TwoFilletPath(startPoint, midPoints.get(0), midPoints.get(1), endPoint);
+        } else if (wireType == WireType.CURVE3) {
+            wirePath = new ThreeFilletPath(startPoint, midPoints.get(0), midPoints.get(1), midPoints.get(2), endPoint);
+        } else {
+            return 0;
+        }
+        return wirePath.length();
+    }
+
     public Point2D.Float getStartPoint () {
         Path2D.Float pathA = blockA.getPortPath(portA);
         if (pathA == null) return null;

@@ -25,7 +25,10 @@ public final class ModeSelect {
             String playerId = javax.swing.JOptionPane.showInputDialog(null, "Player ID", System.getProperty("user.name"));
             if (playerId == null || playerId.isBlank()) return false;
 
-            StorageFacade.useRemote(new TcpRemoteGateway(host, port, playerId));
+            var gateWay = new TcpRemoteGateway(host, port, playerId);
+            StorageFacade.useRemote(gateWay);
+            Client.Services.OnlineBootstrapper.bootstrap(gateWay);
+
             return true;
         } else if (r == 1) {
             StorageFacade.useLocal();
