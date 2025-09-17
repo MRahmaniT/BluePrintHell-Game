@@ -5,6 +5,7 @@ import Model.Enums.WireType;
 import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Connection;
 import Model.GameEntities.Wire.Wire;
+import Storage.Facade.StorageFacade;
 import Storage.RealTime.GameEnvironment.BlockSystemStorage;
 import Storage.RealTime.GameEnvironment.ConnectionStorage;
 import Storage.RealTime.GameEnvironment.WireStorage;
@@ -87,7 +88,7 @@ public class WiringManager {
     }
 
     public void handleMouseRelease(List<GameShape> blockShapes,int mouseX, int mouseY, double remainingWireLength) {
-        List<BlockSystem> blockSystems = BlockSystemStorage.LoadBlockSystems();
+        List<BlockSystem> blockSystems = StorageFacade.loadBlockSystems();
         if (dragging) {
             for (GameShape targetBlock : blockShapes) {
                 for (int i = 1; i <= 4; i++) {
@@ -155,9 +156,9 @@ public class WiringManager {
             filleting = false;
         }
 
-        BlockSystemStorage.SaveBlockSystems(blockSystems);
-        ConnectionStorage.SaveConnections(connections);
-        WireStorage.SaveWires(wires);
+        StorageFacade.saveBlockSystems(blockSystems);
+        StorageFacade.saveConnections(connections);
+        StorageFacade.saveWires(wires);
     }
 
     private BlockSystem getBlockSystem (List<BlockSystem> blockSystems, int id) {

@@ -5,6 +5,7 @@ import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Connection;
 import Model.GameEntities.Packet;
 import Model.Player.PlayerState;
+import Storage.Facade.StorageFacade;
 import Storage.RealTime.GameEnvironment.BlockSystemStorage;
 import Storage.RealTime.GameEnvironment.ConnectionStorage;
 import Storage.RealTime.GameEnvironment.PacketStorage;
@@ -23,7 +24,7 @@ public class HandlePackets {
 
     public void Handle (List<ArrivedPackets> arrivedPackets, List<Packet> lostPackets, int lostPacketsCount) {
 
-        List<BlockSystem> blockSystems = BlockSystemStorage.LoadBlockSystems();
+        List<BlockSystem> blockSystems = StorageFacade.loadBlockSystems();
 
         for (ArrivedPackets arrivedPacket : arrivedPackets) {
 
@@ -31,7 +32,7 @@ public class HandlePackets {
             boolean isActive = true;
             Packet arrrivedPacket = null;
 
-            List<Packet> packets = PacketStorage.LoadPackets();
+            List<Packet> packets = StorageFacade.loadPackets();
             for (Packet packet : packets) {
                 if (packet.getId() == packetId) {
                     isActive = blockSystems.get(packet.getToBlockIdx()).isActive();
@@ -43,7 +44,7 @@ public class HandlePackets {
                 for (Packet packet : packets) {
                     if (packet.getId() == packetId) {
                         packet.startOnWire(packet.getConnectionIdx(), packet.getToBlockIdx(), packet.getToPort(), packet.getFromBlockIdx(), packet.getFromPort());
-                        PacketStorage.SavePackets(packets);
+                        StorageFacade.savePackets(packets);
                     }
                 }
             } else {
@@ -51,18 +52,18 @@ public class HandlePackets {
                 if (arrrivedPacket.getSpeed() >= maxSpeed) {
                     deActiveDestinationSystem(arrivedPacket.getDestinationBlockSystemId());
 
-                    List<Packet> packets2 = PacketStorage.LoadPackets();
+                    List<Packet> packets2 = StorageFacade.loadPackets();
                     for (Packet packet : packets2) {
                         if (packet.getPacketType() == PacketType.PROTECTED) {
                             if (packet.getProtectedBy() == arrivedPacket.getDestinationBlockSystemId()) {
                                 packet.setPacketType(packet.getFirstType());
-                                PacketStorage.SavePackets(packets2);
+                                StorageFacade.savePackets(packets2);
                             }
                         }
                     }
                 }
 
-                List<Packet> packets3 = PacketStorage.LoadPackets();
+                List<Packet> packets3 = StorageFacade.loadPackets();
                 for (Packet packet : packets3) {
                     if (packet.getId() == packetId) {
                         //free line
@@ -72,8 +73,8 @@ public class HandlePackets {
                         packet.parkInBlock(arrivedPacket.getDestinationBlockSystemId());
                         blockSystems.get(arrivedPacket.getDestinationBlockSystemId()).addPacket(packet.getId());
 
-                        PacketStorage.SavePackets(packets3);
-                        BlockSystemStorage.SaveBlockSystems(blockSystems);
+                        StorageFacade.savePackets(packets3);
+                        StorageFacade.saveBlockSystems(blockSystems);
                     }
                 }
 
@@ -94,43 +95,43 @@ public class HandlePackets {
         }
         arrivedPackets.clear();
 
-        List<Packet> packets = PacketStorage.LoadPackets();
+        List<Packet> packets = StorageFacade.loadPackets();
         for (Packet packet : lostPackets) {
             freeLine(packet);
             for (Packet packet1 : packets) {
                 if (packet1.getId() == packet.getId()) {
                     packet1.markLost();
                     packet.markLost();
-                    PacketStorage.SavePackets(packets);
+                    StorageFacade.savePackets(packets);
                 }
             }
             lostPacketsCount++;
         }
 
-        BlockSystemStorage.SaveBlockSystems(blockSystems);
+        StorageFacade.saveBlockSystems(blockSystems);
     }
 
     public void deActiveDestinationSystem(int blockSystemId) {
-        List<BlockSystem> blockSystems = BlockSystemStorage.LoadBlockSystems();
+        List<BlockSystem> blockSystems = StorageFacade.loadBlockSystems();
         blockSystems.get(blockSystemId).setActive(false);
-        BlockSystemStorage.SaveBlockSystems(blockSystems);
+        StorageFacade.saveBlockSystems(blockSystems);
 
         Timer timer = new Timer(5 * 1000, e -> {
-            List<BlockSystem> blockSystems1 = BlockSystemStorage.LoadBlockSystems();
+            List<BlockSystem> blockSystems1 = StorageFacade.loadBlockSystems();
             blockSystems1.get(blockSystemId).setActive(true);
-            BlockSystemStorage.SaveBlockSystems(blockSystems1);
+            StorageFacade.saveBlockSystems(blockSystems);
         });
         timer.setRepeats(false);
         timer.start();
     }
 
     private void freeLine(Packet p) {
-        List<Connection> connections = ConnectionStorage.LoadConnections();
+        List<Connection> connections = StorageFacade.loadConnections();
         int idx = p.getConnectionIdx();
         for (Connection connection : connections) {
             if (connection.getId() == idx) {
                 connection.setPacketOnLine(false);
-                ConnectionStorage.SaveConnections(connections);
+                StorageFacade.saveConnections(connections);
             }
         }
         p.setConnectionIdx(-1);

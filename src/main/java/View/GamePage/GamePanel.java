@@ -14,6 +14,7 @@ import Model.GameEntities.Packet;
 
 import Model.GameEntities.Wire.Wire;
 import Model.Player.Player;
+import Storage.Facade.StorageFacade;
 import Storage.Player.PlayerStorage;
 import Storage.RealTime.GameEnvironment.ClearSaves;
 import Storage.RealTime.GameEnvironment.ConnectionStorage;
@@ -167,8 +168,8 @@ public class GamePanel extends JPanel {
         BuildBackground.buildBackground(screenSizeX, screenSizeY, shapes);
 
         // PreLoading
-        wiringManager.setConnections(ConnectionStorage.LoadConnections());
-        wiringManager.setWires(WireStorage.LoadWires());
+        wiringManager.setConnections(StorageFacade.loadConnections());
+        wiringManager.setWires(StorageFacade.loadWires());
 
         //Build Level
         switch (levelOnGoing) {
@@ -266,7 +267,7 @@ public class GamePanel extends JPanel {
         gameTimer = new Timer(10, _ -> {
 
             if (isRunning && !interrupted) {
-                PacketSnapshots.SavePacketSnapshot(PacketStorage.LoadPackets(), timeController.getTime());
+                PacketSnapshots.SavePacketSnapshot(StorageFacade.loadPackets(), timeController.getTime());
             }
 
             GameLoop.Start(gameTimer, hudPanel, winPanel, gameOverPanel,
@@ -313,7 +314,7 @@ public class GamePanel extends JPanel {
             @Override
             public void keyTyped(KeyEvent e) {
                 if (e.getKeyChar() == 'p') {
-                    List<Packet> packets = PacketStorage.LoadPackets();
+                    List<Packet> packets = StorageFacade.loadPackets();
                     if (packets.isEmpty()) {
                         for (int i = 0; i < 3; i++) {
                             spawnPacket.addPacketToBlock(0, new Packet(generatedPackets, PacketType.MESSENGER_2));
@@ -403,10 +404,10 @@ public class GamePanel extends JPanel {
     }
 
     public void resetAllNoise() {
-        List<Packet> packets = PacketStorage.LoadPackets();
+        List<Packet> packets = StorageFacade.loadPackets();
         for (Packet packet : packets){
             packet.resetNoise();
-            PacketStorage.SavePackets(packets);
+            StorageFacade.savePackets(packets);
         }
     }
 
@@ -509,7 +510,7 @@ public class GamePanel extends JPanel {
 
         //Packet
         if (!interrupted) {
-            List<Packet> packets = PacketStorage.LoadPackets();
+            List<Packet> packets = StorageFacade.loadPackets();
             for (Packet p : packets) {
                 if (!p.isOnWire()) continue;
                 PacketRenderer.draw(g2d, p);

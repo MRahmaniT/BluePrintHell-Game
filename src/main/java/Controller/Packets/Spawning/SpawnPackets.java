@@ -4,6 +4,7 @@ import Model.Enums.PortType;
 import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Connection;
 import Model.GameEntities.Packet;
+import Storage.Facade.StorageFacade;
 import Storage.RealTime.GameEnvironment.BlockSystemStorage;
 import Storage.RealTime.GameEnvironment.ConnectionStorage;
 import Storage.RealTime.GameEnvironment.PacketStorage;
@@ -16,9 +17,9 @@ public class SpawnPackets implements Runnable{
 
     @Override
     public void run(){
-        List<BlockSystem> blockSystems = BlockSystemStorage.LoadBlockSystems();
-        List<Connection> connections = ConnectionStorage.LoadConnections();
-        List<Packet> packets = PacketStorage.LoadPackets();
+        List<BlockSystem> blockSystems = StorageFacade.loadBlockSystems();
+        List<Connection> connections = StorageFacade.loadConnections();
+        List<Packet> packets = StorageFacade.loadPackets();
 
         Packet firstPacketInQueue;
 
@@ -56,24 +57,24 @@ public class SpawnPackets implements Runnable{
             blockSystem.pollNextPacketId();
 
             //save
-            BlockSystemStorage.SaveBlockSystems(blockSystems);
-            ConnectionStorage.SaveConnections(connections);
-            PacketStorage.SavePackets(packets);
+            StorageFacade.saveBlockSystems(blockSystems);
+            StorageFacade.saveConnections(connections);
+            StorageFacade.savePackets(packets);
         }
     }
 
     public void addPacketToBlock(int blockId, Packet packet) {
 
-        List<BlockSystem> blockSystems = BlockSystemStorage.LoadBlockSystems();
-        List<Packet> packets = PacketStorage.LoadPackets();
+        List<BlockSystem> blockSystems = StorageFacade.loadBlockSystems();
+        List<Packet> packets = StorageFacade.loadPackets();
 
         packet.parkInBlock(blockId);
         blockSystems.get(blockId).addPacket(packet.getId());
-        BlockSystemStorage.SaveBlockSystems(blockSystems);
+        StorageFacade.saveBlockSystems(blockSystems);
 
         if (!packets.contains(packet)) {
             packets.add(packet);
-            PacketStorage.SavePackets(packets);
+            StorageFacade.savePackets(packets);
         }
     }
 }

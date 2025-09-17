@@ -5,6 +5,7 @@ import Controller.Wiring.WiringManager;
 import Model.Enums.WireType;
 import Model.GameEntities.Packet;
 import Model.GameEntities.Wire.*;
+import Storage.Facade.StorageFacade;
 import Storage.RealTime.GameEnvironment.PacketStorage;
 import View.Render.GameShapes.System.GameShape;
 import View.Main.MainFrame;
@@ -37,7 +38,7 @@ public class PacketPhysics implements Runnable {
     public void run() {
 
         float dt = 0.01f;
-        List<Packet> packets = PacketStorage.LoadPackets();
+        List<Packet> packets = StorageFacade.loadPackets();
 
         for (Packet packet : packets) {
             if (!packet.isOnWire()) continue;
@@ -110,7 +111,7 @@ public class PacketPhysics implements Runnable {
         }
 
         if (!packets.isEmpty()) {
-            PacketStorage.SavePackets(packets);
+            StorageFacade.savePackets(packets);
         }
     }
 

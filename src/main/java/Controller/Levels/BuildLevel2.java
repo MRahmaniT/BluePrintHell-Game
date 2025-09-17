@@ -5,6 +5,7 @@ import Model.Enums.PortRole;
 import Model.Enums.PortType;
 import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Port;
+import Storage.Facade.StorageFacade;
 import Storage.RealTime.GameEnvironment.BlockSystemStorage;
 import View.Render.GameShapes.System.EndSystem;
 import View.Render.GameShapes.System.StartSystem;
@@ -18,7 +19,7 @@ import java.util.List;
 public class BuildLevel2 {
     public static void buildLevel2(int screenSizeX, List<GameShape> blockShapes){
 
-        List<BlockSystem> blockSystems = BlockSystemStorage.LoadBlockSystems();
+        List<BlockSystem> blockSystems = StorageFacade.loadBlockSystems();
         BlockSystem blockSystem;
         GameShape block;
         Port port1,port2,port3,port4;
@@ -85,6 +86,6 @@ public class BuildLevel2 {
 
 
 
-        BlockSystemStorage.SaveBlockSystems(blockSystems);
+        StorageFacade.saveBlockSystems(blockSystems);
     }
 }

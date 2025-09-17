@@ -1,6 +1,7 @@
 package Controller.Systems;
 
 import Model.GameEntities.BlockSystem;
+import Storage.Facade.StorageFacade;
 import Storage.RealTime.GameEnvironment.BlockSystemStorage;
 import View.Render.GameShapes.System.GameShape;
 
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class ChangeBlocksLight {
     public static void changeBlocksLight (List<GameShape> blockShapes) {
-        List<BlockSystem> blockSystems = BlockSystemStorage.LoadBlockSystems();
+        List<BlockSystem> blockSystems = StorageFacade.loadBlockSystems();
         for (int i = 0; i < blockSystems.size(); i++){
             boolean allConnected = true;
             for (int j = 1; j <= 4; j++) {
@@ -20,6 +21,6 @@ public class ChangeBlocksLight {
             }
             blockShapes.get(i).setColor(allConnected ? Color.CYAN : Color.RED);
         }
-        BlockSystemStorage.SaveBlockSystems(blockSystems);
+        StorageFacade.saveBlockSystems(blockSystems);
     }
 }

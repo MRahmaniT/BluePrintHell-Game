@@ -6,6 +6,7 @@ import Controller.Packets.Spawning.SpawnPackets;
 import Controller.Wiring.WiringManager;
 import Model.GameEntities.Impact;
 import Model.GameEntities.Packet;
+import Storage.Facade.StorageFacade;
 import Storage.RealTime.GameEnvironment.PacketStorage;
 import View.Render.GameShapes.System.GameShape;
 import View.Render.GameShapes.Packet.PacketRenderer;
@@ -47,7 +48,7 @@ public class PacketManager {
     public PacketManager(List<GameShape> blockShapes,
                          WiringManager wiringManager,
                          SpawnPackets spawnPackets) {
-        packets = PacketStorage.LoadPackets();
+        packets = StorageFacade.loadPackets();
         this.handlePackets = new HandlePackets();
         this.physics = new PacketPhysics(blockShapes, wiringManager, arrivedPackets, lostPackets);
         this.spawnPackets = spawnPackets;
@@ -62,14 +63,14 @@ public class PacketManager {
         physics.run();
 
         // 2) find impacts
-        packets = PacketStorage.LoadPackets();
+        packets = StorageFacade.loadPackets();
         for (Packet p : packets) {
             if (!p.isOnWire()) continue;
             findImpact(packets, p);
         }
 
         //3) apply impacts
-        packets = PacketStorage.LoadPackets();
+        packets = StorageFacade.loadPackets();
         manageImpact(packets);
 
         // 4) handle arrivedPackets & lostPackets
@@ -125,10 +126,10 @@ public class PacketManager {
 
                 if (p.getId() == impact.packet1.getId() || p.getId() == impact.packet2.getId()) {
                     p.addNoise(NOISE_PER_HIT);
-                    PacketStorage.SavePackets(packets);
+                    StorageFacade.savePackets(packets);
                 } else if (!waveIsDisabled) {
                     physics.applyImpact(p, impact.point.x, impact.point.y);
-                    PacketStorage.SavePackets(packets);
+                    StorageFacade.savePackets(packets);
                 }
             }
         }

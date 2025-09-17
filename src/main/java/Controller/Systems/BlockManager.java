@@ -1,6 +1,7 @@
 package Controller.Systems;
 
 import Model.GameEntities.BlockSystem;
+import Storage.Facade.StorageFacade;
 import Storage.RealTime.GameEnvironment.BlockSystemStorage;
 import View.Render.GameShapes.System.GameShape;
 
@@ -30,7 +31,7 @@ public class BlockManager {
     }
 
     public void handleMouseRelease(int mouseX, int mouseY) {
-        List<BlockSystem> blockSystems = BlockSystemStorage.LoadBlockSystems();
+        List<BlockSystem> blockSystems = StorageFacade.loadBlockSystems();
         if (!dragging) return;
         dragging = false;
         Point move = new Point(mouseX - startPoint.x + sourcePosition.x,
@@ -39,7 +40,7 @@ public class BlockManager {
         blockSystems.get(blockId).setX(move.x);
         blockSystems.get(blockId).setY(move.y);
 
-        BlockSystemStorage.SaveBlockSystems(blockSystems);
+        StorageFacade.saveBlockSystems(blockSystems);
     }
 
     public void drawDrag(int mouseX, int mouseY) {

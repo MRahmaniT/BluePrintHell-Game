@@ -7,6 +7,7 @@ import Model.GameEntities.BlockSystem;
 import Model.GameEntities.Connection;
 import Model.GameEntities.Packet;
 import Model.GameEntities.Wire.Wire;
+import Storage.Facade.StorageFacade;
 import Storage.RealTime.GameEnvironment.ConnectionStorage;
 import Storage.RealTime.GameEnvironment.PacketStorage;
 import Storage.RealTime.GameEnvironment.WireStorage;
@@ -96,17 +97,17 @@ public class SpawnConditions {
             case DISTRIBUTE -> {
                 switch (packetType){
                     case BULKY_8 -> {
-                        List<Packet> packets = PacketStorage.LoadPackets();
+                        List<Packet> packets = StorageFacade.loadPackets();
                         for (int packetId : blockSystems.get(packet.getBlockIdx()).getQueueOfPackets()) {
                             for (Packet packet1 : packets) {
                                 if (packet1.getId() == packetId && packetId != packet.getId()) {
                                     blockSystems.get(packet.getBlockIdx()).getQueueOfPackets().remove(packetId);
                                     packet1.markLost();
-                                    PacketStorage.SavePackets(packets);
+                                    StorageFacade.savePackets(packets);
                                 } else if (packetId == packet.getId()){
                                     blockSystems.get(packet.getBlockIdx()).getQueueOfPackets().remove(packetId);
                                     packet.setLocation(Packet.Location.DISTRIBUTED);
-                                    PacketStorage.SavePackets(packets);
+                                    StorageFacade.savePackets(packets);
                                 }
 
                             }
@@ -122,17 +123,17 @@ public class SpawnConditions {
                         }
                     }
                     case BULKY_10 -> {
-                        List<Packet> packets = PacketStorage.LoadPackets();
+                        List<Packet> packets = StorageFacade.loadPackets();
                         for (int packetId : blockSystems.get(packet.getBlockIdx()).getQueueOfPackets()) {
                             for (Packet packet1 : packets) {
                                 if (packet1.getId() == packetId && packetId != packet.getId()) {
                                     blockSystems.get(packet.getBlockIdx()).getQueueOfPackets().remove(packetId);
                                     packet1.markLost();
-                                    PacketStorage.SavePackets(packets);
+                                    StorageFacade.savePackets(packets);
                                 } else if (packetId == packet.getId()){
                                     blockSystems.get(packet.getBlockIdx()).getQueueOfPackets().remove(packetId);
                                     packet.setLocation(Packet.Location.DISTRIBUTED);
-                                    PacketStorage.SavePackets(packets);
+                                    StorageFacade.savePackets(packets);
                                 }
 
                             }
@@ -154,14 +155,14 @@ public class SpawnConditions {
                     case MESSENGER_1 -> {
                         if (packet.getBulkId() >= 0) {
                             int volume = 0;
-                            List<Packet> packets = PacketStorage.LoadPackets();
+                            List<Packet> packets = StorageFacade.loadPackets();
                             for (int packetId : blockSystems.get(packet.getBlockIdx()).getQueueOfPackets()) {
                                 for (Packet packet1 : packets) {
                                     if (packet1.getId() == packetId && packet1.getBulkId() == packet.getBulkId()) {
                                         blockSystems.get(packet.getBlockIdx()).getQueueOfPackets().remove(packet1.getId());
                                         packet1.setLocation(Packet.Location.DISTRIBUTED);
                                         volume = volume + packet1.getMergeVolume();
-                                        PacketStorage.SavePackets(packets);
+                                        StorageFacade.savePackets(packets);
                                     }
                                 }
                             }
@@ -192,14 +193,14 @@ public class SpawnConditions {
                 blockSystems.get(packet.getFromBlockIdx()).getPort(packet.getFromPort()).setType(portType);
                 blockSystems.get(packet.getToBlockIdx()).getPort(packet.getToPort()).setType(portType);
 
-                List<Connection> connections = ConnectionStorage.LoadConnections();
+                List<Connection> connections = StorageFacade.loadConnections();
                 Connection connection = null;
                 for (Connection connection1 : connections) {
                     if (packet.getConnectionIdx() == connection1.getId()) {
                         connection = connection1;
                     }
                 }
-                List<Wire> wires = WireStorage.LoadWires();
+                List<Wire> wires = StorageFacade.loadWires();
                 for (Wire wire : wires) {
                     assert connection != null;
                     if (wire.getId() == connection.getWireId()) {
@@ -207,7 +208,7 @@ public class SpawnConditions {
                         if (wire.getBulkyPassed() == 3) {
                             wire.setLost(true);
                         }
-                        WireStorage.SaveWires(wires);
+                        StorageFacade.saveWires(wires);
                     }
                 }
             }

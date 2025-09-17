@@ -6,6 +6,7 @@ import Controller.Timing.TimeController;
 import Controller.Wiring.WiringManager;
 import Model.GameEntities.BlockSystem;
 import Model.Player.PlayerState;
+import Storage.Facade.StorageFacade;
 import Storage.RealTime.GameEnvironment.BlockSystemStorage;
 import View.GameEnvironment.Options.HUDPanel;
 import View.GamePage.GamePanel;
@@ -62,7 +63,7 @@ public class GameLoop {
             }
         }
 
-        List<BlockSystem> blockSystems = BlockSystemStorage.LoadBlockSystems();
+        List<BlockSystem> blockSystems = StorageFacade.loadBlockSystems();
         if (!blockShapes.isEmpty() && !blockSystems.isEmpty() && totalPackets == blockSystems.getLast().queueCount()) {
             gameTimer.stop();
             MainFrame.audioManager.playSoundEffect("Resources/win.wav");
@@ -73,7 +74,7 @@ public class GameLoop {
                     coins
             );
             winPanel.setVisible(true);
-            BlockSystemStorage.SaveBlockSystems(blockSystems);
+            StorageFacade.saveBlockSystems(blockSystems);
         }
 
         if (packetManager.getLostPacketsCount() >= totalPackets / 2) {
