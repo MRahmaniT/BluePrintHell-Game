@@ -4,94 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="Phase 3&#10;shop 1, 3">
+    <list default="true" id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="Phase 3&#10;debug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Resources/Saves/Realtime/blockSystem.json" beforeDir="false" afterPath="$PROJECT_DIR$/Resources/Saves/Realtime/blockSystem.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.36.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.37.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.38.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.39.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.4.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.41.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.42.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.43.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.44.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.45.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.46.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.47.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.48.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.49.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.5.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.51.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.52.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.53.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.54.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.55.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.56.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.57.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.58.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.59.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.6.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.61.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.62.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.63.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.64.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.65.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.66.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.67.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.68.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.69.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.7.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.71.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.72.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.73.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.74.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.75.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.76.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.77.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.78.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.79.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.8.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.81.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.82.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.83.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.84.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.85.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.86.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.87.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.88.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.89.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.9.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.91.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.92.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.93.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.94.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.95.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.96.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.97.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.98.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@60.99.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@61.0.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@61.01.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@61.02.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@61.03.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@61.04.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@61.05.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@61.06.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@61.07.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@61.08.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@61.09.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@61.1.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@61.11.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@61.12.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@61.13.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@61.14.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@61.15.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@61.16.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@61.17.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@61.18.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Resources/Saves/Snapshot/packets@61.19.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Resources/Saves/players.json" beforeDir="false" afterPath="$PROJECT_DIR$/Resources/Saves/players.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Client/View/GamePage/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/GamePage/GamePanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -458,7 +375,23 @@
       <option name="project" value="LOCAL" />
       <updated>1758388280809</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="Phase 3&#10;shop 1, 3">
+      <option name="closed" value="true" />
+      <created>1758388853576</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1758388853576</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Phase 3&#10;debug">
+      <option name="closed" value="true" />
+      <created>1758389023879</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1758389023879</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -524,7 +457,8 @@
     <MESSAGE value="Phase 3&#10;debug offline" />
     <MESSAGE value="Phase 3&#10;intersect" />
     <MESSAGE value="Phase 3&#10;shop 1, 3" />
-    <option name="LAST_COMMIT_MESSAGE" value="Phase 3&#10;shop 1, 3" />
+    <MESSAGE value="Phase 3&#10;debug" />
+    <option name="LAST_COMMIT_MESSAGE" value="Phase 3&#10;debug" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -392,9 +392,11 @@ public class GamePanel extends JPanel {
             }
             @Override
             public void mouseReleased(MouseEvent e) {
-                wiringManager.handleMouseRelease(blockShapes, mousePointX, mousePointY, wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH));
-                blockManager.handleMouseRelease(mousePointX, mousePointY);
-                repaint();
+                if (!isRunning) {
+                    wiringManager.handleMouseRelease(blockShapes, mousePointX, mousePointY, wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH));
+                    blockManager.handleMouseRelease(mousePointX, mousePointY);
+                    repaint();
+                }
             }
         });
         addMouseMotionListener(new MouseMotionAdapter() {
