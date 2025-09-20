@@ -64,7 +64,7 @@ public class GamePanel extends JPanel {
 
     //For Wires
     private final WiringManager wiringManager = new WiringManager();
-    private final double MAX_WIRE_LENGTH = 2000;
+    private final double MAX_WIRE_LENGTH = 1000;
     private int mousePointX;
     private int mousePointY;
 

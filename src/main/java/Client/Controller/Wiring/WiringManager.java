@@ -104,6 +104,7 @@ public class WiringManager {
 
                             for (Connection connection : connections) {
                                 if (connection.contains(fromBlockSystemId, fromPortId)) {
+                                    fromBlockSystem.getPort(fromPortId).setConnected(false);
                                     getBlockSystem(blockSystems,connection.getFromSystemId()).getPort(connection.getFromPortId()).setConnected(false);
                                     getBlockSystem(blockSystems,connection.getToSystemId()).getPort(connection.getToPortId()).setConnected(false);
                                     connections.remove(connection);
@@ -141,6 +142,7 @@ public class WiringManager {
                             }
                             connections.add(connection);
 
+                            fromBlockSystem.getPort(fromPortId).setConnected(true);
                             getBlockSystem(blockSystems,fromBlockSystemId).getPort(fromPortId).setConnected(true);
                             getBlockSystem(blockSystems,targetBlock.getBlockSystem().getId()).getPort(i).setConnected(true);
 
