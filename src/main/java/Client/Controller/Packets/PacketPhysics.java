@@ -103,9 +103,17 @@ public class PacketPhysics implements Runnable {
 
             // Disable Acceleration
             for (Point2D.Float point : disableAccelerationPoints) {
-                if (Math.hypot(nearest.point.x - point.x, nearest.point.y - point.y)  < 4) {
+                if (Math.hypot(nearest.point.x - point.x, nearest.point.y - point.y)  < 5) {
                     packet.setAcceleration(0);
                     packet.setAccelerationChanger(0);
+                }
+            }
+
+            // Disable Miss Alignment
+            for (Point2D.Float point : disableMissAlignmentPoints) {
+                if (Math.hypot(nearest.point.x - point.x, nearest.point.y - point.y)  < 5) {
+                    packet.setXImpactDirection(0);
+                    packet.setYImpactDirection(0);
                 }
             }
 

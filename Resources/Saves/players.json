@@ -1,9 +1,9 @@
 [ {
   "username" : "a",
   "password" : "a",
-  "goldCount" : 29839,
+  "goldCount" : 29796,
   "levelNumber" : 1,
-  "timePlayed" : 61.19999999999639,
-  "madeDecision" : true,
+  "timePlayed" : 63.78999999999588,
+  "madeDecision" : false,
   "login" : true
 } ]
