@@ -13,6 +13,7 @@ import Client.View.Render.GameShapes.Packet.PacketRenderer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Area;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,11 @@ public class PacketManager {
     // shop toggles
     private boolean impactIsDisabled = false; // disable collision detection
     private boolean waveIsDisabled   = false; // disable outward impact wave
+    private boolean accelerationIsDisable = false;
+    private boolean missAlignmentIsDisable = false;
+
+    private final List<Point2D.Float> disableAccelerationPoints = new ArrayList<>();
+    private final List<Point2D.Float> disableMissAlignmentPoints = new ArrayList<>();
 
     // counters
     private int lostPacketsCount = 0;
@@ -49,7 +55,8 @@ public class PacketManager {
                          SpawnPackets spawnPackets) {
         packets = StorageFacade.loadPackets();
         this.handlePackets = new HandlePackets();
-        this.physics = new PacketPhysics(blockShapes, wiringManager, arrivedPackets, lostPackets);
+        this.physics = new PacketPhysics(blockShapes, wiringManager, arrivedPackets, lostPackets,
+                disableAccelerationPoints, disableMissAlignmentPoints);
         this.spawnPackets = spawnPackets;
         spawnThread = new Thread(spawnPackets);
     }
@@ -150,6 +157,30 @@ public class PacketManager {
         timer.start();
     }
     public boolean isWaveIsDisabled() { return waveIsDisabled; }
+
+    public void disableAccelerationForSeconds(int seconds, Point2D.Float point) {
+        disableAccelerationPoints.add(point);
+        accelerationIsDisable = true;
+        Timer timer = new Timer(seconds * 1000, e -> {
+            disableAccelerationPoints.remove(point);
+            accelerationIsDisable = false;
+        });
+        timer.setRepeats(false);
+        timer.start();
+    }
+    public boolean isAccelerationIsDisable() { return accelerationIsDisable; }
+
+    public void disableMissAlignmentForSeconds(int seconds, Point2D.Float point) {
+        disableMissAlignmentPoints.add(point);
+        missAlignmentIsDisable = true;
+        Timer timer = new Timer(seconds * 1000, e -> {
+            disableMissAlignmentPoints.remove(point);
+            missAlignmentIsDisable = false;
+        });
+        timer.setRepeats(false);
+        timer.start();
+    }
+    public boolean isMissAlignmentIsDisable() { return missAlignmentIsDisable; }
 
     public int getLostPacketsCount() { return lostPacketsCount; }
 

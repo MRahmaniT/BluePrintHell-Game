@@ -96,7 +96,7 @@ public class ShopPanel extends JPanel {
         buttonSoA.addActionListener(e -> {
             if (gamePanel.getCoins() >= 10) {
                 gamePanel.spendCoins(10);
-                gamePanel.disableImpactWaves(10);
+                gamePanel.setYouCanDisableAcceleration(true);
                 gamePanel.resumeGame();
             }else {
                 warning.setText("You don't have enough money!");
@@ -114,7 +114,7 @@ public class ShopPanel extends JPanel {
         buttonSoS.addActionListener(e -> {
             if (gamePanel.getCoins() >= 15) {
                 gamePanel.spendCoins(15);
-                gamePanel.disableImpactWaves(10);
+                gamePanel.setYouCanMoveBlock(true);
                 gamePanel.resumeGame();
             }else {
                 warning.setText("You don't have enough money!");
@@ -132,7 +132,7 @@ public class ShopPanel extends JPanel {
         buttonSoE.addActionListener(e -> {
             if (gamePanel.getCoins() >= 20) {
                 gamePanel.spendCoins(20);
-                gamePanel.disableImpactWaves(10);
+                gamePanel.setYouCanDisableMissAlignment(true);
                 gamePanel.resumeGame();
             }else {
                 warning.setText("You don't have enough money!");

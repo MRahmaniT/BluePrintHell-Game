@@ -136,6 +136,8 @@ public class WireShape {
         }
     }
 
+
+
     public double getWireLength () {
         Path2D.Float pathA = blockA.getPortPath(portA);
         Path2D.Float pathB = blockB.getPortPath(portB);

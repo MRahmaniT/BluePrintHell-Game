@@ -2,6 +2,7 @@ package Client.Controller.Systems;
 
 import Client.Model.GameEntities.BlockSystem;
 import Client.Storage.Facade.StorageFacade;
+import Client.View.GamePage.GamePanel;
 import Client.View.Render.GameShapes.System.GameShape;
 
 import java.awt.*;
@@ -9,11 +10,16 @@ import java.awt.geom.Path2D;
 import java.util.List;
 
 public class BlockManager {
+    private GamePanel gamePanel;
     private boolean dragging = false;
     private Point startPoint;
     private Point sourcePosition;
     private GameShape sourceBlock;
     private int blockId;
+
+    public BlockManager (GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
 
     public void handleMousePress(List<GameShape> blockShapes, int mouseX, int mouseY) {
         for (GameShape currentBlock : blockShapes) {
@@ -39,7 +45,16 @@ public class BlockManager {
         blockSystems.get(blockId).setX(move.x);
         blockSystems.get(blockId).setY(move.y);
 
+        if (gamePanel.getNotGoodPosition()) {
+            Point moveBack = new Point(sourcePosition.x, sourcePosition.y);
+            sourceBlock.setPosition(moveBack);
+            blockSystems.get(blockId).setX(moveBack.x);
+            blockSystems.get(blockId).setY(moveBack.y);
+        }
+
         StorageFacade.saveBlockSystems(blockSystems);
+
+        gamePanel.setYouCanMoveBlock(false);
     }
 
     public void drawDrag(int mouseX, int mouseY) {

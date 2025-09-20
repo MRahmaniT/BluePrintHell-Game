@@ -45,10 +45,8 @@ public class OneFilletPath implements WirePath {
         Nearest nearestTo1 = straightPathList.get(0).nearestTo(point, totalLength, 0);
         Nearest nearestTo2 = straightPathList.get(1).nearestTo(point, totalLength, straightPathList.get(0).length());
         if (nearestTo1.distance >= nearestTo2.distance) {
-            System.out.println(2);
             return nearestTo2;
         } else {
-            System.out.println(1);
             return nearestTo1;
         }
     }

@@ -4,8 +4,9 @@ import Client.Model.Enums.PortRole;
 import Client.Model.Enums.WireType;
 import Client.Model.GameEntities.BlockSystem;
 import Client.Model.GameEntities.Connection;
-import Client.Model.GameEntities.Wire.Wire;
+import Client.Model.GameEntities.Wire.*;
 import Client.Storage.Facade.StorageFacade;
+import Client.View.GamePage.GamePanel;
 import Client.View.Main.MainFrame;
 import Client.View.Render.GameShapes.System.GameShape;
 import Client.View.Render.GameShapes.Wire.WireShape;
@@ -19,6 +20,8 @@ import java.awt.geom.Point2D;
 
 public class WiringManager {
 
+    private GamePanel gamePanel;
+
     private boolean dragging = false;
     private boolean filleting = false;
     private boolean changingFillet = false;
@@ -27,7 +30,6 @@ public class WiringManager {
     private int filletingWireId;
 
     private GameShape fromBlockShape;
-    private BlockSystem fromBlockSystem;
     private int fromBlockSystemId;
     private int fromPortId;
     private boolean sourceIsEntrance;
@@ -38,6 +40,57 @@ public class WiringManager {
     private List<Wire> wires = new ArrayList<>();
     private List<WireShape> wireShapes = new ArrayList<>();
 
+    public WiringManager (GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
+
+    public void handleMouseClick(List<GameShape> blockShapes, int mouseX, int mouseY) {
+        List<BlockSystem> blockSystems = StorageFacade.loadBlockSystems();
+        boolean wantToRemove = false;
+        for (GameShape block : blockShapes) {
+            for (int i = 1; i <= 4; i++) {
+                Path2D.Float port = block.getPortPath(i);
+                if (port != null && port.contains(mouseX, mouseY)) {
+                    fromBlockShape = block;
+                    fromBlockSystemId = block.getBlockSystem().getId();
+                    fromPortId = i;
+                    wantToRemove = true;
+                    break;
+                }
+            }
+        }
+        if (wantToRemove) {
+            if (blockSystems.get(fromBlockSystemId).getPort(fromPortId).isConnected()) {
+
+                removeLine(fromBlockShape, fromPortId);
+
+                for (Connection connection : connections) {
+                    if (connection.contains(fromBlockSystemId, fromPortId)) {
+                        blockSystems.get(connection.getFromSystemId()).getPort(connection.getFromPortId()).setConnected(false);
+                        blockSystems.get(connection.getToSystemId()).getPort(connection.getToPortId()).setConnected(false);
+                        connections.remove(connection);
+                        break;
+                    }
+                }
+
+            }
+        }
+        StorageFacade.saveBlockSystems(blockSystems);
+
+        for (WireShape wireShape : wireShapes) {
+            if (wireShape.isNear(new Point2D.Float(mouseX,mouseY), 3)) {
+                if (gamePanel.getYouCanDisableAcceleration()) {
+                    gamePanel.disableAcceleration(20, new Point2D.Float(mouseX, mouseY));
+                    gamePanel.setYouCanDisableAcceleration(false);
+                } else if (gamePanel.getYouCanDisableMissAlignment()) {
+                    gamePanel.disableMissAlignment(30, new Point2D.Float(mouseX, mouseY));
+                    gamePanel.setYouCanDisableMissAlignment(false);
+                }
+                break;
+            }
+        }
+    }
+
     public void handleMousePress(List<GameShape> blockShapes, int mouseX, int mouseY) {
         for (GameShape block : blockShapes) {
             for (int i = 1; i <= 4; i++) {
@@ -47,7 +100,6 @@ public class WiringManager {
                     Rectangle2D bounds = port.getBounds2D();
                     startPoint = new Point((int) bounds.getCenterX(), (int) bounds.getCenterY());
                     fromBlockShape = block;
-                    fromBlockSystem = block.getBlockSystem();
                     fromBlockSystemId = block.getBlockSystem().getId();
                     fromPortId = i;
                     sourceIsEntrance = block.getBlockSystem().getPort(i).getRole() == PortRole.IN;
@@ -94,25 +146,9 @@ public class WiringManager {
 
                         boolean sameBlock = fromBlockSystemId == targetBlock.getBlockSystem().getId();
                         boolean alreadyConnected = targetBlock.getBlockSystem().getPort(i).isConnected() ||
-                                fromBlockSystem.getPort(fromPortId).isConnected();
-                        boolean sameModel = fromBlockSystem.getPort(fromPortId).getType() == targetBlock.getPortType(i);
+                                blockSystems.get(fromBlockSystemId).getPort(fromPortId).isConnected();
+                        boolean sameModel = blockSystems.get(fromBlockSystemId).getPort(fromPortId).getType() == targetBlock.getPortType(i);
                         boolean targetIsEntrance = targetBlock.getBlockSystem().getPort(i).getRole() == PortRole.IN;;
-
-                        if (sameBlock && fromBlockSystem.getPort(fromPortId).isConnected() && fromPortId == i) {
-
-                            removeLine(fromBlockShape, fromPortId);
-
-                            for (Connection connection : connections) {
-                                if (connection.contains(fromBlockSystemId, fromPortId)) {
-                                    fromBlockSystem.getPort(fromPortId).setConnected(false);
-                                    getBlockSystem(blockSystems,connection.getFromSystemId()).getPort(connection.getFromPortId()).setConnected(false);
-                                    getBlockSystem(blockSystems,connection.getToSystemId()).getPort(connection.getToPortId()).setConnected(false);
-                                    connections.remove(connection);
-                                    break;
-                                }
-                            }
-
-                        }
 
                         if (!sameBlock && !alreadyConnected && sameModel && (sourceIsEntrance ^ targetIsEntrance)) {
 
@@ -142,9 +178,8 @@ public class WiringManager {
                             }
                             connections.add(connection);
 
-                            fromBlockSystem.getPort(fromPortId).setConnected(true);
-                            getBlockSystem(blockSystems,fromBlockSystemId).getPort(fromPortId).setConnected(true);
-                            getBlockSystem(blockSystems,targetBlock.getBlockSystem().getId()).getPort(i).setConnected(true);
+                            blockSystems.get(fromBlockSystemId).getPort(fromPortId).setConnected(true);
+                            blockSystems.get(targetBlock.getBlockSystem().getId()).getPort(i).setConnected(true);
 
                         }
                     }
@@ -160,9 +195,6 @@ public class WiringManager {
         StorageFacade.saveWires(wires);
     }
 
-    private BlockSystem getBlockSystem (List<BlockSystem> blockSystems, int id) {
-        return blockSystems.get(id);
-    }
     private void removeLine (GameShape blockSystem, int port){
         for (WireShape wireShape : wireShapes) {
             if ((wireShape.getBlockA() == blockSystem && wireShape.getPortA() == port) || (wireShape.getBlockB() == blockSystem && wireShape.getPortB() == port )){
@@ -238,6 +270,5 @@ public class WiringManager {
     public void setWires(List<Wire> wires) {
         this.wires = wires;
     }
-
 
 }

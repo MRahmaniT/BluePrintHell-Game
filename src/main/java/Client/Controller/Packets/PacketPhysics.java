@@ -14,6 +14,7 @@ import Client.View.Render.GameShapes.Packet.PacketRenderer;
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PacketPhysics implements Runnable {
@@ -23,14 +24,21 @@ public class PacketPhysics implements Runnable {
     private final List<ArrivedPackets> arrivedPackets;
     private final List<Packet> lostPackets;
 
+    private final List<Point2D.Float> disableAccelerationPoints;
+    private final List<Point2D.Float> disableMissAlignmentPoints;
+
     public PacketPhysics(List<GameShape> blocks,
                          WiringManager wiringManager,
                          List<ArrivedPackets> arrivedPackets,
-                         List<Packet> lostPackets) {
+                         List<Packet> lostPackets,
+                         List<Point2D.Float> disableAccelerationPoints,
+                         List<Point2D.Float> disableMissAlignmentPoints) {
         this.blockShapes = blocks;
         this.wiringManager = wiringManager;
         this.arrivedPackets = arrivedPackets;
         this.lostPackets = lostPackets;
+        this.disableAccelerationPoints = disableAccelerationPoints;
+        this.disableMissAlignmentPoints = disableMissAlignmentPoints;
     }
 
     @Override
@@ -91,6 +99,14 @@ public class PacketPhysics implements Runnable {
                 packet.setProgress(1);
             } else {
                 packet.setProgress(newProgress);
+            }
+
+            // Disable Acceleration
+            for (Point2D.Float point : disableAccelerationPoints) {
+                if (Math.hypot(nearest.point.x - point.x, nearest.point.y - point.y)  < 4) {
+                    packet.setAcceleration(0);
+                    packet.setAccelerationChanger(0);
+                }
             }
 
             // Loss checks

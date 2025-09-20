@@ -38,7 +38,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.Area;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,16 +62,23 @@ public class GamePanel extends JPanel {
 
     //For Blocks
     private final List<GameShape> blockShapes = new ArrayList<>();
-    private final BlockManager blockManager = new BlockManager();
+    private final BlockManager blockManager = new BlockManager(this);
+
+    private boolean youCanMoveBlock = false;
+    private boolean notGoodPosition = false;
 
     //For Wires
-    private final WiringManager wiringManager = new WiringManager();
+    private final WiringManager wiringManager = new WiringManager(this);
     private final double MAX_WIRE_LENGTH = 1000;
     private int mousePointX;
     private int mousePointY;
 
+    private boolean youCanDisableAcceleration = false;
+    private boolean youCanDisableMissAlignment = false;
+
     //intersect
     private boolean isIntersected = false;
+
     //For HUD
     private final HUDPanel hudPanel;
 
@@ -304,9 +311,12 @@ public class GamePanel extends JPanel {
 
             }
 
-            isIntersected = false;
             paint.run();
-
+            if (isIntersected || wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH) < 0) {
+                notGoodPosition = true;
+            } else {
+                notGoodPosition = false;
+            }
         });
         gameTimer.start();
 
@@ -367,15 +377,21 @@ public class GamePanel extends JPanel {
         //Wiring
         addMouseListener(new MouseAdapter() {
             @Override
+            public void mouseClicked(MouseEvent e) {
+                wiringManager.handleMouseClick(blockShapes, mousePointX, mousePointY);
+            }
+
+            @Override
             public void mousePressed(MouseEvent e) {
-                if (!isRunning) {
+                if (!isRunning && !youCanDisableAcceleration && !youCanDisableMissAlignment) {
                     wiringManager.handleMousePress(blockShapes, mousePointX, mousePointY);
-                    blockManager.handleMousePress(blockShapes, mousePointX, mousePointY);
+                    if (youCanMoveBlock) {
+                        blockManager.handleMousePress(blockShapes, mousePointX, mousePointY);
+                    }
                 }
             }
             @Override
             public void mouseReleased(MouseEvent e) {
-
                 wiringManager.handleMouseRelease(blockShapes, mousePointX, mousePointY, wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH));
                 blockManager.handleMouseRelease(mousePointX, mousePointY);
                 repaint();
@@ -408,12 +424,44 @@ public class GamePanel extends JPanel {
         packetManager.disableImpactForSeconds(seconds);
     }
 
+    public void disableAcceleration(int seconds, Point2D.Float point) {
+        packetManager.disableAccelerationForSeconds(seconds, point);
+    }
+
+    public void disableMissAlignment(int seconds, Point2D.Float point) {
+        packetManager.disableMissAlignmentForSeconds(seconds, point);
+    }
+
     public void resetAllNoise() {
         List<Packet> packets = StorageFacade.loadPackets();
         for (Packet packet : packets){
             packet.resetNoise();
             StorageFacade.savePackets(packets);
         }
+    }
+
+    public boolean getYouCanDisableAcceleration() {
+        return youCanDisableAcceleration;
+    }
+
+    public void setYouCanDisableAcceleration(boolean youCanDisableAcceleration) {
+        this.youCanDisableAcceleration = youCanDisableAcceleration;
+    }
+
+    public boolean getYouCanDisableMissAlignment() {
+        return youCanDisableMissAlignment;
+    }
+
+    public void setYouCanDisableMissAlignment(boolean youCanDisableMissAlignment) {
+        this.youCanDisableMissAlignment = youCanDisableMissAlignment;
+    }
+
+    public void setYouCanMoveBlock (boolean b) {
+        youCanMoveBlock = b;
+    }
+
+    public boolean getNotGoodPosition () {
+        return notGoodPosition;
     }
 
     public void resumeGame() {
@@ -515,6 +563,7 @@ public class GamePanel extends JPanel {
         }
 
         //intersect
+        boolean willIntersect = false;
         for (GameShape blockShape : blockShapes) {
             for (WireShape wireShape : wiringManager.getWireShapes()) {
                 Shape s1 = blockShape.getShape();
@@ -529,10 +578,11 @@ public class GamePanel extends JPanel {
                 g2d.draw(a1);
 
                 if (!a1.isEmpty()){
-                    isIntersected = true;
+                    willIntersect = true;
                 }
             }
         }
+        isIntersected = willIntersect;
 
         //Packet
         if (!interrupted) {
