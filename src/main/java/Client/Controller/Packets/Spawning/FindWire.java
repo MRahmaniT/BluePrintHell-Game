@@ -4,6 +4,9 @@ import Client.Model.Enums.PortRole;
 import Client.Model.GameEntities.BlockSystem;
 import Client.Model.GameEntities.Connection;
 import Client.Model.GameEntities.Packet;
+import Client.Model.GameEntities.Wire.Wire;
+import Client.Storage.Facade.StorageFacade;
+import Client.View.Render.GameShapes.Wire.WireShape;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,16 @@ public class FindWire {
         List<Connection> options = new ArrayList<>();
 
         for (Connection connection : connections) {
+
+            // wire is disable
+            boolean wireIsLost = false;
+            List<Wire> wires = StorageFacade.loadWires();
+            for (Wire wire : wires) {
+                if (connection.getWireId() == wire.getId()) {
+                    if (wire.isLost()) wireIsLost = true;
+                }
+            }
+            if (wireIsLost) continue;
 
             // wire is busy
             if (connection.isPacketOnLine()) continue;
