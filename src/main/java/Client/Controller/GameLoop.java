@@ -12,11 +12,13 @@ import Client.View.GamePage.GamePanel;
 import Client.View.GamePage.State.GameOverPanel;
 import Client.View.GamePage.State.WinPanel;
 import Client.View.Main.MainFrame;
+import Client.View.Render.GameShapes.Packet.PacketRenderer;
 import Client.View.Render.GameShapes.System.GameShape;
 import Client.View.Render.GameShapes.Wire.WireShape;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.Area;
 import java.util.List;
 
 public class GameLoop {
@@ -53,12 +55,12 @@ public class GameLoop {
         );
 
         if(wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH) < 0){
-            for (WireShape line : wiringManager.getWireShapes()) {
-                line.setColor(Color.RED);
+            for (WireShape wireShape : wiringManager.getWireShapes()) {
+                wireShape.setColor(Color.RED);
             }
         }else {
-            for (WireShape line : wiringManager.getWireShapes()) {
-                line.setColor(Color.CYAN);
+            for (WireShape wireShape : wiringManager.getWireShapes()) {
+                wireShape.setColor(Color.CYAN);
             }
         }
 
@@ -84,6 +86,18 @@ public class GameLoop {
                     timeController.getFormattedTime()
             );
             gameOverPanel.setVisible(true);
+        }
+
+        // wire on system
+        for (GameShape blockShape : blockShapes) {
+            for (WireShape wireShape : wiringManager.getWireShapes()) {
+                Shape s1 = blockShape.getShape();
+                Shape s2 = wireShape.getWirePath();
+                if (s1 == null || s2 == null) continue;
+
+                Area a1 = new Area(s1);
+                a1.intersect(new Area(s2));
+            }
         }
     }
 }

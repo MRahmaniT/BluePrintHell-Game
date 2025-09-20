@@ -6,6 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="Phase 3&#10;debug offline">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resources/Saves/players.json" beforeDir="false" afterPath="$PROJECT_DIR$/Resources/Saves/players.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Client/Controller/GameLoop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Controller/GameLoop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Client/Model/GameEntities/Wire/StraightPath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/Model/GameEntities/Wire/StraightPath.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Client/View/GameEnvironment/Options/ShopPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/GameEnvironment/Options/ShopPanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Client/View/GamePage/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/GamePage/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/System/EndSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/System/EndSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/System/GameShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/System/GameShape.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/System/RectangleShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/System/RectangleShape.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/System/StartSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/System/StartSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/System/TwoStairsSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/System/TwoStairsSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/Wire/WireShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Client/View/Render/GameShapes/Wire/WireShape.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -348,7 +359,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758117566262</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="Phase 3&#10;debug offline">
+      <option name="closed" value="true" />
+      <created>1758370013500</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1758370013500</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

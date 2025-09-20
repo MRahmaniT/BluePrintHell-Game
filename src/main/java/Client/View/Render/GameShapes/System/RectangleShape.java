@@ -63,6 +63,11 @@ public class RectangleShape implements GameShape {
     }
 
     @Override
+    public Shape getShape() {
+        return null;
+    }
+
+    @Override
     public BlockSystem getBlockSystem() {
         return null;
     }

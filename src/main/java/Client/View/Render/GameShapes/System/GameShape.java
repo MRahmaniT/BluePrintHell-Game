@@ -42,5 +42,7 @@ public interface GameShape {
 
     Path2D.Float getTopPath();
 
+    Shape getShape();
+
     BlockSystem getBlockSystem();
 }

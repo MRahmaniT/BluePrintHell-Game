@@ -41,8 +41,7 @@ public class TwoStairsSystem implements GameShape {
 
         //Draw mid
         g.setColor(Color.gray);
-        g.fillRect((int)(x + 0.25*width), (int)(y+0.2*height),
-                   (int)(0.5*width), (int)(0.8*height));
+        g.fillRect((int)(x + 0.25*width), (int)(y+0.2*height), (int)(0.5*width), (int)(0.8*height));
 
         //Draw top
         g.setColor(Color.darkGray);
@@ -62,65 +61,65 @@ public class TwoStairsSystem implements GameShape {
         if (portType.getFirst() == PortType.MESSENGER_2){
             g.setColor(Color.GREEN);
             port1 = new Path2D.Float();
-            port1.moveTo((int)(x - 0.08*width), (int)(y+0.4*height-0.08*width));
-            port1.lineTo((int)(x + 0.08*width), (int)(y+0.4*height-0.08*width));
-            port1.lineTo((int)(x + 0.08*width), (int)(y+0.4*height+0.08*width));
-            port1.lineTo((int)(x - 0.08*width), (int)(y+0.4*height+0.08*width));
+            port1.moveTo((int)(x - 0.12*width), (int)(y+0.4*height-0.08*width));
+            port1.lineTo((int)(x + 0.04*width), (int)(y+0.4*height-0.08*width));
+            port1.lineTo((int)(x + 0.04*width), (int)(y+0.4*height+0.08*width));
+            port1.lineTo((int)(x - 0.12*width), (int)(y+0.4*height+0.08*width));
             g.fill(port1);
         } else if (portType.getFirst() == PortType.MESSENGER_3){
             g.setColor(Color.YELLOW);
             port1 = new Path2D.Float();
-            port1.moveTo((int)(x - 0.08*width), (int)(y+0.4*height-0.08*width));
-            port1.lineTo((int)(x + 0.08*width), (int)(y+0.4*height));
-            port1.lineTo((int)(x - 0.08*width), (int)(y+0.4*height+0.08*width));
+            port1.moveTo((int)(x - 0.12*width), (int)(y+0.4*height-0.08*width));
+            port1.lineTo((int)(x + 0.04*width), (int)(y+0.4*height));
+            port1.lineTo((int)(x - 0.12*width), (int)(y+0.4*height+0.08*width));
             g.fill(port1);
         }
         if (portType.get(1) == PortType.MESSENGER_2){
             g.setColor(Color.GREEN);
             port2 = new Path2D.Float();
-            port2.moveTo((int)(x - 0.08*width), (int)(y+0.8*height-0.08*width));
-            port2.lineTo((int)(x + 0.08*width), (int)(y+0.8*height-0.08*width));
-            port2.lineTo((int)(x + 0.08*width), (int)(y+0.8*height+0.08*width));
-            port2.lineTo((int)(x - 0.08*width), (int)(y+0.8*height+0.08*width));
+            port2.moveTo((int)(x - 0.12*width), (int)(y+0.8*height-0.08*width));
+            port2.lineTo((int)(x + 0.04*width), (int)(y+0.8*height-0.08*width));
+            port2.lineTo((int)(x + 0.04*width), (int)(y+0.8*height+0.08*width));
+            port2.lineTo((int)(x - 0.12*width), (int)(y+0.8*height+0.08*width));
             g.fill(port2);
         } else if (portType.get(1) == PortType.MESSENGER_3){
             g.setColor(Color.YELLOW);
             port2 = new Path2D.Float();
-            port2.moveTo((int)(x - 0.08*width), (int)(y+0.8*height-0.08*width));
-            port2.lineTo((int)(x + 0.08*width), (int)(y+0.8*height));
-            port2.lineTo((int)(x - 0.08*width), (int)(y+0.8*height+0.08*width));
+            port2.moveTo((int)(x - 0.12*width), (int)(y+0.8*height-0.08*width));
+            port2.lineTo((int)(x + 0.04*width), (int)(y+0.8*height));
+            port2.lineTo((int)(x - 0.12*width), (int)(y+0.8*height+0.08*width));
             g.fill(port2);
         }
         if (portType.get(2) == PortType.MESSENGER_2){
             g.setColor(Color.GREEN);
             port3 = new Path2D.Float();
-            port3.moveTo((int)(x - 0.08*width + width), (int)(y+0.4*height-0.08*width));
-            port3.lineTo((int)(x + 0.08*width + width), (int)(y+0.4*height-0.08*width));
-            port3.lineTo((int)(x + 0.08*width + width), (int)(y+0.4*height+0.08*width));
-            port3.lineTo((int)(x - 0.08*width + width), (int)(y+0.4*height+0.08*width));
+            port3.moveTo((int)(x - 0.04*width + width), (int)(y+0.4*height-0.08*width));
+            port3.lineTo((int)(x + 0.12*width + width), (int)(y+0.4*height-0.08*width));
+            port3.lineTo((int)(x + 0.12*width + width), (int)(y+0.4*height+0.08*width));
+            port3.lineTo((int)(x - 0.04*width + width), (int)(y+0.4*height+0.08*width));
             g.fill(port3);
         } else if (portType.get(2) == PortType.MESSENGER_3){
             g.setColor(Color.YELLOW);
             port3 = new Path2D.Float();
-            port3.moveTo((int)(x - 0.08*width + width), (int)(y+0.4*height-0.08*width));
-            port3.lineTo((int)(x + 0.08*width + width), (int)(y+0.4*height));
-            port3.lineTo((int)(x - 0.08*width + width), (int)(y+0.4*height+0.08*width));
+            port3.moveTo((int)(x - 0.04*width + width), (int)(y+0.4*height-0.08*width));
+            port3.lineTo((int)(x + 0.12*width + width), (int)(y+0.4*height));
+            port3.lineTo((int)(x - 0.04*width + width), (int)(y+0.4*height+0.08*width));
             g.fill(port3);
         }
         if (portType.get(3) == PortType.MESSENGER_2){
             g.setColor(Color.GREEN);
             port4 = new Path2D.Float();
-            port4.moveTo((int)(x - 0.08*width + width), (int)(y+0.8*height-0.08*width));
-            port4.lineTo((int)(x + 0.08*width + width), (int)(y+0.8*height-0.08*width));
-            port4.lineTo((int)(x + 0.08*width + width), (int)(y+0.8*height+0.08*width));
-            port4.lineTo((int)(x - 0.08*width + width), (int)(y+0.8*height+0.08*width));
+            port4.moveTo((int)(x - 0.04*width + width), (int)(y+0.8*height-0.08*width));
+            port4.lineTo((int)(x + 0.12*width + width), (int)(y+0.8*height-0.08*width));
+            port4.lineTo((int)(x + 0.12*width + width), (int)(y+0.8*height+0.08*width));
+            port4.lineTo((int)(x - 0.04*width + width), (int)(y+0.8*height+0.08*width));
             g.fill(port4);
         } else if (portType.get(3) == PortType.MESSENGER_3){
             g.setColor(Color.YELLOW);
             port4 = new Path2D.Float();
-            port4.moveTo((int)(x - 0.08*width + width), (int)(y+0.8*height-0.08*width));
-            port4.lineTo((int)(x + 0.08*width + width), (int)(y+0.8*height));
-            port4.lineTo((int)(x - 0.08*width + width), (int)(y+0.8*height+0.08*width));
+            port4.moveTo((int)(x - 0.04*width + width), (int)(y+0.8*height-0.08*width));
+            port4.lineTo((int)(x + 0.12*width + width), (int)(y+0.8*height));
+            port4.lineTo((int)(x - 0.04*width + width), (int)(y+0.8*height+0.08*width));
             g.fill(port4);
         }
     }
@@ -145,6 +144,11 @@ public class TwoStairsSystem implements GameShape {
         Rectangle2D.Float rect = new Rectangle2D.Float((int)x, (int)y, (int)width, (int)(0.2*height));
         path.append(rect, false);
         return path;
+    }
+
+    @Override
+    public Shape getShape() {
+        return new Rectangle2D.Float((int)x, (int)y, (int)width, (int)height);
     }
 
     @Override

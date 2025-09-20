@@ -37,6 +37,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -68,6 +70,8 @@ public class GamePanel extends JPanel {
     private int mousePointX;
     private int mousePointY;
 
+    //intersect
+    private boolean isIntersected = false;
     //For HUD
     private final HUDPanel hudPanel;
 
@@ -300,6 +304,7 @@ public class GamePanel extends JPanel {
 
             }
 
+            isIntersected = false;
             paint.run();
 
         });
@@ -313,7 +318,7 @@ public class GamePanel extends JPanel {
         addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
-                if (e.getKeyChar() == 'p') {
+                if (e.getKeyChar() == 'p' && !isIntersected) {
                     List<Packet> packets = StorageFacade.loadPackets();
                     if (packets.isEmpty()) {
                         for (int i = 0; i < 3; i++) {
@@ -495,8 +500,8 @@ public class GamePanel extends JPanel {
         }
 
         //For Lines
-        for (WireShape line : wiringManager.getWireShapes()) {
-            line.draw(g2d);
+        for (WireShape wireShape : wiringManager.getWireShapes()) {
+            wireShape.draw(g2d);
         }
 
         if (wiringManager.isDragging()) {
@@ -507,6 +512,26 @@ public class GamePanel extends JPanel {
         }
         if (blockManager.isDragging()) {
             blockManager.drawDrag(mousePointX, mousePointY);
+        }
+
+        //intersect
+        for (GameShape blockShape : blockShapes) {
+            for (WireShape wireShape : wiringManager.getWireShapes()) {
+                Shape s1 = blockShape.getShape();
+                BasicStroke stroke = new BasicStroke(3f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+                Shape s2 = stroke.createStrokedShape(wireShape.getWirePath());
+                if (s1 == null || s2 == null) continue;
+
+                Area a1 = new Area(s1);
+                a1.intersect(new Area(s2));
+
+                g2d.setColor(Color.red);
+                g2d.draw(a1);
+
+                if (!a1.isEmpty()){
+                    isIntersected = true;
+                }
+            }
         }
 
         //Packet

@@ -58,17 +58,17 @@ public class EndSystem implements GameShape {
         if (portType.getFirst() == PortType.MESSENGER_2){
             g.setColor(Color.GREEN);
             port1 = new Path2D.Float();
-            port1.moveTo((int)(x - 0.08*width), (int)(y+0.4*height-0.08*width));
-            port1.lineTo((int)(x + 0.08*width), (int)(y+0.4*height-0.08*width));
-            port1.lineTo((int)(x + 0.08*width), (int)(y+0.4*height+0.08*width));
-            port1.lineTo((int)(x - 0.08*width), (int)(y+0.4*height+0.08*width));
+            port1.moveTo((int)(x - 0.12*width), (int)(y+0.4*height-0.08*width));
+            port1.lineTo((int)(x + 0.04*width), (int)(y+0.4*height-0.08*width));
+            port1.lineTo((int)(x + 0.04*width), (int)(y+0.4*height+0.08*width));
+            port1.lineTo((int)(x - 0.12*width), (int)(y+0.4*height+0.08*width));
             g.fill(port1);
         } else if (portType.getFirst() == PortType.MESSENGER_3){
             g.setColor(Color.YELLOW);
             port1 = new Path2D.Float();
-            port1.moveTo((int)(x - 0.08*width), (int)(y+0.4*height-0.08*width));
-            port1.lineTo((int)(x + 0.08*width), (int)(y+0.4*height));
-            port1.lineTo((int)(x - 0.08*width), (int)(y+0.4*height+0.08*width));
+            port1.moveTo((int)(x - 0.12*width), (int)(y+0.4*height-0.08*width));
+            port1.lineTo((int)(x + 0.04*width), (int)(y+0.4*height));
+            port1.lineTo((int)(x - 0.12*width), (int)(y+0.4*height+0.08*width));
             g.fill(port1);
         }
 
@@ -92,6 +92,11 @@ public class EndSystem implements GameShape {
         Rectangle2D.Float rect = new Rectangle2D.Float((int)x, (int)y, (int)width, (int)(0.2*height));
         path.append(rect, false);
         return path;
+    }
+
+    @Override
+    public Shape getShape() {
+        return new Rectangle2D.Float((int)x, (int)y, (int)width, (int) (0.6*height));
     }
 
     @Override

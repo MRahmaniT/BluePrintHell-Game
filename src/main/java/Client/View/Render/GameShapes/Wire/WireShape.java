@@ -56,7 +56,7 @@ public class WireShape {
             wirePath = null;
         }
         g.setColor(color);
-        g.setStroke(new BasicStroke(4f));
+        g.setStroke(new BasicStroke(4f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         if (wirePath != null){
             g.draw(wirePath.toShape());
         }
@@ -73,10 +73,20 @@ public class WireShape {
 
         Point2D.Float startPoint = new Point2D.Float((float) boundsA.getCenterX(), (float) boundsA.getCenterY());
         Point2D.Float endPoint = new Point2D.Float((float) boundsB.getCenterX(), (float) boundsB.getCenterY());
+        WirePath wirePath;
+        if (wireType == WireType.STRAIGHT) {
+            wirePath = new StraightPath(startPoint, endPoint);
+        } else if (wireType == WireType.CURVE1) {
+            wirePath = new OneFilletPath(startPoint, midPoints.get(0), endPoint);
+        } else if (wireType == WireType.CURVE2) {
+            wirePath = new TwoFilletPath(startPoint, midPoints.get(0), midPoints.get(1), endPoint);
+        } else if (wireType == WireType.CURVE3) {
+            wirePath = new ThreeFilletPath(startPoint, midPoints.get(0), midPoints.get(1), midPoints.get(2), endPoint);
+        } else {
+            return null;
+        }
 
-        StraightPath straightPath = new StraightPath(startPoint, endPoint);
-
-        return straightPath.getPath();
+        return wirePath.getPath();
     }
 
     public GameShape getBlockA() {

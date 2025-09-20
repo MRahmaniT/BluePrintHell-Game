@@ -24,6 +24,7 @@ public final class StraightPath implements WirePath {
         Path2D.Float path = new Path2D.Float();
         path.moveTo(startPoint.x, startPoint.y);
         path.lineTo(endPoint.x, endPoint.y);
+        path.closePath();
         return path;
     }
 
@@ -31,6 +32,7 @@ public final class StraightPath implements WirePath {
         Path2D.Float path = new Path2D.Float();
         path.moveTo(startPoint.x, startPoint.y);
         path.lineTo(endPoint.x, endPoint.y);
+        path.closePath();
         return path;
     }
 
