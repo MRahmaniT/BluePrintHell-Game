@@ -1,5 +1,6 @@
 package Modes.Server;
 
+import MVC.Controller.GameLogic;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -210,17 +211,18 @@ public class TcpInfernoServer {
         int keyCode = payLoad.path("keyCode").asInt(0);
 
         if (!pressed) return; // usually act on key down; tweak as needed
+        /*
         switch (keyName) {
             case "P"      -> {
-                if (!gamePanel.isIntersected()) {
-                    gamePanel.handleP();
+                if (!GameLogic.isIntersected()) {
+                    GameLogic.handleP();
                 }
             }
             case "ESCAPE" -> GameController.escape();
             case "Left"   -> PlayerController.moveLeft();
             case "Right"  -> PlayerController.moveRight();
             default       -> GameController.onKey(keyCode, keyName);
-        }
+        }*/
     }
 
     private static void handleMouse(String playerId, JsonNode p) throws Exception {
@@ -230,19 +232,22 @@ public class TcpInfernoServer {
         double x = p.path("x").asDouble();
         double y = p.path("y").asDouble();
 
+        /*
         switch (type) {
+
             case "DOWN"  -> WiringManager.handleMousePress(x, y, button);
             case "UP"    -> WiringManager.handleMouseRelease(x, y, button);
             case "CLICK" -> WiringManager.handleMouseClick(x, y, button);
             case "DRAG"  -> WiringManager.handleMouseDrag(x, y, button);
             case "MOVE"  -> HoverManager.handleMove(x, y);
-            default      -> { /* ignore */ }
-        }
+            default      -> {}
+        }*/
     }
 
     private static void handleUi(String playerId, JsonNode p) throws Exception {
         if (p == null) return;
         String action = p.path("action").asText("");
+        /*
         switch (action) {
             case "OPEN_SHOP"    -> { GameState.setRunning(false); UI.shopOpen(); }
             case "SELECT_ITEM"  -> Shop.buy(p.path("itemId").asText(""));
@@ -251,6 +256,7 @@ public class TcpInfernoServer {
             case "RESUME"       -> GameController.resume();
             default             -> UI.onAction(action, p);
         }
+         */
     }
 
     // ===== Helpers (compat storage) =====

@@ -13,30 +13,18 @@ import javax.swing.*;
 public class LocalInputSink implements InputSink {
 
     private final GamePanel gamePanel;
-    private final WiringManager wiring;
     private final GameEngine engine;
-    private final SpawnPackets spawner;
     private final HUDPanel hud;
-    private final PausePanel pause;
-    private final Timer gameTimer;
 
     private int mousePointX;
     private int mousePointY;
 
     public LocalInputSink(GamePanel gamePanel,
-                          WiringManager wiring,
                           GameEngine engine,
-                          SpawnPackets spawner,
-                          HUDPanel hud,
-                          PausePanel pause,
-                          Timer gameTimer) {
+                          HUDPanel hud) {
         this.gamePanel = gamePanel;
-        this.wiring = wiring;
         this.engine = engine;
-        this.spawner = spawner;
         this.hud = hud;
-        this.pause = pause;
-        this.gameTimer = gameTimer;
     }
 
     @Override

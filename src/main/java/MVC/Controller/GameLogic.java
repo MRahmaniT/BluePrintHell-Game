@@ -132,10 +132,10 @@ public class GameLogic {
                 PacketSnapshots.SavePacketSnapshot(StorageFacade.loadPackets(), timeController.getTime());
             }
 
-            if (!online) {
-                GameLoop.Start(packetManager, wiringManager, timeController, gameEngine,
-                        blockShapes, MAX_WIRE_LENGTH, totalPackets, isRunning);
-            }
+
+            GameLoop.Start(packetManager, wiringManager, timeController, gameEngine,
+                    blockShapes, MAX_WIRE_LENGTH, totalPackets, isRunning);
+
 
             GameData gameData = StorageFacade.loadGameData();
             gamePanel.getHudPanel().update(gameData.getRemainingWireLength(), gameData.getFormatedTime(), gameData.getLostPackets(),
@@ -178,9 +178,7 @@ public class GameLogic {
 
             }
 
-            if (!online) {
-                gamePanel.getPainter().run();
-            }
+            gamePanel.getPainter().run();
 
             if (isIntersected || wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH) < 0) {
                 notGoodPosition = true;

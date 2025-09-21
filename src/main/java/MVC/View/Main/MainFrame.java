@@ -59,7 +59,7 @@ public class MainFrame extends JFrame {
         menuPanel = new MenuPanel();
         mainPanel.add(menuPanel, MENU);
 
-        gamePanel = new GamePanel(new RemoteInputSink(AppState.serverHost, AppState.serverPort, AppState.playerId));
+        gamePanel = new GamePanel();
         mainPanel.add(gamePanel, GAME);
 
         levelPanel = new LevelPanel();
@@ -93,7 +93,7 @@ public class MainFrame extends JFrame {
     public static void startGame(){
         minimizeAllOtherWindows();
         mainPanel.remove(gamePanel);
-        gamePanel = new GamePanel(new RemoteInputSink(AppState.serverHost, AppState.serverPort, AppState.playerId));
+        gamePanel = new GamePanel();
         mainPanel.add(gamePanel, GAME);
         setFullscreenMode(true);
         cardLayout.show(mainPanel, GAME);

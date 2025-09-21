@@ -45,7 +45,7 @@ public class GameLoop {
 
         List<BlockSystem> blockSystems = StorageFacade.loadBlockSystems();
         GameData gameData = new GameData(wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH),
-                timeController.getFormattedTime(), blockSystems.getLast().queueCount(), packetManager.getLostPacketsCount(),
+                timeController.getFormattedTime(), blockSystems.get(blockSystems.size()-1).queueCount(), packetManager.getLostPacketsCount(),
                 totalPackets, coins);
         StorageFacade.saveGameData(gameData);
 

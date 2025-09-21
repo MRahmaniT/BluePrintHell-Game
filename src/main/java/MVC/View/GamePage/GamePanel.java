@@ -2,9 +2,12 @@ package MVC.View.GamePage;
 
 import MVC.Controller.GameLogic;
 import MVC.Controller.Systems.ChangeBlocksLight;
+import MVC.Controller.Timing.GameEngine;
+import MVC.Controller.Timing.TimeController;
 import MVC.Model.GameEntities.Packet;
 
 import MVC.View.GamePage.State.*;
+import Modes.Client.LocalInputSink;
 import Modes.InputSink;
 import Storage.Facade.StorageFacade;
 import Storage.RealTime.Snapshots.PacketSnapshots;
@@ -68,7 +71,9 @@ public class GamePanel extends JPanel {
 
     Thread paint;
 
-    public GamePanel(InputSink input){
+    private final InputSink input;
+    public GamePanel(){
+        input = new LocalInputSink(this, new GameEngine(new TimeController()), getHudPanel());
         this.gameLogic = new GameLogic(this, input, false);
 
         setLayout(null);
@@ -213,11 +218,11 @@ public class GamePanel extends JPanel {
             @Override public void mouseMoved(MouseEvent e) {
                 mousePointX = e.getX() - getWidth() / 2;
                 mousePointY = e.getY() - getHeight() / 2;
-                input.mouseMove(mousePointX, mousePointY);
+                //input.mouseMove(mousePointX, mousePointY);
             }
             @Override public void mouseDragged(MouseEvent e) {
                 mouseMoved(e);
-                input.mouseDrag(e.getButton(), mousePointX, mousePointY);
+                //input.mouseDrag(e.getButton(), mousePointX, mousePointY);
             }
         });
 

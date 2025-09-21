@@ -4,12 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="Phase 3&#10;new mode">
-      <change beforePath="$PROJECT_DIR$/src/main/java/MVC/Controller/GameLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MVC/Controller/GameLogic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/MVC/Controller/Systems/BlockManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MVC/Controller/Systems/BlockManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/MVC/Controller/Wiring/WiringManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MVC/Controller/Wiring/WiringManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/MVC/View/GameEnvironment/Options/ShopPanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MVC/View/GameEnvironment/Options/ShopPanel.java" afterDir="false" />
+    <list default="true" id="f4504123-f434-444a-aa80-944be14faee5" name="Changes" comment="Phase 3&#10;new mode debug">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resources/Saves/Realtime/blockSystem.json" beforeDir="false" afterPath="$PROJECT_DIR$/Resources/Saves/Realtime/blockSystem.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Resources/Saves/players.json" beforeDir="false" afterPath="$PROJECT_DIR$/Resources/Saves/players.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MVC/View/GamePage/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MVC/View/GamePage/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/MVC/View/Main/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MVC/View/Main/MainFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Modes/Client/LocalInputSink.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Modes/Client/LocalInputSink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Modes/Server/TcpInfernoServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Modes/Server/TcpInfernoServer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -413,7 +415,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758488674783</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="Phase 3&#10;new mode debug">
+      <option name="closed" value="true" />
+      <created>1758489632301</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1758489632301</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -455,7 +465,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Phase 2&#10;impact completed" />
     <MESSAGE value="Phase 2&#10;wiring" />
     <MESSAGE value="Phase 2&#10;Packets" />
     <MESSAGE value="Phase 2&#10;Blocks" />
@@ -480,6 +489,7 @@
     <MESSAGE value="Phase 3&#10;shop 1, 3" />
     <MESSAGE value="Phase 3&#10;debug" />
     <MESSAGE value="Phase 3&#10;new mode" />
-    <option name="LAST_COMMIT_MESSAGE" value="Phase 3&#10;new mode" />
+    <MESSAGE value="Phase 3&#10;new mode debug" />
+    <option name="LAST_COMMIT_MESSAGE" value="Phase 3&#10;new mode debug" />
   </component>
 </project>
