@@ -1,0 +1,111 @@
+package MVC.View.MenuPage;
+
+import MVC.View.Main.MainFrame;
+import MVC.Model.Player.PlayerState;
+import Storage.Player.PlayerStorage;
+import MVC.View.ModeSelect.ModeSelect;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+
+public class MenuPanel extends JPanel {
+    private Image backgroundImage;
+    private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private final int screenSizeX = screenSize.width/2;
+    private final int screenSizeY = screenSize.height/2;
+    private final int fontSize = screenSizeX / 50;
+    private final int buttonsWidth = screenSizeX/3;
+    private final int buttonsHeight = screenSizeY/10;
+    private final int buttonSpace = screenSizeY/30;
+
+    public MenuPanel(){
+        setLayout(null);
+
+        //Add Background
+        try {
+            backgroundImage = ImageIO.read(new File("Resources/background2.jpg")); // put your real image path
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Add Label
+        JLabel welcomeLabel = new JLabel();
+        PlayerState.setPlayer(PlayerStorage.whoIsLogin());
+        if (PlayerState.isPlayerLoggedIn()) {
+            welcomeLabel.setText("Welcome " + PlayerState.getPlayer().getUsername() + "!");
+        } else {
+            welcomeLabel.setText("<html><a href=''>Please log in</a></html>");
+            welcomeLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            welcomeLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    MainFrame.showLogin();
+                }
+            });
+        }
+        welcomeLabel.setForeground(Color.WHITE);
+        welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        welcomeLabel.setBounds(screenSizeX / 2 - buttonsWidth/2, screenSizeY / 2 - 2*(buttonsHeight+buttonSpace), buttonsWidth, buttonsHeight);
+        welcomeLabel.setFont(new Font("Arial", Font.PLAIN, fontSize));
+
+        //Add Button Start
+        JButton startButton = new JButton("Start");
+        startButton.setBounds(screenSizeX / 2 - buttonsWidth/2, screenSizeY / 2 - (buttonsHeight+buttonSpace), buttonsWidth, buttonsHeight);
+        startButton.setFont(new Font("Arial", Font.BOLD, fontSize));
+
+        //Add Button Levels
+        JButton levelsButton = new JButton("Levels");
+        levelsButton.setBounds(screenSizeX / 2 - buttonsWidth/2, screenSizeY / 2 , buttonsWidth, buttonsHeight);
+        levelsButton.setFont(new Font("Arial", Font.BOLD, fontSize));
+
+        //Add Button Settings
+        JButton settingsButton = new JButton("Settings");
+        settingsButton.setBounds(screenSizeX / 2 - buttonsWidth/2, screenSizeY / 2 + (buttonsHeight+buttonSpace), buttonsWidth, buttonsHeight);
+        settingsButton.setFont(new Font("Arial", Font.BOLD, fontSize));
+
+        //Add Button Exit
+        JButton exitButton = new JButton("Exit");
+        exitButton.setBounds(screenSizeX / 2 - buttonsWidth/2, screenSizeY / 2 + 2*(buttonsHeight+buttonSpace), buttonsWidth, buttonsHeight);
+        exitButton.setFont(new Font("Arial", Font.BOLD, fontSize));
+
+        //Add All
+        add(welcomeLabel);
+        add(startButton);
+        add(levelsButton);
+        add(settingsButton);
+        add(exitButton);
+
+        startButton.addActionListener(_ -> {
+            if(!PlayerState.isPlayerLoggedIn()){
+                welcomeLabel.setFont(new Font("Arial", Font.BOLD, (int)(1.1*fontSize)));
+                return;
+            }
+            if (ModeSelect.askAndConfigure()) {
+                MainFrame.startGame();
+            }
+        });
+        levelsButton.addActionListener(_ -> {
+            MainFrame.showLevels();
+        });
+        settingsButton.addActionListener(_ -> {
+            MainFrame.showSettings();
+        });
+        exitButton.addActionListener(_ -> {
+            System.exit(0);
+        });
+
+    }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g.create();
+        int cx = getWidth() / 2;
+        int cy = getHeight() / 2;
+        g2d.translate(cx, cy);
+        g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        g2d.dispose();
+    }
+}
