@@ -1,5 +1,6 @@
 package MVC.Controller.Systems;
 
+import MVC.Controller.GameLogic;
 import MVC.Model.GameEntities.BlockSystem;
 import Storage.Facade.StorageFacade;
 import MVC.View.GamePage.GamePanel;
@@ -10,15 +11,13 @@ import java.awt.geom.Path2D;
 import java.util.List;
 
 public class BlockManager {
-    private GamePanel gamePanel;
     private boolean dragging = false;
     private Point startPoint;
     private Point sourcePosition;
     private GameShape sourceBlock;
     private int blockId;
 
-    public BlockManager (GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
+    public BlockManager () {
     }
 
     public void handleMousePress(List<GameShape> blockShapes, int mouseX, int mouseY) {
@@ -45,7 +44,7 @@ public class BlockManager {
         blockSystems.get(blockId).setX(move.x);
         blockSystems.get(blockId).setY(move.y);
 
-        if (gamePanel.getNotGoodPosition()) {
+        if (GameLogic.notGoodPosition) {
             Point moveBack = new Point(sourcePosition.x, sourcePosition.y);
             sourceBlock.setPosition(moveBack);
             blockSystems.get(blockId).setX(moveBack.x);
@@ -54,7 +53,7 @@ public class BlockManager {
 
         StorageFacade.saveBlockSystems(blockSystems);
 
-        gamePanel.setYouCanMoveBlock(false);
+        GameLogic.youCanMoveBlock = false;
     }
 
     public void drawDrag(int mouseX, int mouseY) {

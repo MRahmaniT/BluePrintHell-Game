@@ -1,5 +1,6 @@
 package MVC.View.GameEnvironment.Options;
 
+import MVC.Controller.GameLogic;
 import MVC.View.GamePage.GamePanel;
 
 import javax.swing.*;
@@ -26,7 +27,7 @@ public class ShopPanel extends JPanel {
         add(title);
 
         //Warning
-        JLabel warning = new JLabel("Coins : " + gamePanel.getCoins());
+        JLabel warning = new JLabel("Coins : " + gamePanel.getGameLogic().getCoins());
         warning.setFont(new Font("Arial", Font.BOLD, fontSize));
         warning.setForeground(Color.WHITE);
         warning.setBounds(screenWidth / 2 - 200, screenHeight - 160, 400, 40);
@@ -39,13 +40,13 @@ public class ShopPanel extends JPanel {
         btnAtar.setFont(new Font("Arial", Font.PLAIN, fontSize));
         btnAtar.setBounds(screenWidth / 2 - 150, 150, 300, 40);
         btnAtar.addActionListener(e -> {
-            if (gamePanel.getCoins() >= 3) {
-                gamePanel.spendCoins(3);
-                gamePanel.disableImpactWaves(10);
-                gamePanel.resumeGame();
+            if (gamePanel.getGameLogic().getCoins() >= 3) {
+                gamePanel.getGameLogic().spendCoins(3);
+                gamePanel.getGameLogic().disableImpactWaves(10);
+                gamePanel.getGameLogic().resumeGame();
             }else {
                 warning.setText("You don't have enough money!");
-                Timer timer = new Timer(2000, _ -> warning.setText("Coins : " + gamePanel.getCoins()));
+                Timer timer = new Timer(2000, _ -> warning.setText("Coins : " + gamePanel.getGameLogic().getCoins()));
                 timer.setRepeats(false);
                 timer.start();
             }
@@ -57,14 +58,14 @@ public class ShopPanel extends JPanel {
         btnAiryaman.setFont(new Font("Arial", Font.PLAIN, fontSize));
         btnAiryaman.setBounds(screenWidth / 2 - 150, 210, 300, 40);
         btnAiryaman.addActionListener(e -> {
-            if (gamePanel.getCoins() >= 4) {
-                gamePanel.spendCoins(4);
-                gamePanel.disableCollisions(5);
-                gamePanel.resumeGame();
+            if (gamePanel.getGameLogic().getCoins() >= 4) {
+                gamePanel.getGameLogic().spendCoins(4);
+                gamePanel.getGameLogic().disableCollisions(5);
+                gamePanel.getGameLogic().resumeGame();
             }
             else {
                 warning.setText("You don't have enough money!");
-                Timer timer = new Timer(2000, _ -> warning.setText("Coins : " + gamePanel.getCoins()));
+                Timer timer = new Timer(2000, _ -> warning.setText("Coins : " + gamePanel.getGameLogic().getCoins()));
                 timer.setRepeats(false);
                 timer.start();
             }
@@ -76,13 +77,13 @@ public class ShopPanel extends JPanel {
         btnAnahita.setFont(new Font("Arial", Font.PLAIN, fontSize));
         btnAnahita.setBounds(screenWidth / 2 - 150, 270, 300, 40);
         btnAnahita.addActionListener(e -> {
-            if (gamePanel.getCoins() >= 5) {
-                gamePanel.spendCoins(5);
-                gamePanel.resetAllNoise();
-                gamePanel.resumeGame();
+            if (gamePanel.getGameLogic().getCoins() >= 5) {
+                gamePanel.getGameLogic().spendCoins(5);
+                gamePanel.getGameLogic().resetAllNoise();
+                gamePanel.getGameLogic().resumeGame();
             } else {
                 warning.setText("You don't have enough money!");
-                Timer timer = new Timer(2000, _ -> warning.setText("Coins : " + gamePanel.getCoins()));
+                Timer timer = new Timer(2000, _ -> warning.setText("Coins : " + gamePanel.getGameLogic().getCoins()));
                 timer.setRepeats(false);
                 timer.start();
             }
@@ -94,13 +95,13 @@ public class ShopPanel extends JPanel {
         buttonSoA.setFont(new Font("Arial", Font.PLAIN, fontSize));
         buttonSoA.setBounds(screenWidth / 2 - 150, 330, 300, 40);
         buttonSoA.addActionListener(e -> {
-            if (gamePanel.getCoins() >= 10) {
-                gamePanel.spendCoins(10);
-                gamePanel.setYouCanDisableAcceleration(true);
-                gamePanel.resumeGame();
+            if (gamePanel.getGameLogic().getCoins() >= 10) {
+                gamePanel.getGameLogic().spendCoins(10);
+                GameLogic.youCanDisableAcceleration = true;
+                gamePanel.getGameLogic().resumeGame();
             }else {
                 warning.setText("You don't have enough money!");
-                Timer timer = new Timer(2000, _ -> warning.setText("Coins : " + gamePanel.getCoins()));
+                Timer timer = new Timer(2000, _ -> warning.setText("Coins : " + gamePanel.getGameLogic().getCoins()));
                 timer.setRepeats(false);
                 timer.start();
             }
@@ -112,13 +113,13 @@ public class ShopPanel extends JPanel {
         buttonSoS.setFont(new Font("Arial", Font.PLAIN, fontSize));
         buttonSoS.setBounds(screenWidth / 2 - 150, 390, 300, 40);
         buttonSoS.addActionListener(e -> {
-            if (gamePanel.getCoins() >= 15) {
-                gamePanel.spendCoins(15);
-                gamePanel.setYouCanMoveBlock(true);
-                gamePanel.resumeGame();
+            if (gamePanel.getGameLogic().getCoins() >= 15) {
+                gamePanel.getGameLogic().spendCoins(15);
+                GameLogic.youCanMoveBlock = true;
+                gamePanel.getGameLogic().resumeGame();
             }else {
                 warning.setText("You don't have enough money!");
-                Timer timer = new Timer(2000, _ -> warning.setText("Coins : " + gamePanel.getCoins()));
+                Timer timer = new Timer(2000, _ -> warning.setText("Coins : " + gamePanel.getGameLogic().getCoins()));
                 timer.setRepeats(false);
                 timer.start();
             }
@@ -130,13 +131,13 @@ public class ShopPanel extends JPanel {
         buttonSoE.setFont(new Font("Arial", Font.PLAIN, fontSize));
         buttonSoE.setBounds(screenWidth / 2 - 150, 450, 300, 40);
         buttonSoE.addActionListener(e -> {
-            if (gamePanel.getCoins() >= 20) {
-                gamePanel.spendCoins(20);
-                gamePanel.setYouCanDisableMissAlignment(true);
-                gamePanel.resumeGame();
+            if (gamePanel.getGameLogic().getCoins() >= 20) {
+                gamePanel.getGameLogic().spendCoins(20);
+                GameLogic.youCanDisableMissAlignment = true;
+                gamePanel.getGameLogic().resumeGame();
             }else {
                 warning.setText("You don't have enough money!");
-                Timer timer = new Timer(2000, _ -> warning.setText("Coins : " + gamePanel.getCoins()));
+                Timer timer = new Timer(2000, _ -> warning.setText("Coins : " + gamePanel.getGameLogic().getCoins()));
                 timer.setRepeats(false);
                 timer.start();
             }
@@ -147,7 +148,7 @@ public class ShopPanel extends JPanel {
         JButton backBtn = new JButton("Back");
         backBtn.setFont(new Font("Arial", Font.BOLD, fontSize));
         backBtn.setBounds(screenWidth / 2 - 75, screenHeight - 100, 150, 40);
-        backBtn.addActionListener(e -> gamePanel.resumeGame());
+        backBtn.addActionListener(e -> gamePanel.getGameLogic().resumeGame());
         add(backBtn);
     }
 }

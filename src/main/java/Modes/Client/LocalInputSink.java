@@ -52,7 +52,7 @@ public class LocalInputSink implements InputSink {
             case java.awt.event.KeyEvent.VK_LEFT  -> engine.setLeftPressed(true);
             case java.awt.event.KeyEvent.VK_RIGHT -> engine.setRightPressed(true);
             case java.awt.event.KeyEvent.VK_TAB   -> hud.setVisible(true);
-            case java.awt.event.KeyEvent.VK_ESCAPE -> gamePanel.handleEscape();
+            case java.awt.event.KeyEvent.VK_ESCAPE -> gamePanel.getGameLogic().handleEscape();
         }
     }
 
@@ -67,17 +67,17 @@ public class LocalInputSink implements InputSink {
 
     @Override
     public void mouseDown(int button, int x, int y) {
-        gamePanel.handleMousePress(button, x, y);
+        gamePanel.getGameLogic().handleMousePress(button, x, y);
     }
 
     @Override
     public void mouseUp(int button, int x, int y) {
-        gamePanel.handleMouseRelease(button, x, y);
+        gamePanel.getGameLogic().handleMouseRelease(button, x, y);
     }
 
     @Override
     public void mouseClick(int button, int x, int y) {
-        gamePanel.handleMouseClicked(button, x, y);
+        gamePanel.getGameLogic().handleMouseClicked(button, x, y);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class LocalInputSink implements InputSink {
     @Override
     public void uiAction(String action, String payloadJson) {
         if ("OPEN_SHOP".equals(action)) {
-            gamePanel.handleOpenShop();
+            gamePanel.getGameLogic().handleOpenShop();
         }
     }
 }

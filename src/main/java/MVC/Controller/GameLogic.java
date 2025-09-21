@@ -48,15 +48,15 @@ public class GameLogic {
     private final List<GameShape> blockShapes = new ArrayList<>();
     private BlockManager blockManager;
 
-    private boolean youCanMoveBlock = false;
-    private boolean notGoodPosition = false;
+    public static boolean youCanMoveBlock = false;
+    public static boolean notGoodPosition = false;
 
     //For Wires
     private WiringManager wiringManager;
     private final double MAX_WIRE_LENGTH = 1000;
 
-    private boolean youCanDisableAcceleration = false;
-    private boolean youCanDisableMissAlignment = false;
+    public static boolean youCanDisableAcceleration = false;
+    public static boolean youCanDisableMissAlignment = false;
 
     //intersect
     private boolean isIntersected = false;
@@ -71,7 +71,7 @@ public class GameLogic {
     private final GameEngine gameEngine = new GameEngine(timeController);
 
     //For Packet
-    private PacketManager packetManager;
+    private static PacketManager packetManager;
     private SpawnPackets spawnPacket;
     private final int totalPackets = 10;
     public static int generatedPackets = 0;
@@ -88,8 +88,8 @@ public class GameLogic {
     }
 
     public void Run () {
-        blockManager = new BlockManager(gamePanel);
-        wiringManager = new WiringManager(gamePanel);
+        blockManager = new BlockManager();
+        wiringManager = new WiringManager();
 
         //Player Data
         madeDecision = false;
@@ -256,11 +256,11 @@ public class GameLogic {
         packetManager.disableImpactForSeconds(seconds);
     }
 
-    public void disableAcceleration(int seconds, Point2D.Float point) {
+    public static void disableAcceleration(int seconds, Point2D.Float point) {
         packetManager.disableAccelerationForSeconds(seconds, point);
     }
 
-    public void disableMissAlignment(int seconds, Point2D.Float point) {
+    public static void disableMissAlignment(int seconds, Point2D.Float point) {
         packetManager.disableMissAlignmentForSeconds(seconds, point);
     }
 
@@ -332,31 +332,6 @@ public class GameLogic {
             }
         }
         MainFrame.showMenu();
-    }
-
-
-    public boolean getYouCanDisableAcceleration() {
-        return youCanDisableAcceleration;
-    }
-
-    public void setYouCanDisableAcceleration(boolean youCanDisableAcceleration) {
-        this.youCanDisableAcceleration = youCanDisableAcceleration;
-    }
-
-    public boolean getYouCanDisableMissAlignment() {
-        return youCanDisableMissAlignment;
-    }
-
-    public void setYouCanDisableMissAlignment(boolean youCanDisableMissAlignment) {
-        this.youCanDisableMissAlignment = youCanDisableMissAlignment;
-    }
-
-    public void setYouCanMoveBlock (boolean b) {
-        youCanMoveBlock = b;
-    }
-
-    public boolean getNotGoodPosition () {
-        return notGoodPosition;
     }
 
     public boolean isIntersected () {

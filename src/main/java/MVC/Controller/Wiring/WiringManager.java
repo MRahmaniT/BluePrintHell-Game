@@ -1,5 +1,6 @@
 package MVC.Controller.Wiring;
 
+import MVC.Controller.GameLogic;
 import MVC.Model.Enums.PortRole;
 import MVC.Model.Enums.WireType;
 import MVC.Model.GameEntities.BlockSystem;
@@ -21,8 +22,6 @@ import java.awt.geom.Point2D;
 
 public class WiringManager {
 
-    private GamePanel gamePanel;
-
     private boolean dragging = false;
     private boolean filleting = false;
     private boolean changingFillet = false;
@@ -41,9 +40,7 @@ public class WiringManager {
     private List<Wire> wires = new ArrayList<>();
     private List<WireShape> wireShapes = new ArrayList<>();
 
-    public WiringManager (GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
-    }
+    public WiringManager () {}
 
     public void handleMouseClick(List<GameShape> blockShapes, int mouseX, int mouseY) {
         List<BlockSystem> blockSystems = StorageFacade.loadBlockSystems();
@@ -80,12 +77,12 @@ public class WiringManager {
 
         for (WireShape wireShape : wireShapes) {
             if (wireShape.isNear(new Point2D.Float(mouseX,mouseY), 3)) {
-                if (gamePanel.getYouCanDisableAcceleration()) {
-                    gamePanel.disableAcceleration(20, new Point2D.Float(mouseX, mouseY));
-                    gamePanel.setYouCanDisableAcceleration(false);
-                } else if (gamePanel.getYouCanDisableMissAlignment()) {
-                    gamePanel.disableMissAlignment(30, new Point2D.Float(mouseX, mouseY));
-                    gamePanel.setYouCanDisableMissAlignment(false);
+                if (GameLogic.youCanDisableAcceleration) {
+                    GameLogic.disableAcceleration(20, new Point2D.Float(mouseX, mouseY));
+                    GameLogic.youCanDisableAcceleration = false;
+                } else if (GameLogic.youCanDisableMissAlignment) {
+                    GameLogic.disableMissAlignment(30, new Point2D.Float(mouseX, mouseY));
+                    GameLogic.youCanDisableMissAlignment = false;
                 }
                 break;
             }
