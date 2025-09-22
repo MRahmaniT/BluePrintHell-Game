@@ -11,6 +11,7 @@ public final class AppState {
     public static volatile String playerId;
     public static volatile String serverHost;
     public static volatile int serverPort;
+    public static volatile String sessionKey;
 
     public static volatile JsonCommandSender sender; // used in ONLINE
 }

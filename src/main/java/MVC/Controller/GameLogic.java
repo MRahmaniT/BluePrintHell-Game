@@ -14,6 +14,9 @@ import MVC.Model.GameEntities.Packet;
 import MVC.Model.GameEntities.Wire.Wire;
 import MVC.Model.Player.Player;
 import MVC.View.GamePage.GamePanel;
+import MVC.View.Render.GameShapes.System.EndSystem;
+import MVC.View.Render.GameShapes.System.StartSystem;
+import MVC.View.Render.GameShapes.System.TwoStairsSystem;
 import Modes.AppState;
 import Modes.InputSink;
 import Storage.Facade.StorageFacade;
@@ -414,7 +417,30 @@ public class GameLogic {
     }
 
     public List<GameShape> getBlockShapes () {
-        return blockShapes;
+        if (AppState.mode == AppState.GameMode.ONLINE) {
+            List<GameShape> blockShapes = new ArrayList<>();
+            for (BlockSystem blockSystem : StorageFacade.loadBlockSystems()){
+                switch (blockSystem.getType()) {
+                    case START -> blockShapes.add(new StartSystem(blockSystem, (float) (0.1*screenSizeX), (float) (0.1*screenSizeX)));
+                    case PROCESSOR -> blockShapes.add(new TwoStairsSystem(blockSystem, (float) (0.1*screenSizeX), (float) (0.1*screenSizeX)));
+                    case END -> blockShapes.add(new EndSystem(blockSystem, (float) (0.1*screenSizeX), (float) (0.1*screenSizeX)));
+                }
+            }
+            return blockShapes;
+        } else {
+            return blockShapes;
+        }
+    }
+    public List<WireShape> getWireShapes () {
+        if (AppState.mode == AppState.GameMode.ONLINE) {
+            List<WireShape> wireShapes = new ArrayList<>();
+            for (Wire wire : StorageFacade.loadWires()){
+                wireShapes.add(new WireShape(getBlockShapes(), wire));
+            }
+            return wireShapes;
+        } else {
+            return wiringManager.getWireShapes();
+        }
     }
 
     public WiringManager getWiringManager () {

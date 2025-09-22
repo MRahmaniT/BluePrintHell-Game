@@ -5,6 +5,7 @@ import MVC.Model.GameEntities.Connection;
 import MVC.Model.GameEntities.GameData;
 import MVC.Model.GameEntities.Packet;
 import MVC.Model.GameEntities.Wire.Wire;
+import Modes.AppState;
 import Modes.Security.HmacSigner;
 import Storage.RealTime.GameEnvironment.GameDataStorage;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -24,8 +25,6 @@ public final class TcpRemoteGateway implements RemoteGateway {
     private final ObjectMapper M = new ObjectMapper();
     private final int timeoutMs;
 
-    private String sessionKeyBase64;
-
     public TcpRemoteGateway(String host, int port, String playerId) {
         this(host, port, playerId, 5000);
     }
@@ -35,21 +34,8 @@ public final class TcpRemoteGateway implements RemoteGateway {
         this.playerId = playerId;
         this.timeoutMs = timeoutMs;
         // handshake
-        JsonNode helloReq = M.createObjectNode()
-                .put("op", "hello")
-                .put("playerId", playerId);
-        JsonNode helloRes;
-        try {
-            helloRes = send(helloReq);
-        } catch (IOException e) {
-            throw new RuntimeException("Handshake failed (hello): " + e.getMessage(), e);
-        }
-        if (!helloRes.path("ok").asBoolean(false)) {
-            throw new RuntimeException("Handshake rejected: " + helloRes.path("error").asText());
-        }
-        this.sessionKeyBase64 = helloRes.path("key").asText(null);
-        if (this.sessionKeyBase64 == null || this.sessionKeyBase64.isBlank()) {
-            throw new RuntimeException("Handshake missing session key");
+        if (AppState.sessionKey == null || AppState.sessionKey.isBlank()) {
+            throw new IllegalStateException("Session key is not set in AppState before creating TcpRemoteGateway!");
         }
     }
 
@@ -71,7 +57,7 @@ public final class TcpRemoteGateway implements RemoteGateway {
     private JsonNode sendSigned(String op, String entity, String bodyOrNull) throws IOException {
         long ts = System.currentTimeMillis();
         String nonce = HmacSigner.randomNonce();
-        String sig = HmacSigner.signBase64(sessionKeyBase64, op, entity, playerId, bodyOrNull, ts, nonce);
+        String sig = HmacSigner.signBase64(AppState.sessionKey, op, entity, playerId, bodyOrNull, ts, nonce);
 
         var node = M.createObjectNode()
                 .put("op", op)

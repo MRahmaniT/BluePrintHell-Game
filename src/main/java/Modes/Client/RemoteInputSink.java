@@ -1,5 +1,6 @@
 package Modes.Client;
 
+import Modes.AppState;
 import Modes.InputSink;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -17,42 +18,17 @@ public class RemoteInputSink implements InputSink {
     private final String playerId;
     private final ObjectMapper M = new ObjectMapper();
 
-    // NEW: session key from server hello
-    private volatile String sessionKeyBase64;
-
     public RemoteInputSink(String host, int port, String playerId) {
         this.host = host; this.port = port; this.playerId = playerId;
-        doHello(); // <-- get session key once
-    }
-
-    private void doHello() {
-        try (Socket s = new Socket(host, port);
-             var out = new BufferedWriter(new OutputStreamWriter(s.getOutputStream(), StandardCharsets.UTF_8));
-             var in  = new BufferedReader(new InputStreamReader(s.getInputStream(), StandardCharsets.UTF_8))) {
-
-            ObjectNode req = M.createObjectNode();
-            req.put("op", "hello");
-            req.put("playerId", playerId);
-
-            out.write(M.writeValueAsString(req));
-            out.write('\n');
-            out.flush();
-
-            String line = in.readLine();
-            if (line == null) throw new IOException("no hello response");
-            var res = M.readTree(line);
-            if (!res.path("ok").asBoolean(false)) throw new IOException("hello rejected: " + res.path("error").asText());
-            this.sessionKeyBase64 = res.path("key").asText(null);
-            if (sessionKeyBase64 == null || sessionKeyBase64.isBlank()) throw new IOException("missing session key");
-
-        } catch (Exception e) {
-            throw new RuntimeException("[RemoteInputSink] hello failed: " + e.getMessage(), e);
-        }
     }
 
     private void sendLine(ObjectNode root) {
-        // ensure we have a session key
-        if (sessionKeyBase64 == null || sessionKeyBase64.isBlank()) doHello();
+
+        if (AppState.sessionKey == null || AppState.sessionKey.isBlank()) {
+            // No need to call doHello(). We should just fail or log an error.
+            System.err.println("[RemoteInputSink] Session key is missing!");
+            return;
+        }
 
         try (Socket s = new Socket(host, port);
              var out = new BufferedWriter(new OutputStreamWriter(s.getOutputStream(), StandardCharsets.UTF_8))) {
@@ -60,9 +36,9 @@ public class RemoteInputSink implements InputSink {
             long ts = System.currentTimeMillis();
             String nonce = UUID.randomUUID().toString();
 
-            // HMAC: op="cmd", entity="input", body = payload.toString()
             String body = root.get("payload") == null ? "" : root.get("payload").toString();
-            String sig  = signBase64(sessionKeyBase64, "cmd", "input", playerId, body, ts, nonce);
+            // Use AppState.sessionKey
+            String sig  = signBase64(AppState.sessionKey, "cmd", "input", playerId, body, ts, nonce);
 
             root.put("playerId", playerId);
             root.put("ts", ts);

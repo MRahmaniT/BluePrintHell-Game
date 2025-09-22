@@ -273,14 +273,17 @@ public class GamePanel extends JPanel {
         }
 
         //Block Shapes
-        ChangeBlocksLight.changeBlocksLight(gameLogic.getBlockShapes());
-        for(GameShape gameShape : gameLogic.getBlockShapes()){
-            gameShape.draw(g2d);
-        }
+        if (!gameLogic.getBlockShapes().isEmpty()) {
+            ChangeBlocksLight.changeBlocksLight(gameLogic.getBlockShapes());
 
-        //For Lines
-        for (WireShape wireShape : gameLogic.getWiringManager().getWireShapes()) {
-            wireShape.draw(g2d);
+            for (GameShape gameShape : gameLogic.getBlockShapes()) {
+                gameShape.draw(g2d);
+            }
+
+            //For Lines
+            for (WireShape wireShape : gameLogic.getWireShapes()) {
+                wireShape.draw(g2d);
+            }
         }
 
         if (gameLogic.getWiringManager().isDragging()) {
@@ -296,9 +299,10 @@ public class GamePanel extends JPanel {
         //intersect
         boolean willIntersect = false;
         for (GameShape blockShape : gameLogic.getBlockShapes()) {
-            for (WireShape wireShape : gameLogic.getWiringManager().getWireShapes()) {
+            for (WireShape wireShape : gameLogic.getWireShapes()) {
                 Shape s1 = blockShape.getShape();
                 BasicStroke stroke = new BasicStroke(3f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+                if (wireShape.getWirePath() == null) continue;
                 Shape s2 = stroke.createStrokedShape(wireShape.getWirePath());
                 if (s1 == null || s2 == null) continue;
 
@@ -314,6 +318,7 @@ public class GamePanel extends JPanel {
             }
         }
         gameLogic.setIntersected(willIntersect);
+
 
         //Packet
         if (!gameLogic.isInterrupted()) {
