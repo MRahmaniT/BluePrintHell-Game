@@ -1,5 +1,6 @@
-package MVC.Controller;
+package Modes.Server;
 
+import MVC.Controller.GameLoop;
 import MVC.Controller.Packets.PacketManager;
 import MVC.Controller.Packets.Spawning.SpawnPackets;
 import MVC.Controller.Timing.GameEngine;
@@ -14,7 +15,6 @@ import MVC.Model.GameEntities.Packet;
 import MVC.Model.GameEntities.Wire.Wire;
 import MVC.Model.Player.Player;
 import MVC.View.GamePage.GamePanel;
-import Modes.AppState;
 import Modes.InputSink;
 import Storage.Facade.StorageFacade;
 import Storage.Player.PlayerStorage;
@@ -37,12 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class GameLogic {
-    //
-    private GamePanel gamePanel;
-    private InputSink input;
-    private boolean online;
-
+public class ServerGameCore {
     //
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     public int screenSizeX = screenSize.width;
@@ -85,119 +80,85 @@ public class GameLogic {
     private int coins = 0;
     private boolean madeDecision;
 
-    public GameLogic (GamePanel gamePanel, InputSink input, boolean online) {
-        this.gamePanel = gamePanel;
-        this.input = input;
-        this.online = online;
-    }
+    public ServerGameCore() {}
 
     public void Run () {
-        if (online) {
-            gameTimer = new Timer(10, _ -> {
-                gamePanel.getPainter().run();
-            });
-            gameTimer.start();
+        blockManager = new BlockManager();
+        wiringManager = new WiringManager();
+
+        //Player Data
+        if (PlayerState.getPlayer() != null) {
+            levelOnGoing = PlayerState.getPlayer().getLevelNumber();
+            coins = PlayerState.getPlayer().getGoldCount();
+            timeController.setTime(PlayerState.getPlayer().getTimePlayed());
+            madeDecision = PlayerState.getPlayer().isMadeDecision();
         } else {
-            blockManager = new BlockManager();
-            wiringManager = new WiringManager();
-
-            //Player Data
-            if (PlayerState.getPlayer() != null) {
-                levelOnGoing = PlayerState.getPlayer().getLevelNumber();
-                coins = PlayerState.getPlayer().getGoldCount();
-                timeController.setTime(PlayerState.getPlayer().getTimePlayed());
-                madeDecision = PlayerState.getPlayer().isMadeDecision();
-            } else {
-                madeDecision = true;
-            }
-
-            // PreLoading
-            wiringManager.setConnections(StorageFacade.loadConnections());
-            wiringManager.setWires(StorageFacade.loadWires());
-
-            //Build Level
-            switch (levelOnGoing) {
-                case 1 -> {
-                    BuildLevel1.buildLevel1(screenSizeX, blockShapes);
-                }
-                case 2 -> {
-                    BuildLevel2.buildLevel2(screenSizeX, blockShapes);
-                }
-            }
-
-            // Loading
-            List<WireShape> wireShapes = new ArrayList<>();
-            for (Wire wire : wiringManager.getWires()) {
-                WireShape wireShape = new WireShape(blockShapes, wire);
-                wireShapes.add(wireShape);
-            }
-            wiringManager.setWireShapes(wireShapes);
-
-            spawnPacket = new SpawnPackets();
-            packetManager = new PacketManager(blockShapes, wiringManager, spawnPacket);
-            //Timing
-            gameTimer = new Timer(10, _ -> {
-
-                if (isRunning && !interrupted) {
-                    PacketSnapshots.SavePacketSnapshot(StorageFacade.loadPackets(), timeController.getTime());
-                }
-
-
-                GameLoop.Start(packetManager, wiringManager, timeController, gameEngine,
-                        blockShapes, MAX_WIRE_LENGTH, totalPackets, isRunning);
-
-                GameData gameData = StorageFacade.loadGameData();
-                gamePanel.getHudPanel().update(gameData.getRemainingWireLength(), gameData.getFormatedTime(), gameData.getLostPackets(),
-                        gameData.getTotalPackets(), gameData.getCoins());
-
-                //Win or Loos
-                List<BlockSystem> blockSystems = StorageFacade.loadBlockSystems();
-                if (gameData.getLostPackets() >= gameData.getTotalPackets() / 2) {
-                    gameTimer.stop();
-                    gamePanel.getGameOverPanel().updateStats(gameData.getLostPackets(), gameData.getTotalPackets(), gameData.getFormatedTime());
-                    gamePanel.getGameOverPanel().setVisible(true);
-                } else if (!blockShapes.isEmpty() && !blockSystems.isEmpty() && gameData.getTotalPackets() == blockSystems.getLast().queueCount()) {
-                    gameTimer.stop();
-                    MainFrame.audioManager.playSoundEffect("Resources/win.wav");
-                    gamePanel.getWinPanel().updateStats(gameData.getDeliveredPackets(), gameData.getTotalPackets(), gameData.getFormatedTime(),
-                            gameData.getCoins());
-                    gamePanel.getWinPanel().setVisible(true);
-                    StorageFacade.saveBlockSystems(blockSystems);
-                }
-
-                if (PlayerState.getPlayer() != null) {
-                    coins = PlayerState.getPlayer().getGoldCount();
-                    PlayerState.getPlayer().setTimePlayed(timeController.getTime());
-
-                    if (madeDecision && MainFrame.gamePanel.isVisible()) {
-                        madeDecision = false;
-                        assert PlayerState.getPlayer() != null;
-                        PlayerState.getPlayer().setMadeDecision(false);
-                    }
-
-                    List<Player> players = PlayerStorage.loadAllPlayers();
-                    for (Player player : players) {
-                        if (Objects.equals(player.getUsername(), PlayerState.getPlayer().getUsername())) {
-                            player.setMadeDecision(PlayerState.getPlayer().isMadeDecision());
-                            player.setGoldCount(coins);
-                            player.setTimePlayed(timeController.getTime());
-                            PlayerStorage.saveAllPlayers(players);
-                        }
-                    }
-
-                }
-
-                gamePanel.getPainter().run();
-                gamePanel.repaint();
-
-                if (isIntersected || wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH) < 0) {
-                    notGoodPosition = true;
-                } else {
-                    notGoodPosition = false;
-                }
-            });
-            gameTimer.start();
+            madeDecision = true;
         }
+
+        // PreLoading
+        wiringManager.setConnections(StorageFacade.loadConnections());
+        wiringManager.setWires(StorageFacade.loadWires());
+
+        //Build Level
+        switch (levelOnGoing) {
+            case 1 -> {
+                BuildLevel1.buildLevel1(screenSizeX, blockShapes);
+            }
+            case 2 ->{
+                BuildLevel2.buildLevel2(screenSizeX, blockShapes);
+            }
+        }
+
+        // Loading
+        List<WireShape> wireShapes = new ArrayList<>();
+        for (Wire wire : wiringManager.getWires()) {
+            WireShape wireShape = new WireShape(blockShapes, wire);
+            wireShapes.add(wireShape);
+        }
+        wiringManager.setWireShapes(wireShapes);
+
+        spawnPacket = new SpawnPackets();
+        packetManager = new PacketManager(blockShapes, wiringManager, spawnPacket);
+
+        //Timing
+        gameTimer = new Timer(10, _ -> {
+
+            if (isRunning && !interrupted) {
+                PacketSnapshots.SavePacketSnapshot(StorageFacade.loadPackets(), timeController.getTime());
+            }
+
+            GameLoop.Start(packetManager, wiringManager, timeController, gameEngine,
+                    blockShapes, MAX_WIRE_LENGTH, totalPackets, isRunning);
+
+            if (PlayerState.getPlayer() != null) {
+                coins = PlayerState.getPlayer().getGoldCount();
+                PlayerState.getPlayer().setTimePlayed(timeController.getTime());
+
+                if (madeDecision && MainFrame.gamePanel.isVisible()){
+                    madeDecision = false;
+                    assert PlayerState.getPlayer() != null;
+                    PlayerState.getPlayer().setMadeDecision(false);
+                }
+
+                List<Player> players = PlayerStorage.loadAllPlayers();
+                for (Player player : players) {
+                    if (Objects.equals(player.getUsername(), PlayerState.getPlayer().getUsername())) {
+                        player.setMadeDecision(PlayerState.getPlayer().isMadeDecision());
+                        player.setGoldCount(coins);
+                        player.setTimePlayed(timeController.getTime());
+                        PlayerStorage.saveAllPlayers(players);
+                    }
+                }
+
+            }
+            if (isIntersected || wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH) < 0) {
+                notGoodPosition = true;
+            } else {
+                notGoodPosition = false;
+            }
+        });
+        gameTimer.start();
     }
 
     // Handlers
@@ -237,17 +198,14 @@ public class GameLogic {
         if (!isRunning) {
             wiringManager.handleMouseRelease(blockShapes, mousePointX, mousePointY, wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH));
             blockManager.handleMouseRelease(mousePointX, mousePointY);
-            gamePanel.getPainter().run();
         }
     }
 
     public void handleOpenShop () {
-        gamePanel.getShopPanel().setVisible(true);
         gameTimer.stop();
     }
 
     public void handleEscape () {
-        gamePanel.getPausePanel().setVisible(true);
         gameTimer.stop();
         isRunning = false;
     }
@@ -256,7 +214,6 @@ public class GameLogic {
         switch (keyCode) {
             case java.awt.event.KeyEvent.VK_LEFT  -> gameEngine.setLeftPressed(true);
             case java.awt.event.KeyEvent.VK_RIGHT -> gameEngine.setRightPressed(true);
-            case java.awt.event.KeyEvent.VK_TAB   -> gamePanel.getHudPanel().setVisible(true);
             case java.awt.event.KeyEvent.VK_ESCAPE -> handleEscape();
         }
     }
@@ -265,7 +222,6 @@ public class GameLogic {
         switch (keyCode) {
             case java.awt.event.KeyEvent.VK_LEFT  -> gameEngine.setLeftPressed(false);
             case java.awt.event.KeyEvent.VK_RIGHT -> gameEngine.setRightPressed(false);
-            case java.awt.event.KeyEvent.VK_TAB   -> gamePanel.getHudPanel().setVisible(false);
         }
     }
 
@@ -292,20 +248,6 @@ public class GameLogic {
         packetManager.disableMissAlignmentForSeconds(seconds, point);
     }
 
-    public void startNewOnlineGame() {
-        if (AppState.sender != null) {
-            // Send a command to the server to reset the level
-            AppState.sender.sendUi("RESET_LEVEL", null);
-        }
-        // Mark that the user has made a decision
-        this.madeDecision = true;
-    }
-
-    // Add this public setter for the madeDecision flag
-    public void setMadeDecision(boolean madeDecision) {
-        this.madeDecision = madeDecision;
-    }
-
     public void resetAllNoise() {
         List<Packet> packets = StorageFacade.loadPackets();
         for (Packet packet : packets){
@@ -315,14 +257,12 @@ public class GameLogic {
     }
 
     public void resumeGame() {
-        gamePanel.getShopPanel().setVisible(false);
         gameTimer.start();
     }
 
     public void proceedToNextLevel() {
         PlayerState.getPlayer().setLevelNumber(PlayerState.getPlayer().getLevelNumber() + 1);
         MainFrame.startGame();
-        gamePanel.getWinPanel().setVisible(false);
         gameTimer.start();
     }
 
@@ -332,15 +272,9 @@ public class GameLogic {
         madeDecision = true;
         PlayerState.getPlayer().setMadeDecision(true);
         MainFrame.startGame();
-        gamePanel.getPausePanel().setVisible(false);
         isRunning = true;
         interrupted = false;
         generatedPackets = 0;
-    }
-
-    public void showSavePanel() {
-        gamePanel.getPausePanel().setVisible(false);
-        gamePanel.getSavePanel().setVisible(true);
     }
 
     public void saveGame() {
@@ -425,17 +359,5 @@ public class GameLogic {
         return blockManager;
     }
 
-
-
-
-    public void setGamePanel (GamePanel gamePanel) {
-        this.gamePanel = gamePanel;
-    }
-    public void setInput (InputSink input) {
-        this.input = input;
-    }
-    public void setOnline (boolean online) {
-        this.online = online;
-    }
 }
 

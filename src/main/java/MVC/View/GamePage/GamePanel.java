@@ -77,6 +77,9 @@ public class GamePanel extends JPanel {
         if (AppState.mode == AppState.GameMode.ONLINE) {
             input = new RemoteInputSink(AppState.serverHost, AppState.serverPort, AppState.playerId);
             gameLogic = new GameLogic(this, input, true);
+        } else if (AppState.mode == AppState.GameMode.OFFLINE){
+            input = new LocalInputSink(this);
+            gameLogic = new GameLogic(this, input, false);
         } else {
             input = new LocalInputSink(this);
             gameLogic = new GameLogic(this, input, false);
@@ -99,13 +102,30 @@ public class GamePanel extends JPanel {
         add(savePanel);
         setComponentZOrder(savePanel, 0);
 
-        loadPanel = new LoadPanel(
-                () -> {
-                    loadPanel.setVisible(false);
-                },
-                this.gameLogic::retryLevel,
-                this.gameLogic::returnToMenu
-        );
+
+        if (AppState.mode == AppState.GameMode.ONLINE) {
+            // Online Mode Actions
+            loadPanel = new LoadPanel(
+                    () -> { // Action for "Load Data"
+                        gameLogic.setMadeDecision(true);
+                        loadPanel.setVisible(false);
+                    },
+                    () -> { // Action for "Start New Game"
+                        gameLogic.startNewOnlineGame();
+                        loadPanel.setVisible(false);
+                    },
+                    this.gameLogic::returnToMenu // "Back to Menu" can be the same
+            );
+        } else {
+            // Offline Mode Actions (your original code)
+            loadPanel = new LoadPanel(
+                    () -> {
+                        loadPanel.setVisible(false);
+                    },
+                    this.gameLogic::retryLevel,
+                    this.gameLogic::returnToMenu
+            );
+        }
         loadPanel.setBounds(0, 0, screenSizeX, screenSizeY);
         loadPanel.setVisible(false);
         add(loadPanel);

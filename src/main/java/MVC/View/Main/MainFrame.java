@@ -60,8 +60,10 @@ public class MainFrame extends JFrame {
         menuPanel = new MenuPanel();
         mainPanel.add(menuPanel, MENU);
 
-        gamePanel = new GamePanel();
-        mainPanel.add(gamePanel, GAME);
+        if (AppState.mode != AppState.GameMode.NONE){
+            gamePanel = new GamePanel();
+            mainPanel.add(gamePanel, GAME);
+        }
 
         levelPanel = new LevelPanel();
         mainPanel.add(levelPanel, LEVEL);
@@ -93,7 +95,9 @@ public class MainFrame extends JFrame {
 
     public static void startGame(){
         minimizeAllOtherWindows();
-        mainPanel.remove(gamePanel);
+        if (gamePanel != null) {
+            mainPanel.remove(gamePanel);
+        }
         gamePanel = new GamePanel();
         mainPanel.add(gamePanel, GAME);
         setFullscreenMode(true);

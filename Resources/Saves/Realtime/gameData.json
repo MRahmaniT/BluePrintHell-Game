@@ -1,8 +1,8 @@
 {
   "remainingWireLength" : 1000.0,
-  "formatedTime" : "Time: 95.2",
+  "formatedTime" : "Time: 0.0",
   "deliveredPackets" : 0,
   "lostPackets" : 0,
   "totalPackets" : 10,
-  "coins" : 29833
+  "coins" : 0
 }

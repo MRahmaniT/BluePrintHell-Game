@@ -142,25 +142,29 @@ public final class TcpRemoteGateway implements RemoteGateway {
     }
 
 
+    // In TcpRemoteGateway.java
+
     private JsonNode send(JsonNode req) throws IOException {
         try (Socket socket = new Socket()) {
             socket.connect(new InetSocketAddress(host, port), timeoutMs);
             socket.setSoTimeout(timeoutMs);
-            DataOutputStream out = new DataOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-            DataInputStream in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
 
-            byte[] payload = M.writeValueAsBytes(req);
-            out.writeInt(payload.length);
-            out.write(payload);
+            // Use the correct line-delimited text protocol
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), java.nio.charset.StandardCharsets.UTF_8));
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(), java.nio.charset.StandardCharsets.UTF_8));
+
+            // 1. Write the JSON as a string followed by a newline
+            String jsonRequest = M.writeValueAsString(req);
+            out.write(jsonRequest);
+            out.write('\n');
             out.flush();
 
-            int len = in.readInt();
-            if (len <= 0 || len > (32 * 1024 * 1024)) {
-                throw new IOException("Invalid frame length: " + len);
+            // 2. Read the response line from the server
+            String jsonResponse = in.readLine();
+            if (jsonResponse == null) {
+                throw new IOException("Server closed connection or sent empty response.");
             }
-            byte[] buf = in.readNBytes(len);
-            if (buf.length != len) throw new EOFException("Short read");
-            return M.readTree(buf);
+            return M.readTree(jsonResponse);
         }
     }
 }
