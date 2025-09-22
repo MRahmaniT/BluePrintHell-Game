@@ -1,30 +1,19 @@
 package Modes.Client;
 
-import MVC.Controller.Packets.Spawning.SpawnPackets;
-import MVC.Controller.Timing.GameEngine;
-import MVC.Controller.Wiring.WiringManager;
 import Modes.InputSink;
 import MVC.View.GamePage.GamePanel;
-import MVC.View.GameEnvironment.Options.HUDPanel;
-import MVC.View.GamePage.State.PausePanel;
 
 import javax.swing.*;
 
 public class LocalInputSink implements InputSink {
 
     private final GamePanel gamePanel;
-    private final GameEngine engine;
-    private final HUDPanel hud;
 
     private int mousePointX;
     private int mousePointY;
 
-    public LocalInputSink(GamePanel gamePanel,
-                          GameEngine engine,
-                          HUDPanel hud) {
+    public LocalInputSink(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
-        this.engine = engine;
-        this.hud = hud;
     }
 
     @Override
@@ -36,21 +25,12 @@ public class LocalInputSink implements InputSink {
 
     @Override
     public void keyPressed(int keyCode, String keyName) {
-        switch (keyCode) {
-            case java.awt.event.KeyEvent.VK_LEFT  -> engine.setLeftPressed(true);
-            case java.awt.event.KeyEvent.VK_RIGHT -> engine.setRightPressed(true);
-            case java.awt.event.KeyEvent.VK_TAB   -> hud.setVisible(true);
-            case java.awt.event.KeyEvent.VK_ESCAPE -> gamePanel.getGameLogic().handleEscape();
-        }
+        gamePanel.getGameLogic().handleKeyPressed(keyCode, keyName);
     }
 
     @Override
     public void keyReleased(int keyCode, String keyName) {
-        switch (keyCode) {
-            case java.awt.event.KeyEvent.VK_LEFT  -> engine.setLeftPressed(false);
-            case java.awt.event.KeyEvent.VK_RIGHT -> engine.setRightPressed(false);
-            case java.awt.event.KeyEvent.VK_TAB   -> hud.setVisible(false);
-        }
+        gamePanel.getGameLogic().handleKeyReleased(keyCode, keyName);
     }
 
     @Override

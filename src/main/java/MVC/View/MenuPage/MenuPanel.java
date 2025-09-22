@@ -1,7 +1,12 @@
 package MVC.View.MenuPage;
 
+import MVC.Controller.GameLogic;
 import MVC.View.Main.MainFrame;
 import MVC.Model.Player.PlayerState;
+import Modes.AppState;
+import Modes.Client.LocalInputSink;
+import Modes.Client.RemoteInputSink;
+import Modes.InputSink;
 import Storage.Player.PlayerStorage;
 import MVC.View.ModeSelect.ModeSelect;
 
@@ -20,6 +25,9 @@ public class MenuPanel extends JPanel {
     private final int buttonsWidth = screenSizeX/3;
     private final int buttonsHeight = screenSizeY/10;
     private final int buttonSpace = screenSizeY/30;
+
+    public static InputSink input;
+    public static GameLogic gameLogic;
 
     public MenuPanel(){
         setLayout(null);

@@ -2,12 +2,13 @@ package MVC.View.GamePage;
 
 import MVC.Controller.GameLogic;
 import MVC.Controller.Systems.ChangeBlocksLight;
-import MVC.Controller.Timing.GameEngine;
-import MVC.Controller.Timing.TimeController;
 import MVC.Model.GameEntities.Packet;
 
 import MVC.View.GamePage.State.*;
+import MVC.View.Main.MainFrame;
+import Modes.AppState;
 import Modes.Client.LocalInputSink;
+import Modes.Client.RemoteInputSink;
 import Modes.InputSink;
 import Storage.Facade.StorageFacade;
 import Storage.RealTime.Snapshots.PacketSnapshots;
@@ -34,8 +35,8 @@ public class GamePanel extends JPanel {
 
     //For Resolution
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    int screenSizeX = screenSize.width;
-    int screenSizeY = screenSize.height;
+    public int screenSizeX = screenSize.width;
+    public int screenSizeY = screenSize.height;
     int fontSize = screenSizeX / 80;
     int buttonsWidth = screenSizeX / 10;
     int buttonsHeight = screenSizeY / 20;
@@ -73,8 +74,14 @@ public class GamePanel extends JPanel {
 
     private final InputSink input;
     public GamePanel(){
-        input = new LocalInputSink(this, new GameEngine(new TimeController()), getHudPanel());
-        this.gameLogic = new GameLogic(this, input, false);
+        if (AppState.mode == AppState.GameMode.ONLINE) {
+            input = new RemoteInputSink(AppState.serverHost, AppState.serverPort, AppState.playerId);
+            gameLogic = new GameLogic(this, input, true);
+        } else {
+            input = new LocalInputSink(this);
+            gameLogic = new GameLogic(this, input, false);
+        }
+
 
         setLayout(null);
 
@@ -103,11 +110,6 @@ public class GamePanel extends JPanel {
         loadPanel.setVisible(false);
         add(loadPanel);
         setComponentZOrder(loadPanel, 0);
-
-
-        if (!gameLogic.isMadeDecision()) {
-            loadPanel.setVisible(true);
-        }
 
         //Add Background
         try {
@@ -190,7 +192,12 @@ public class GamePanel extends JPanel {
         paint = new Thread(this::repaint);
 
         // run logic
-        gameLogic.Run();
+        if (this.isVisible()) {
+            gameLogic.Run();
+        }
+        if (!gameLogic.isMadeDecision()) {
+            loadPanel.setVisible(true);
+        }
 
         shopButton.addActionListener(_ ->input.uiAction("OPEN_SHOP", null));
 

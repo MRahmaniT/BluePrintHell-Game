@@ -31,7 +31,7 @@ public final class ModeSelect {
             // keep legacy gateway for bootstrap (optional)
             var gateway = new TcpRemoteGateway(host, port, playerId);
             StorageFacade.useRemote(gateway);
-            OnlineBootstrapper.bootstrap(gateway); // اگر نیاز داری
+            OnlineBootstrapper.bootstrap(gateway);
 
             // set global ONLINE mode + sender
             AppState.mode = AppState.GameMode.ONLINE;

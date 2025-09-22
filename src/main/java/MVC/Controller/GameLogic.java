@@ -14,7 +14,6 @@ import MVC.Model.GameEntities.Packet;
 import MVC.Model.GameEntities.Wire.Wire;
 import MVC.Model.Player.Player;
 import MVC.View.GamePage.GamePanel;
-import MVC.View.GamePage.State.*;
 import Modes.InputSink;
 import Storage.Facade.StorageFacade;
 import Storage.Player.PlayerStorage;
@@ -32,7 +31,6 @@ import MVC.View.Render.GameShapes.Wire.WireShape;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,8 +39,13 @@ import java.util.Objects;
 public class GameLogic {
     //
     private GamePanel gamePanel;
-    private final InputSink input;
+    private InputSink input;
     private boolean online;
+
+    //
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    public int screenSizeX = screenSize.width;
+    public int screenSizeY = screenSize.height;
 
     //For Blocks
     private final List<GameShape> blockShapes = new ArrayList<>();
@@ -92,12 +95,13 @@ public class GameLogic {
         wiringManager = new WiringManager();
 
         //Player Data
-        madeDecision = false;
         if (PlayerState.getPlayer() != null) {
             levelOnGoing = PlayerState.getPlayer().getLevelNumber();
             coins = PlayerState.getPlayer().getGoldCount();
             timeController.setTime(PlayerState.getPlayer().getTimePlayed());
             madeDecision = PlayerState.getPlayer().isMadeDecision();
+        } else {
+            madeDecision = true;
         }
 
         // PreLoading
@@ -107,10 +111,10 @@ public class GameLogic {
         //Build Level
         switch (levelOnGoing) {
             case 1 -> {
-                BuildLevel1.buildLevel1(gamePanel.getWidth(), blockShapes);
+                BuildLevel1.buildLevel1(screenSizeX, blockShapes);
             }
             case 2 ->{
-                BuildLevel2.buildLevel2(gamePanel.getWidth(), blockShapes);
+                BuildLevel2.buildLevel2(screenSizeX, blockShapes);
             }
         }
 
@@ -179,6 +183,7 @@ public class GameLogic {
             }
 
             gamePanel.getPainter().run();
+            gamePanel.repaint();
 
             if (isIntersected || wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH) < 0) {
                 notGoodPosition = true;
@@ -209,12 +214,6 @@ public class GameLogic {
         isRunning = true;
     }
 
-    public void handleEscape () {
-        gamePanel.getPausePanel().setVisible(true);
-        gameTimer.stop();
-        isRunning = false;
-    }
-
     public void handleMouseClicked(int button, int mousePointX, int mousePointY) {
         wiringManager.handleMouseClick(blockShapes, mousePointX, mousePointY);
     }
@@ -241,7 +240,32 @@ public class GameLogic {
         gameTimer.stop();
     }
 
+    public void handleEscape () {
+        gamePanel.getPausePanel().setVisible(true);
+        gameTimer.stop();
+        isRunning = false;
+    }
 
+    public void handleKeyPressed(int keyCode, String keyName) {
+        switch (keyCode) {
+            case java.awt.event.KeyEvent.VK_LEFT  -> gameEngine.setLeftPressed(true);
+            case java.awt.event.KeyEvent.VK_RIGHT -> gameEngine.setRightPressed(true);
+            case java.awt.event.KeyEvent.VK_TAB   -> gamePanel.getHudPanel().setVisible(true);
+            case java.awt.event.KeyEvent.VK_ESCAPE -> handleEscape();
+        }
+    }
+
+    public void handleKeyReleased(int keyCode, String keyName) {
+        switch (keyCode) {
+            case java.awt.event.KeyEvent.VK_LEFT  -> gameEngine.setLeftPressed(false);
+            case java.awt.event.KeyEvent.VK_RIGHT -> gameEngine.setRightPressed(false);
+            case java.awt.event.KeyEvent.VK_TAB   -> gamePanel.getHudPanel().setVisible(false);
+        }
+    }
+
+
+
+    //helpers
     public int getCoins() { return coins; }
 
     public void spendCoins(int amount) { PlayerState.getPlayer().setGoldCount(PlayerState.getPlayer().getGoldCount() - amount); }
@@ -332,6 +356,8 @@ public class GameLogic {
         MainFrame.showMenu();
     }
 
+
+
     public boolean isIntersected () {
         return isIntersected;
     }
@@ -377,6 +403,19 @@ public class GameLogic {
 
     public BlockManager getBlockManager () {
         return blockManager;
+    }
+
+
+
+
+    public void setGamePanel (GamePanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
+    public void setInput (InputSink input) {
+        this.input = input;
+    }
+    public void setOnline (boolean online) {
+        this.online = online;
     }
 }
 

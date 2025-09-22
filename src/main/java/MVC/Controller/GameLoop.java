@@ -44,10 +44,12 @@ public class GameLoop {
         }
 
         List<BlockSystem> blockSystems = StorageFacade.loadBlockSystems();
-        GameData gameData = new GameData(wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH),
-                timeController.getFormattedTime(), blockSystems.get(blockSystems.size()-1).queueCount(), packetManager.getLostPacketsCount(),
-                totalPackets, coins);
-        StorageFacade.saveGameData(gameData);
+        if (!blockSystems.isEmpty()) {
+            GameData gameData = new GameData(wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH),
+                    timeController.getFormattedTime(), blockSystems.get(blockSystems.size() - 1).queueCount(), packetManager.getLostPacketsCount(),
+                    totalPackets, coins);
+            StorageFacade.saveGameData(gameData);
+        }
 
         if(wiringManager.getRemainingWireLength(MAX_WIRE_LENGTH) < 0){
             for (WireShape wireShape : wiringManager.getWireShapes()) {
