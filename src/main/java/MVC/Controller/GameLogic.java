@@ -119,9 +119,12 @@ public class GameLogic {
                 }
                 this.wiringManager.setWireShapes(newWireShapes);
 
+                /*
                 GameData gameData = StorageFacade.loadGameData();
                 gamePanel.getHudPanel().update(gameData.getRemainingWireLength(), gameData.getFormatedTime(), gameData.getLostPackets(),
                         gameData.getTotalPackets(), gameData.getCoins());
+
+                 */
 
                 gamePanel.getPainter().run();
             });
