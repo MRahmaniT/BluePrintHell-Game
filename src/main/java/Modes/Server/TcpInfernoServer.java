@@ -39,7 +39,7 @@ public class TcpInfernoServer {
     // ===== Game cores (per player) =====
     private static final ConcurrentHashMap<String, ServerGameCore> CORES = new ConcurrentHashMap<>();
     private static ServerGameCore coreFor(String playerId) {
-        return CORES.computeIfAbsent(playerId, pid -> new ServerGameCore());
+        return CORES.computeIfAbsent(playerId, ServerGameCore::new);
     }
 
     public static PlayerStore getOrLoadPlayerStore(String playerId) {

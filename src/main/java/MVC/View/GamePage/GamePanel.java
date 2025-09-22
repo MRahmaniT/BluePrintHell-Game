@@ -75,7 +75,7 @@ public class GamePanel extends JPanel {
     private final InputSink input;
     public GamePanel(){
         if (AppState.mode == AppState.GameMode.ONLINE) {
-            input = new RemoteInputSink(AppState.serverHost, AppState.serverPort, AppState.playerId);
+            input = new RemoteInputSink(this, AppState.serverHost, AppState.serverPort, AppState.playerId);
             gameLogic = new GameLogic(this, input, true);
         } else if (AppState.mode == AppState.GameMode.OFFLINE){
             input = new LocalInputSink(this);

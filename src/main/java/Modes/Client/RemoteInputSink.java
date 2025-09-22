@@ -1,5 +1,6 @@
 package Modes.Client;
 
+import MVC.View.GamePage.GamePanel;
 import Modes.AppState;
 import Modes.InputSink;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,13 +14,14 @@ import java.util.UUID;
 import static Modes.Security.HmacSigner.signBase64;
 
 public class RemoteInputSink implements InputSink {
+    private final GamePanel gamePanel;
     private final String host;
     private final int port;
     private final String playerId;
     private final ObjectMapper M = new ObjectMapper();
 
-    public RemoteInputSink(String host, int port, String playerId) {
-        this.host = host; this.port = port; this.playerId = playerId;
+    public RemoteInputSink(GamePanel gamePanel, String host, int port, String playerId) {
+        this.gamePanel = gamePanel; this.host = host; this.port = port; this.playerId = playerId;
     }
 
     private void sendLine(ObjectNode root) {
@@ -63,6 +65,7 @@ public class RemoteInputSink implements InputSink {
 
     @Override
     public void keyPressed(int keyCode, String keyName) {
+        gamePanel.getGameLogic().handleKeyPressed(keyCode, keyName);
         ObjectNode root = M.createObjectNode().put("cmd", "KEY");
         var p = root.putObject("payload");
         p.put("keyCode", keyCode).put("keyName", keyName).put("pressed", true);
@@ -71,6 +74,7 @@ public class RemoteInputSink implements InputSink {
 
     @Override
     public void keyReleased(int keyCode, String keyName) {
+        gamePanel.getGameLogic().handleKeyReleased(keyCode, keyName);
         ObjectNode root = M.createObjectNode().put("cmd", "KEY");
         var p = root.putObject("payload");
         p.put("keyCode", keyCode).put("keyName", keyName).put("pressed", false);
@@ -85,6 +89,9 @@ public class RemoteInputSink implements InputSink {
 
     @Override
     public void uiAction(String action, String payloadJson) {
+        if ("OPEN_SHOP".equals(action)) {
+            gamePanel.getGameLogic().handleOpenShop();
+        }
         ObjectNode root = M.createObjectNode().put("cmd", "UI");
         var p = root.putObject("payload");
         p.put("action", action);

@@ -80,7 +80,11 @@ public class ServerGameCore {
     private int coins = 0;
     private boolean madeDecision;
 
-    public ServerGameCore() {}
+    private final String playerId;
+
+    public ServerGameCore(String playerId) {
+        this.playerId = playerId;
+    }
 
     public void Run () {
         blockManager = new BlockManager();

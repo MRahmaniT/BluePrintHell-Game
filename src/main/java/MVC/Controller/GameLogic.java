@@ -96,10 +96,37 @@ public class GameLogic {
 
     public void Run () {
         if (online) {
+            blockManager = new BlockManager();
+            wiringManager = new WiringManager();
+
             gameTimer = new Timer(10, _ -> {
+                // In each frame, fetch the latest state from the server
+                List<BlockSystem> serverSystems = StorageFacade.loadBlockSystems();
+                List<Wire> serverWires = StorageFacade.loadWires();
+
+                this.blockShapes.clear();
+                for (BlockSystem bs : serverSystems) {
+                    switch (bs.getType()) {
+                        case START -> this.blockShapes.add(new StartSystem(bs, (float) (0.1*screenSizeX), (float) (0.1*screenSizeX)));
+                        case PROCESSOR -> this.blockShapes.add(new TwoStairsSystem(bs, (float) (0.1*screenSizeX), (float) (0.1*screenSizeX)));
+                        case END -> this.blockShapes.add(new EndSystem(bs, (float) (0.1*screenSizeX), (float) (0.1*screenSizeX)));
+                    }
+                }
+
+                List<WireShape> newWireShapes = new ArrayList<>();
+                for (Wire w : serverWires) {
+                    newWireShapes.add(new WireShape(this.blockShapes, w));
+                }
+                this.wiringManager.setWireShapes(newWireShapes);
+
+                GameData gameData = StorageFacade.loadGameData();
+                gamePanel.getHudPanel().update(gameData.getRemainingWireLength(), gameData.getFormatedTime(), gameData.getLostPackets(),
+                        gameData.getTotalPackets(), gameData.getCoins());
+
                 gamePanel.getPainter().run();
             });
             gameTimer.start();
+
         } else {
             blockManager = new BlockManager();
             wiringManager = new WiringManager();
@@ -417,30 +444,10 @@ public class GameLogic {
     }
 
     public List<GameShape> getBlockShapes () {
-        if (AppState.mode == AppState.GameMode.ONLINE) {
-            List<GameShape> blockShapes = new ArrayList<>();
-            for (BlockSystem blockSystem : StorageFacade.loadBlockSystems()){
-                switch (blockSystem.getType()) {
-                    case START -> blockShapes.add(new StartSystem(blockSystem, (float) (0.1*screenSizeX), (float) (0.1*screenSizeX)));
-                    case PROCESSOR -> blockShapes.add(new TwoStairsSystem(blockSystem, (float) (0.1*screenSizeX), (float) (0.1*screenSizeX)));
-                    case END -> blockShapes.add(new EndSystem(blockSystem, (float) (0.1*screenSizeX), (float) (0.1*screenSizeX)));
-                }
-            }
-            return blockShapes;
-        } else {
-            return blockShapes;
-        }
+        return blockShapes;
     }
     public List<WireShape> getWireShapes () {
-        if (AppState.mode == AppState.GameMode.ONLINE) {
-            List<WireShape> wireShapes = new ArrayList<>();
-            for (Wire wire : StorageFacade.loadWires()){
-                wireShapes.add(new WireShape(getBlockShapes(), wire));
-            }
-            return wireShapes;
-        } else {
-            return wiringManager.getWireShapes();
-        }
+        return wiringManager.getWireShapes();
     }
 
     public WiringManager getWiringManager () {
